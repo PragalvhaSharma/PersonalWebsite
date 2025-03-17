@@ -54,14 +54,17 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  const finalText = `Hello, I'm a creative developer passionate about building unique digital experiences.
-My work combines clean code with innovative design to create memorable user journeys.
-Let's build something amazing together.`;
+  const sentences = [
+    "Beep boop!",
+    "You've arrived at Prag's digital space.",
+    "I'm the AI assistant, here to introduce you to his world of creativity and innovation.",
+    "Ready for the tour?"
+  ];
 
   // Store the total text length for progress calculation
   useEffect(() => {
-    totalTextLength.current = finalText.length;
-  }, [finalText]);
+    totalTextLength.current = sentences.reduce((acc, sentence) => acc + sentence.length * 2, 0); // multiply by 2 to account for deletion
+  }, []);
 
   const thinkingPhrases = [
     "Initializing system...",
@@ -115,46 +118,76 @@ Let's build something amazing together.`;
       }
     }, 1200);
 
-    // Improved text generation with dynamic timing
+    // Improved text generation with dynamic timing and sentence-by-sentence display
     setTimeout(() => {
       setThinking(false);
       setShowContentLoader(true);
       
-      let currentIndex = 0;
+      let currentSentenceIndex = 0;
+      let isDeleting = false;
+      let currentText = "";
       let lastTypingTime = Date.now();
       const totalLength = totalTextLength.current;
+      let progress = 0;
       
       const typeNextCharacter = () => {
-        if (currentIndex < finalText.length) {
-          const now = Date.now();
-          const timeSinceLastType = now - lastTypingTime;
+        const now = Date.now();
+        const timeSinceLastType = now - lastTypingTime;
+        
+        if (currentSentenceIndex < sentences.length) {
+          const currentSentence = sentences[currentSentenceIndex];
           
-          // Dynamic typing speed based on punctuation and context
-          const char = finalText[currentIndex];
+          // Dynamic typing speed based on state and punctuation
           let delay = 40; // Base typing speed
           
-          if ('.!?'.includes(char)) {
-            delay = 400; // Longer pause after sentences
-          } else if (',;:'.includes(char)) {
+          if (isDeleting) {
+            delay = 30; // Faster when deleting
+          } else if ('.!?'.includes(currentText[currentText.length - 1] || '')) {
+            delay = 600; // Longer pause after sentences
+          } else if (',;:'.includes(currentText[currentText.length - 1] || '')) {
             delay = 200; // Medium pause after clauses
-          } else if (' '.includes(char)) {
+          } else if (' '.includes(currentText[currentText.length - 1] || '')) {
             delay = 60; // Slight pause between words
           }
           
           if (timeSinceLastType >= delay) {
-            setGeneratedText(finalText.substring(0, currentIndex + 1));
-            currentIndex++;
-            setProgress((currentIndex / totalLength) * 100);
+            if (!isDeleting) {
+              // Typing
+              if (currentText.length < currentSentence.length) {
+                currentText = currentSentence.slice(0, currentText.length + 1);
+                progress += 1;
+              } else {
+                // Finished typing current sentence
+                isDeleting = true;
+                delay = 1000; // Pause before starting to delete
+              }
+            } else {
+              // Deleting
+              if (currentText.length > 0) {
+                currentText = currentText.slice(0, -1);
+                progress += 1;
+              } else {
+                // Finished deleting
+                isDeleting = false;
+                currentSentenceIndex++;
+                if (currentSentenceIndex === sentences.length) {
+                  setProgress(100);
+                  setTimeout(() => {
+                    router.push('/profile');
+                  }, 1000);
+                  return;
+                }
+                delay = 500; // Pause before next sentence
+              }
+            }
+            
+            setGeneratedText(currentText);
+            setProgress((progress / totalLength) * 100);
             playTypeSound();
             lastTypingTime = now;
           }
           
           requestAnimationFrame(typeNextCharacter);
-        } else {
-          setProgress(100);
-          setTimeout(() => {
-            router.push('/profile');
-          }, 1000);
         }
       };
       
@@ -163,7 +196,7 @@ Let's build something amazing together.`;
 
     // Enhanced word highlighting
     const highlightInterval = setInterval(() => {
-      if (generatedText.length > 0 && generatedText.length < finalText.length) {
+      if (generatedText.length > 0) {
         highlightRandomWord();
       }
     }, 600);
