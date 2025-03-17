@@ -1,5 +1,4 @@
 "use client";
-// This component uses client-side only features and should not be pre-rendered
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,110 +15,71 @@ export default function Home() {
   const [playTypingSound, setPlayTypingSound] = useState(false);
   const [showContentLoader, setShowContentLoader] = useState(false);
   const [terminalVisible, setTerminalVisible] = useState(false);
-  const [animatedBubbles, setAnimatedBubbles] = useState<Array<{width: number, height: number, left: number, top: number, rotation: number}>>([]);
-  const [particles, setParticles] = useState<Array<{
-    left: number, 
-    top: number, 
-    yOffset: number, 
-    xOffset: number, 
-    duration: number, 
-    delay: number, 
-    symbol: string, 
-    size: number, 
-    opacity: number,
-    rotation: number,
-    isVisible: boolean,
-    layer: number,
-    isPulsing: boolean,
-    isHero: boolean
-  }>>([]);
+  const [animatedBubbles, setAnimatedBubbles] = useState<Array<{width: number, height: number, left: number, top: number, rotation: number, scale: number, speed: number}>>([]);
+  const [particles, setParticles] = useState<Array<{left: number, top: number, yOffset: number, xOffset: number, duration: number, delay: number, symbol: string, size: number, opacity: number, rotation: number, isVisible: boolean, layer: number, isPulsing: boolean, isHero: boolean}>>([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const textContainerRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const totalTextLength = useRef(0);
 
-  // Track mouse position for interactive effects
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY
-      });
-    };
-
+    const handleMouseMove = (e: MouseEvent) => setMousePosition({ x: e.clientX, y: e.clientY });
     window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Generate consistent background bubbles on client-side only
   useEffect(() => {
-    const bubbles = Array.from({ length: 30 }).map(() => ({
-      width: Math.random() * 400 + 100,
-      height: Math.random() * 400 + 100,
+    const bubbles = Array.from({ length: 20 }).map(() => ({
+      width: Math.random() * 300 + 200,
+      height: Math.random() * 300 + 200,
       left: Math.random() * 100,
       top: Math.random() * 100,
-      rotation: Math.random() * 360,
+      rotation: Math.random() * 180,
+      scale: Math.random() * 0.5 + 0.75,
+      speed: Math.random() * 0.5 + 0.75
     }));
     setAnimatedBubbles(bubbles);
     
-    // Enhanced code symbols instead of particles
-    const codeSymbols = [
-      '{', '}', '()', '[]', '<>', '//', '/*', '*/', '=>', ';;',
-      '%', 'legend ??', 'JEPA', '===', '!==', '++', '--', '&&', '||',
-      '?.', '??', '₿', '+=', '-=', '*=', '/=', '^', 'ETH', '$$$'
-    ];
+    const codeSymbols = ['{', '}', '()', '[]', '<>', '=>', '++', '--', '&&', '||'];
     
-    // Create depth layers - foreground, midground, background
-    const particlesData = Array.from({ length: 60 }).map((_, i) => {
-      // Determine if this is a "hero" symbol (larger, more prominent)
+    const particlesData = Array.from({ length: 25 }).map((_, i) => {
       const isHero = i < 3;
-      
-      // Layer determines z-index and movement characteristics
-      const layer = isHero ? 1 : (Math.random() > 0.7 ? 2 : (Math.random() > 0.5 ? 1 : 0));
-      
-      // Scale values based on layer (foreground larger, background smaller)
-      const sizeMultiplier = isHero ? 2.5 : (layer === 2 ? 1.2 : (layer === 1 ? 1 : 0.8));
-      const opacityMultiplier = isHero ? 1 : (layer === 2 ? 0.9 : (layer === 1 ? 0.7 : 0.5));
-      const speedMultiplier = isHero ? 0.7 : (layer === 2 ? 1 : (layer === 1 ? 1.3 : 1.8));
+      const layer = isHero ? 1 : (Math.random() > 0.6 ? 1 : 0);
+      const sizeMultiplier = isHero ? 2.0 : (layer === 1 ? 1.4 : 1.0);
+      const opacityMultiplier = isHero ? 0.9 : (layer === 1 ? 0.7 : 0.5);
+      const speedMultiplier = isHero ? 0.45 : (layer === 1 ? 0.65 : 0.85);
       
       return {
         left: Math.random() * 100,
         top: Math.random() * 100,
-        yOffset: (Math.random() * 150 + 50) * speedMultiplier,
-        xOffset: ((Math.random() - 0.5) * 100) * speedMultiplier,
-        duration: (Math.random() * 15 + 10) / speedMultiplier,
-        delay: Math.random() * 2,
-        symbol: isHero ? codeSymbols[Math.floor(Math.random() * 5)] : codeSymbols[Math.floor(Math.random() * codeSymbols.length)],
-        size: (Math.random() * 16 + 14) * sizeMultiplier,
-        opacity: (Math.random() * 0.4 + 0.5) * opacityMultiplier,
-        rotation: Math.random() * 180,
-        isVisible: true,
+        yOffset: (Math.random() * 80 + 40) * speedMultiplier,
+        xOffset: ((Math.random() - 0.5) * 40) * speedMultiplier,
+        duration: 28 + (i % 4) * 4,
+        delay: i * 0.35,
+        symbol: isHero ? codeSymbols[Math.floor(Math.random() * 3)] : codeSymbols[Math.floor(Math.random() * codeSymbols.length)],
+        size: (Math.random() * 12 + 12) * sizeMultiplier,
+        opacity: (Math.random() * 0.2 + 0.4) * opacityMultiplier,
+        rotation: Math.random() * 40 - 20,
         layer,
-        isPulsing: Math.random() > 0.7, // Some symbols will pulse
-        isHero
+        isHero,
+        isVisible: true,
+        isPulsing: isHero
       };
     });
     setParticles(particlesData);
     
-    // Smoother terminal appearance with spring animation
-    const timer = setTimeout(() => {
-      setTerminalVisible(true);
-    }, 600);
-
+    const timer = setTimeout(() => setTerminalVisible(true), 600);
     return () => clearTimeout(timer);
   }, []);
 
   const sentences = [
-    "Beep boop!",
+    "Beep boop Beep boop!",
     "You've arrived at Prag's digital space.",
     "Ready for the tour?"
   ];
 
-  // Store the total text length for progress calculation
   useEffect(() => {
-    totalTextLength.current = sentences.reduce((acc, sentence) => acc + sentence.length, 0); // No longer multiply by 2 since we don't count deletion
+    totalTextLength.current = sentences.reduce((acc, sentence) => acc + sentence.length, 0);
   }, []);
 
   const thinkingPhrases = [
@@ -130,15 +90,11 @@ export default function Home() {
     "Optimizing visual output...",
   ];
 
-  // Simulate the LLM "thinking" about certain words
   const highlightRandomWord = () => {
     if (generatedText.length > 0) {
       const words = generatedText.split(/\s+/).filter(word => word.length > 0);
       if (words.length > 0) {
-        const randomIndex = Math.floor(Math.random() * words.length);
-        setHighlightedWords(prev => [...prev.slice(-4), randomIndex]);
-        
-        // Scroll to bottom of text container
+        setHighlightedWords(prev => [...prev.slice(-4), Math.floor(Math.random() * words.length)]);
         if (textContainerRef.current) {
           textContainerRef.current.scrollTop = textContainerRef.current.scrollHeight;
         }
@@ -146,7 +102,6 @@ export default function Home() {
     }
   };
 
-  // Play typing sound
   const playTypeSound = () => {
     if (audioRef.current && playTypingSound) {
       audioRef.current.currentTime = 0;
@@ -164,17 +119,12 @@ export default function Home() {
     };
     window.addEventListener('click', enableSound);
 
-    // Enhanced thinking animation with smoother transitions
     const thinkingInterval = setInterval(() => {
       if (thinking) {
-        setThinkingTokens(() => {
-          const randomPhrase = thinkingPhrases[Math.floor(Math.random() * thinkingPhrases.length)];
-          return randomPhrase;
-        });
+        setThinkingTokens(thinkingPhrases[Math.floor(Math.random() * thinkingPhrases.length)]);
       }
     }, 1200);
 
-    // Improved text generation with dynamic timing and sentence-by-sentence display
     setTimeout(() => {
       setThinking(false);
       setShowContentLoader(true);
@@ -183,7 +133,6 @@ export default function Home() {
       let isDeleting = false;
       let currentText = "";
       let lastTypingTime = Date.now();
-      const totalLength = totalTextLength.current;
       let progress = 0;
       
       const typeNextCharacter = () => {
@@ -192,53 +141,39 @@ export default function Home() {
         
         if (currentSentenceIndex < sentences.length) {
           const currentSentence = sentences[currentSentenceIndex];
+          let delay = 40;
           
-          // Dynamic typing speed based on state and punctuation
-          let delay = 40; // Base typing speed
-          
-          if (isDeleting) {
-            delay = 30; // Faster when deleting
-          } else if ('.!?'.includes(currentText[currentText.length - 1] || '')) {
-            delay = 600; // Longer pause after sentences
-          } else if (',;:'.includes(currentText[currentText.length - 1] || '')) {
-            delay = 200; // Medium pause after clauses
-          } else if (' '.includes(currentText[currentText.length - 1] || '')) {
-            delay = 60; // Slight pause between words
-          }
+          if (isDeleting) delay = 30;
+          else if ('.!?'.includes(currentText[currentText.length - 1] || '')) delay = 600;
+          else if (',;:'.includes(currentText[currentText.length - 1] || '')) delay = 200;
+          else if (' '.includes(currentText[currentText.length - 1] || '')) delay = 60;
           
           if (timeSinceLastType >= delay) {
             if (!isDeleting) {
-              // Typing
               if (currentText.length < currentSentence.length) {
                 currentText = currentSentence.slice(0, currentText.length + 1);
-                progress += 1; // Only increment progress during text generation
+                progress += 1;
               } else {
-                // Finished typing current sentence
                 isDeleting = true;
-                delay = 1000; // Pause before starting to delete
+                delay = 1000;
               }
             } else {
-              // Deleting
               if (currentText.length > 0) {
                 currentText = currentText.slice(0, -1);
-                // Removed progress increment during deletion
               } else {
-                // Finished deleting
                 isDeleting = false;
                 currentSentenceIndex++;
                 if (currentSentenceIndex === sentences.length) {
                   setProgress(100);
-                  setTimeout(() => {
-                    router.push('/profile');
-                  }, 1000);
+                  setTimeout(() => router.push('/profile'), 1000);
                   return;
                 }
-                delay = 500; // Pause before next sentence
+                delay = 500;
               }
             }
             
             setGeneratedText(currentText);
-            setProgress((progress / totalLength) * 100);
+            setProgress((progress / totalTextLength.current) * 100);
             playTypeSound();
             lastTypingTime = now;
           }
@@ -250,17 +185,11 @@ export default function Home() {
       requestAnimationFrame(typeNextCharacter);
     }, 2000);
 
-    // Enhanced word highlighting
     const highlightInterval = setInterval(() => {
-      if (generatedText.length > 0) {
-        highlightRandomWord();
-      }
+      if (generatedText.length > 0) highlightRandomWord();
     }, 600);
 
-    // Smoother cursor blinking
-    const cursorInterval = setInterval(() => {
-      setShowCursor(prev => !prev);
-    }, 530);
+    const cursorInterval = setInterval(() => setShowCursor(prev => !prev), 530);
 
     return () => {
       clearInterval(thinkingInterval);
@@ -302,10 +231,10 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-black text-foreground p-4 relative overflow-hidden">
       {/* Creative background pattern */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+      <div className="absolute inset-0 bg-grid-pattern opacity-8"></div>
       
       {/* Animated noise effect */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+      <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
         <div className="w-full h-full bg-noise-pattern animate-noise"></div>
       </div>
       
@@ -315,26 +244,39 @@ export default function Home() {
           {animatedBubbles.map((bubble, i) => (
             <motion.div
               key={i}
-              className="absolute bg-gradient-to-br from-cyan-500/5 to-emerald-500/5 rounded-full blur-xl"
+              className="absolute bg-gradient-to-br from-cyan-500/20 via-emerald-500/15 to-purple-500/20 rounded-full blur-xl"
               style={{
                 width: `${bubble.width}px`,
                 height: `${bubble.height}px`,
                 left: `${bubble.left}%`,
                 top: `${bubble.top}%`,
+                willChange: 'transform, opacity',
               }}
               initial={{ opacity: 0, scale: 0, rotate: bubble.rotation }}
               animate={{ 
-                opacity: [0, 0.15, 0],
-                scale: [0, 1, 1.5],
-                x: [0, Math.floor(i % 2 === 0 ? 70 : -70)],
-                y: [0, Math.floor(i % 2 === 0 ? 70 : -70)],
-                rotate: [bubble.rotation, bubble.rotation + (i % 2 === 0 ? 45 : -45)],
+                opacity: [0, 0.4 * bubble.scale, 0],
+                scale: [0.8, 1.2 * bubble.scale, 1.6],
+                x: [0, Math.floor(i % 2 === 0 ? 60 : -60) * bubble.speed],
+                y: [0, Math.floor(i % 2 === 0 ? 60 : -60) * bubble.speed],
+                rotate: [bubble.rotation, bubble.rotation + (i % 2 === 0 ? 30 : -30)],
               }}
               transition={{
-                duration: 12 + (i % 12),
+                duration: (15 + (i % 10)) * (1 / bubble.speed),
                 repeat: Infinity,
-                delay: i * 0.4,
-                ease: "easeInOut",
+                delay: i * 0.5,
+                ease: [0.4, 0.0, 0.6, 1.0],
+                opacity: {
+                  duration: (15 + (i % 10)) * (1 / bubble.speed),
+                  times: [0, 0.5, 1],
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                },
+                scale: {
+                  duration: (15 + (i % 10)) * (1 / bubble.speed),
+                  times: [0, 0.5, 1],
+                  ease: [0.4, 0.0, 0.6, 1.0],
+                  repeat: Infinity,
+                }
               }}
             />
           ))}
@@ -342,96 +284,155 @@ export default function Home() {
       )}
       
       {/* Multiple glow effects for a more dynamic background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full bg-gradient-to-br from-cyan-500/15 via-emerald-500/10 to-purple-500/15 blur-[150px] animate-pulse"></div>
-      <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-emerald-500/15 via-teal-500/10 to-blue-500/15 blur-[130px] animate-pulse" style={{ animationDelay: '1s' }}></div>
-      <div className="absolute bottom-1/3 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-teal-500/15 via-cyan-500/10 to-indigo-500/15 blur-[140px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+      <div 
+        className="absolute inset-0 overflow-hidden"
+        style={{
+          willChange: 'transform',
+          transform: 'translate3d(0,0,0)'
+        }}
+      >
+        <motion.div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] rounded-full bg-gradient-to-br from-cyan-500/30 via-emerald-500/25 to-purple-500/30 blur-[130px]"
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.8, 1, 0.8],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div 
+          className="absolute top-1/3 left-1/4 w-[700px] h-[700px] rounded-full bg-gradient-to-tr from-emerald-500/30 via-teal-500/25 to-blue-500/30 blur-[120px]"
+          animate={{
+            scale: [1.1, 1, 1.1],
+            opacity: [0.8, 1, 0.8],
+          }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-1/3 right-1/4 w-[800px] h-[800px] rounded-full bg-gradient-to-bl from-teal-500/30 via-cyan-500/25 to-indigo-500/30 blur-[140px]"
+          animate={{
+            scale: [1, 1.15, 1],
+            opacity: [0.8, 1, 0.8],
+          }}
+          transition={{
+            duration: 9,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-1/4 left-1/3 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-purple-500/25 via-pink-500/20 to-cyan-500/25 blur-[110px]"
+          animate={{
+            scale: [1.1, 1, 1.1],
+            opacity: [0.8, 1, 0.8],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 3
+          }}
+        />
+      </div>
+
+      {/* Noise overlay for texture */}
+      <div 
+        className="absolute inset-0 opacity-[0.2] mix-blend-overlay pointer-events-none bg-noise-pattern"
+        style={{
+          backgroundSize: '256px 256px',
+          willChange: 'transform',
+          animation: 'noise 8s steps(8) infinite'
+        }}
+      />
       
       {/* Floating code symbols with depth layers - Client-side only rendering */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none mix-blend-screen">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ perspective: '1200px' }}>
         {particles.map((particle, i) => {
           // Generate different colors for variety with smoother gradients
           const colors = [
-            'rgba(34, 211, 238, 1)',  // bright cyan
-            'rgba(52, 211, 153, 1)',  // emerald
-            'rgba(124, 58, 237, 1)',  // violet
-            'rgba(236, 72, 153, 1)',  // pink
-            'rgba(14, 165, 233, 1)'   // sky blue
+            'rgba(34, 211, 238, 0.95)',  // bright cyan
+            'rgba(52, 211, 153, 0.95)',  // emerald
+            'rgba(14, 165, 247, 0.95)',  // sky blue
+            'rgba(168, 85, 247, 0.95)',  // purple
+            'rgba(236, 72, 153, 0.95)'   // pink
           ];
-          const color = particle.isHero ? colors[i % colors.length] : colors[i % colors.length];
+          const color = colors[i % colors.length];
           
-          // Calculate subtle movement based on mouse position for interactive effect
-          const mouseXInfluence = particle.layer === 2 ? (mousePosition.x / window.innerWidth - 0.5) * 15 : 0;
-          const mouseYInfluence = particle.layer === 2 ? (mousePosition.y / window.innerHeight - 0.5) * 15 : 0;
+          // Reduced mouse influence for more stability but still interactive
+          const mouseXInfluence = particle.layer === 1 ? (mousePosition.x / window.innerWidth - 0.5) * 2.5 : 0;
+          const mouseYInfluence = particle.layer === 1 ? (mousePosition.y / window.innerHeight - 0.5) * 2.5 : 0;
+          
+          // Calculate staggered animation start times based on position
+          // This creates a wave-like effect in the animation
+          const staggerDelay = (particle.left / 100) * 1.2;
           
           return (
             <motion.div
               key={`code-symbol-${i}`}
-              className={`absolute font-mono font-bold tracking-tight select-none`}
-              initial={{ 
-                opacity: 0.8,
-                scale: 0.9,
-                x: 0,
-                y: 0
-              }}
+              className="absolute font-mono font-bold tracking-tight select-none"
               style={{
                 left: `${particle.left}%`,
                 top: `${particle.top}%`,
                 fontSize: `${particle.size}px`,
                 color: color,
-                textShadow: `
-                  0 0 ${particle.size/2}px ${color},
-                  0 0 ${particle.size}px ${color.replace('1)', '0.5)')},
-                  0 0 ${particle.size*1.5}px ${color.replace('1)', '0.3)')}
-                `,
-                filter: `brightness(1.2) contrast(1.1) blur(${particle.layer === 0 ? '0.4px' : '0.2px'})`,
+                textShadow: `0 0 ${particle.size/2}px ${color.replace('0.95)', '0.7)')}`,
                 willChange: 'transform, opacity',
-                backfaceVisibility: 'hidden',
-                transform: 'translateZ(0)',
-                WebkitFontSmoothing: 'antialiased',
-                zIndex: particle.layer
+                zIndex: particle.layer,
+                transform: 'translate3d(0,0,0)',
+                WebkitFontSmoothing: 'subpixel-antialiased',
+                opacity: 0,
+                transformStyle: 'preserve-3d',
+                filter: particle.isHero ? 'drop-shadow(0 0 8px ' + color.replace('0.95)', '0.5)') + ')' : 'none'
               }}
               animate={{
-                y: [0, -particle.yOffset + mouseYInfluence],
-                x: [0, particle.xOffset + mouseXInfluence],
-                opacity: particle.isVisible ? 
-                  (particle.isPulsing ? [0.8 * particle.opacity, particle.opacity, 0.8 * particle.opacity] : [0.8, particle.opacity]) : 
-                  [0.8, 0],
-                scale: particle.isVisible ? 
-                  (particle.isPulsing ? [0.9, 1.1, 0.9] : (particle.isHero ? [0.95, 1.15] : [0.9, 1.1])) : 
-                  [0.9, 0],
-                rotate: particle.rotation,
-                filter: particle.isPulsing ? [
-                  `brightness(1.2) contrast(1.1) blur(${particle.layer === 0 ? '0.4px' : '0.2px'})`,
-                  `brightness(1.6) contrast(1.2) blur(${particle.layer === 0 ? '0.3px' : '0.1px'})`,
-                  `brightness(1.2) contrast(1.1) blur(${particle.layer === 0 ? '0.4px' : '0.2px'})`
-                ] : undefined
+                y: particle.layer === 1 ? 
+                  [-5, -particle.yOffset + mouseYInfluence] : 
+                  [-5, -particle.yOffset],
+                x: particle.layer === 1 ? 
+                  [0, particle.xOffset + mouseXInfluence] : 
+                  [0, particle.xOffset],
+                opacity: [0, particle.opacity, particle.opacity, 0],
+                rotate: [0, particle.rotation],
+                scale: particle.isPulsing ? [1, 1.05, 1] : 1
               }}
               transition={{
                 duration: particle.duration,
                 repeat: Infinity,
-                delay: particle.delay,
-                ease: [0.4, 0, 0.2, 1], // Custom easing for smoother motion
-                opacity: {
-                  duration: particle.isPulsing ? particle.duration / 2 : particle.duration,
-                  times: particle.isPulsing ? [0, 0.5, 1] : [0, 1],
+                delay: particle.delay + staggerDelay,
+                y: {
+                  duration: particle.duration,
                   ease: "easeInOut",
-                  repeat: Infinity
+                  repeat: Infinity,
                 },
-                scale: {
-                  duration: particle.isPulsing ? particle.duration / 2 : particle.duration,
-                  times: particle.isPulsing ? [0, 0.5, 1] : [0, 1],
+                x: {
+                  duration: particle.duration,
+                  ease: "easeInOut", 
+                  repeat: Infinity,
+                },
+                opacity: {
+                  duration: particle.duration,
+                  times: [0, 0.1, 0.9, 1],
                   ease: "easeInOut",
                   repeat: Infinity
                 },
                 rotate: {
-                  duration: particle.duration * 1.5,
-                  ease: "linear"
-                },
-                filter: particle.isPulsing ? {
-                  duration: particle.duration / 2,
-                  times: [0, 0.5, 1],
-                  ease: "easeInOut",
+                  duration: particle.duration * 1.2,
+                  ease: [0.4, 0.0, 0.6, 1.0], // Custom cubic bezier for smoother rotation
                   repeat: Infinity
+                },
+                scale: particle.isPulsing ? {
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
                 } : undefined
               }}
             >
@@ -490,7 +491,7 @@ export default function Home() {
             }}
           >
             {/* Animated border glow */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-cyan-500/20 rounded-lg blur-sm opacity-50 group-hover:opacity-100 transition duration-1000 animate-gradient-xy"></div>
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500/30 via-purple-500/30 to-cyan-500/30 rounded-lg blur-sm opacity-70 group-hover:opacity-100 transition duration-1000 animate-gradient-xy"></div>
             
             <div className="p-6 relative overflow-hidden">
               {/* Subtle animated gradient border */}
@@ -595,37 +596,69 @@ export default function Home() {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
-                  <div className="flex flex-wrap gap-1">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <motion.span 
-                        key={i}
-                        className="px-1 py-0.5 rounded bg-gray-800/80 text-gray-400 border border-gray-800/50 backdrop-blur-sm"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: i * 0.1 }}
-                      >
-                        {["context", "token", "probability", "next", "sequence"][i]}:{" "}
-                        <span className="text-cyan-400">{(0.5 + (i * 0.1)).toFixed(2)}</span>
-                      </motion.span>
-                    ))}
+                  <div className="flex items-center justify-center">
+                    <motion.div 
+                      className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-900/70 backdrop-blur-sm rounded-full border border-gray-800 shadow-lg"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <span className="pulse-effect inline-block text-cyan-500 animate-pulse">●</span>
+                      <span className="text-xs text-gray-400 font-mono">Model: <span className="text-cyan-400 font-semibold">Lite Ultra</span></span>
+                      <span className="h-3 w-px bg-gray-700"></span>
+                      <span className="text-xs text-gray-400 font-mono">Temperature: 
+                        <motion.span 
+                          className="text-cyan-400 font-semibold ml-1 inline-block" 
+                          style={{ textShadow: '0 0 8px rgba(34, 211, 238, 0.5)' }}
+                          whileHover={{ scale: 1.1 }}
+                          animate={{ 
+                            opacity: [0.85, 1, 0.85],
+                            textShadow: [
+                              '0 0 8px rgba(34, 211, 238, 0.3)',
+                              '0 0 12px rgba(34, 211, 238, 0.6)',
+                              '0 0 8px rgba(34, 211, 238, 0.3)'
+                            ]
+                          }}
+                          transition={{ 
+                            duration: 2, 
+                            repeat: Infinity,
+                            ease: "easeInOut" 
+                          }}
+                        >
+                          0.7
+                        </motion.span>
+                      </span>
+                      <span className="h-3 w-px bg-gray-700"></span>
+                      <span className="text-xs text-gray-400 font-mono">Max tokens: 
+                        <motion.span 
+                          className="text-cyan-400 font-semibold ml-1 inline-block" 
+                          style={{ textShadow: '0 0 8px rgba(34, 211, 238, 0.5)' }}
+                          whileHover={{ scale: 1.1 }}
+                          animate={{ 
+                            opacity: [0.85, 1, 0.85],
+                            textShadow: [
+                              '0 0 8px rgba(34, 211, 238, 0.3)',
+                              '0 0 12px rgba(34, 211, 238, 0.6)',
+                              '0 0 8px rgba(34, 211, 238, 0.3)'
+                            ]
+                          }}
+                          transition={{ 
+                            duration: 2, 
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: 0.5 // Offset animation from temperature
+                          }}
+                        >
+                          1024
+                        </motion.span>
+                      </span>
+                    </motion.div>
                   </div>
                 </motion.div>
               )}
             </div>
           </motion.div>
         </motion.div>
-        
-        {/* Model info */}
-        <div className="text-center">
-          <motion.p 
-            className="text-xs text-gray-500 font-mono"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-          >
-            <span className="pulse-effect inline-block text-cyan-500">●</span> Model: <span className="text-cyan-400 font-semibold">Lite Ultra</span> • Temperature: 0.7 • Max tokens: 1024
-          </motion.p>
-        </div>
       </div>
     </div>
   );
