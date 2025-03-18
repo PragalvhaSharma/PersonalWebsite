@@ -1,0 +1,9 @@
+---
+description: I want a personal website built with Next.js, blending technical depth with creative expression. It should feature smooth animations, interactive elements, and a sleek, modern UI that showcases my projects, skills, and personality. Using React, Next.js, GSAP, and Three.js, the site will deliver a fast, immersive experience with dynamic content, responsive design, and cutting-edge web technologies. 
+globs: 
+alwaysApply: false
+---
+Prioritize creativity and visual asthetics
+my files are inside the personal-website directory so do not edit anything else outside 
+
+loading screen is : /Users/pragalvhasharma/Downloads/PragGOToDocuments/Blanc/personalWesbite/personal-website/src/app/page.tsx
