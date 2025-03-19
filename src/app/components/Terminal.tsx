@@ -53,9 +53,14 @@ function ProgressBar({ progress }: ProgressBarProps) {
   return (
     <motion.div 
       className="mt-6 relative z-10"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0, y: 20, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -10, scale: 0.98 }}
+      transition={{ 
+        duration: 0.7, 
+        ease: [0.16, 1, 0.3, 1],
+        exit: { duration: 0.5 }
+      }}
     >
       <div className="w-full bg-gray-800/80 rounded-full h-1.5 overflow-hidden backdrop-blur-sm">
         <motion.div 
@@ -64,8 +69,8 @@ function ProgressBar({ progress }: ProgressBarProps) {
           animate={{ width: `${progress}%` }}
           transition={{ 
             type: "spring", 
-            stiffness: 100, 
-            damping: 30,
+            stiffness: 70, 
+            damping: 20,
             mass: 1
           }}
         >
@@ -81,9 +86,15 @@ function ProgressBar({ progress }: ProgressBarProps) {
       {/* Token usage simulation */}
       <motion.div 
         className="mt-6 border-t border-gray-800/50 pt-3 relative z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -5 }}
+        transition={{ 
+          duration: 0.6, 
+          delay: 0.2,
+          ease: "easeOut",
+          exit: { duration: 0.4, delay: 0 }
+        }}
       >
         <div className="flex justify-between text-xs font-mono text-gray-500">
           <span>Tokens used: <span className="text-cyan-400">{Math.round(progress * 0.75)}</span></span>
@@ -99,16 +110,27 @@ function ModelInfo() {
   return (
     <motion.div 
       className="mt-4 text-xs font-mono relative z-10"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay: 0.3 }}
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ 
+        duration: 0.6, 
+        delay: 0.3, 
+        ease: [0.16, 1, 0.3, 1],
+        exit: { duration: 0.5, delay: 0.1 }
+      }}
     >
       <div className="flex items-center justify-center">
         <motion.div 
           className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-900/70 backdrop-blur-sm rounded-full border border-gray-800 shadow-lg"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, scale: 0.9, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: -5 }}
+          transition={{ 
+            duration: 0.6, 
+            ease: "easeOut",
+            exit: { duration: 0.5 }
+          }}
         >
           <span className="pulse-effect inline-block text-cyan-500 animate-pulse">●</span>
           <span className="text-xs text-gray-400 font-mono">Model: <span className="text-cyan-400 font-semibold">Lite Ultra</span></span>
@@ -157,6 +179,30 @@ function ModelInfo() {
               }}
             >
               1024
+            </motion.span>
+          </span>
+          <span className="h-3 w-px bg-gray-700"></span>
+          <span className="text-xs text-gray-400 font-mono">Tokenizer: 
+            <motion.span 
+              className="text-cyan-400 font-semibold ml-1 inline-block" 
+              style={{ textShadow: '0 0 8px rgba(34, 211, 238, 0.5)' }}
+              whileHover={{ scale: 1.1 }}
+              animate={{ 
+                opacity: [0.85, 1, 0.85],
+                textShadow: [
+                  '0 0 8px rgba(34, 211, 238, 0.3)',
+                  '0 0 12px rgba(34, 211, 238, 0.6)',
+                  '0 0 8px rgba(34, 211, 238, 0.3)'
+                ]
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1.0 // Further offset animation
+              }}
+            >
+              o200k_base
             </motion.span>
           </span>
         </motion.div>
@@ -256,6 +302,11 @@ export default function Terminal({ onComplete }: TerminalProps) {
                 currentText = currentSentence.slice(0, currentText.length + 1);
                 progress += 1;
               } else {
+                if (currentSentenceIndex === sentences.length - 1) {
+                  setProgress(100);
+                  onComplete();
+                  return;
+                }
                 isDeleting = true;
                 delay = 1000;
               }
@@ -265,11 +316,6 @@ export default function Terminal({ onComplete }: TerminalProps) {
               } else {
                 isDeleting = false;
                 currentSentenceIndex++;
-                if (currentSentenceIndex === sentences.length) {
-                  setProgress(100);
-                  setTimeout(() => onComplete(), 1000);
-                  return;
-                }
                 delay = 500;
               }
             }
@@ -304,17 +350,11 @@ export default function Terminal({ onComplete }: TerminalProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center mb-2">
           <div className="flex items-center">
             <div className="h-3 w-3 rounded-full bg-emerald-500 mr-2 animate-pulse"></div>
             <span className="text-xs font-mono text-gray-400">live</span>
           </div>
-          <button 
-            onClick={onComplete}
-            className="text-xs font-mono text-gray-400 hover:text-white px-2 py-1 rounded border border-gray-700 hover:border-gray-500 transition-colors hover:bg-gray-800/50"
-          >
-            Skip Animation
-          </button>
         </div>
         
         {/* Terminal with enhanced entrance animation and glow */}
@@ -381,15 +421,22 @@ export default function Terminal({ onComplete }: TerminalProps) {
               textContainerRef={textContainerRef} 
             />
             
-            {/* Progress bar - only show when content generation starts */}
-            {showContentLoader && (
-              <ProgressBar progress={progress} />
-            )}
-            
-            {/* Model info - only show when content generation starts */}
-            {showContentLoader && !thinking && progress < 100 && (
-              <ModelInfo />
-            )}
+            {/* Fixed height container for progress bar and model info to prevent layout shifts */}
+            <div className="min-h-[140px]">
+              {/* Progress bar - only show when content generation starts */}
+              <AnimatePresence mode="popLayout">
+                {showContentLoader && (
+                  <ProgressBar progress={progress} />
+                )}
+              </AnimatePresence>
+              
+              {/* Model info - only show when content generation starts */}
+              <AnimatePresence mode="popLayout">
+                {showContentLoader && !thinking && progress < 100 && (
+                  <ModelInfo />
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </motion.div>
       </motion.div>

@@ -25,8 +25,18 @@ export default function CodeParticles() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => setMousePosition({ x: e.clientX, y: e.clientY });
-    window.addEventListener('mousemove', handleMouseMove);
+    // Throttled mouse move handler for better performance
+    let lastRun = 0;
+    const throttleDelay = 20; // ms between updates
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      const now = Date.now();
+      if (now - lastRun >= throttleDelay) {
+        lastRun = now;
+        setMousePosition({ x: e.clientX, y: e.clientY });
+      }
+    };
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     
     const codeSymbols = ['{', '}', '()', '[]', '<>', '=>', '++', '--', '&&', '||'];
     
@@ -60,7 +70,15 @@ export default function CodeParticles() {
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ perspective: '1200px' }}>
+    <div 
+      className="fixed inset-0 overflow-hidden pointer-events-none" 
+      style={{ 
+        perspective: '1200px', 
+        backfaceVisibility: 'hidden',
+        transform: 'translateZ(0)',
+        willChange: 'transform',
+      }}
+    >
       {particles.map((particle, i) => {
         // Generate different colors for variety with smoother gradients
         const colors = [
@@ -72,12 +90,13 @@ export default function CodeParticles() {
         ];
         const color = colors[i % colors.length];
         
-        // Reduced mouse influence for more stability but still interactive
-        const mouseXInfluence = particle.layer === 1 ? (mousePosition.x / window.innerWidth - 0.5) * 2.5 : 0;
-        const mouseYInfluence = particle.layer === 1 ? (mousePosition.y / window.innerHeight - 0.5) * 2.5 : 0;
+        // Significantly reduced mouse influence for more stability
+        const mouseXInfluence = particle.layer === 1 && particle.isHero ? 
+          (mousePosition.x / window.innerWidth - 0.5) * 1.2 : 0;
+        const mouseYInfluence = particle.layer === 1 && particle.isHero ? 
+          (mousePosition.y / window.innerHeight - 0.5) * 1.2 : 0;
         
-        // Calculate staggered animation start times based on position
-        // This creates a wave-like effect in the animation
+        // Calculate staggered animation start times
         const staggerDelay = (particle.left / 100) * 1.2;
         
         return (
@@ -96,6 +115,7 @@ export default function CodeParticles() {
               WebkitFontSmoothing: 'subpixel-antialiased',
               opacity: 0,
               transformStyle: 'preserve-3d',
+              backfaceVisibility: 'hidden',
               filter: particle.isHero ? 'drop-shadow(0 0 8px ' + color.replace('0.95)', '0.5)') + ')' : 'none'
             }}
             animate={{
@@ -131,7 +151,7 @@ export default function CodeParticles() {
               },
               rotate: {
                 duration: particle.duration * 1.2,
-                ease: [0.4, 0.0, 0.6, 1.0], // Custom cubic bezier for smoother rotation
+                ease: [0.4, 0.0, 0.6, 1.0],
                 repeat: Infinity
               },
               scale: particle.isPulsing ? {
