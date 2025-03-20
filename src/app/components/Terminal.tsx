@@ -1,20 +1,20 @@
 "use client";
 
-import React, { useState, useEffect, useRef, RefObject } from "react";
+import React, { useState, useEffect, useRef, RefObject, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// TerminalContent Component
+// TerminalContent Component - Memoized to prevent unnecessary re-renders
 interface TerminalContentProps {
   generatedText: string;
   showCursor: boolean;
   textContainerRef: RefObject<HTMLDivElement | null>;
 }
 
-function TerminalContent({ 
+const TerminalContent = React.memo(({ 
   generatedText, 
   showCursor, 
   textContainerRef 
-}: TerminalContentProps) {
+}: TerminalContentProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -42,14 +42,16 @@ function TerminalContent({
       </div>
     </motion.div>
   );
-}
+});
 
-// ProgressBar Component
+TerminalContent.displayName = 'TerminalContent';
+
+// ProgressBar Component - Memoized to prevent unnecessary re-renders
 interface ProgressBarProps {
   progress: number;
 }
 
-function ProgressBar({ progress }: ProgressBarProps) {
+const ProgressBar = React.memo(({ progress }: ProgressBarProps) => {
   return (
     <motion.div 
       className="mt-6 relative z-10"
@@ -68,10 +70,9 @@ function ProgressBar({ progress }: ProgressBarProps) {
           initial={{ width: "0%" }}
           animate={{ width: `${progress}%` }}
           transition={{ 
-            type: "spring", 
-            stiffness: 70, 
-            damping: 20,
-            mass: 1
+            type: "tween", 
+            duration: 0.3,
+            ease: "easeOut"
           }}
         >
           {/* Shimmer effect */}
@@ -103,10 +104,12 @@ function ProgressBar({ progress }: ProgressBarProps) {
       </motion.div>
     </motion.div>
   );
-}
+});
 
-// ModelInfo Component
-function ModelInfo() {
+ProgressBar.displayName = 'ProgressBar';
+
+// ModelInfo Component - Memoized to prevent unnecessary re-renders
+const ModelInfo = React.memo(() => {
   return (
     <motion.div 
       className="mt-4 text-xs font-mono relative z-10"
@@ -135,81 +138,26 @@ function ModelInfo() {
           <span className="pulse-effect inline-block text-cyan-500 animate-pulse">●</span>
           <span className="text-xs text-gray-400 font-mono">Model: <span className="text-cyan-400 font-semibold">Lite Ultra</span></span>
           <span className="h-3 w-px bg-gray-700"></span>
+          
+          {/* Simplified animations to improve performance */}
           <span className="text-xs text-gray-400 font-mono">Temperature: 
-            <motion.span 
-              className="text-cyan-400 font-semibold ml-1 inline-block" 
-              style={{ textShadow: '0 0 8px rgba(34, 211, 238, 0.5)' }}
-              whileHover={{ scale: 1.1 }}
-              animate={{ 
-                opacity: [0.85, 1, 0.85],
-                textShadow: [
-                  '0 0 8px rgba(34, 211, 238, 0.3)',
-                  '0 0 12px rgba(34, 211, 238, 0.6)',
-                  '0 0 8px rgba(34, 211, 238, 0.3)'
-                ]
-              }}
-              transition={{ 
-                duration: 2, 
-                repeat: Infinity,
-                ease: "easeInOut" 
-              }}
-            >
-              0.7
-            </motion.span>
+            <span className="text-cyan-400 font-semibold ml-1 inline-block">0.7</span>
           </span>
           <span className="h-3 w-px bg-gray-700"></span>
           <span className="text-xs text-gray-400 font-mono">Max tokens: 
-            <motion.span 
-              className="text-cyan-400 font-semibold ml-1 inline-block" 
-              style={{ textShadow: '0 0 8px rgba(34, 211, 238, 0.5)' }}
-              whileHover={{ scale: 1.1 }}
-              animate={{ 
-                opacity: [0.85, 1, 0.85],
-                textShadow: [
-                  '0 0 8px rgba(34, 211, 238, 0.3)',
-                  '0 0 12px rgba(34, 211, 238, 0.6)',
-                  '0 0 8px rgba(34, 211, 238, 0.3)'
-                ]
-              }}
-              transition={{ 
-                duration: 2, 
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.5 // Offset animation from temperature
-              }}
-            >
-              1024
-            </motion.span>
+            <span className="text-cyan-400 font-semibold ml-1 inline-block">1024</span>
           </span>
           <span className="h-3 w-px bg-gray-700"></span>
           <span className="text-xs text-gray-400 font-mono">Tokenizer: 
-            <motion.span 
-              className="text-cyan-400 font-semibold ml-1 inline-block" 
-              style={{ textShadow: '0 0 8px rgba(34, 211, 238, 0.5)' }}
-              whileHover={{ scale: 1.1 }}
-              animate={{ 
-                opacity: [0.85, 1, 0.85],
-                textShadow: [
-                  '0 0 8px rgba(34, 211, 238, 0.3)',
-                  '0 0 12px rgba(34, 211, 238, 0.6)',
-                  '0 0 8px rgba(34, 211, 238, 0.3)'
-                ]
-              }}
-              transition={{ 
-                duration: 2, 
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1.0 // Further offset animation
-              }}
-            >
-              o200k_base
-            </motion.span>
+            <span className="text-cyan-400 font-semibold ml-1 inline-block">o200k_base</span>
           </span>
         </motion.div>
       </div>
     </motion.div>
   );
-}
+});
+
+ModelInfo.displayName = 'ModelInfo';
 
 // Main Terminal Component
 interface TerminalProps {
@@ -220,44 +168,102 @@ export default function Terminal({ onComplete }: TerminalProps) {
   const [terminalVisible, setTerminalVisible] = useState(false);
   const [generatedText, setGeneratedText] = useState("");
   const [thinking, setThinking] = useState(true);
-  const [thinkingTokens, setThinkingTokens] = useState("");
+  const [thinkingTokens, setThinkingTokens] = useState("Initializing system...");
   const [progress, setProgress] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
   const [playTypingSound, setPlayTypingSound] = useState(false);
   const [showContentLoader, setShowContentLoader] = useState(false);
   const textContainerRef = useRef<HTMLDivElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const totalTextLength = useRef(0);
+  const animationFrameRef = useRef<number | null>(null);
+  const lastUpdateTimeRef = useRef<number>(0);
+  const typingStateRef = useRef({
+    currentSentenceIndex: 0,
+    isDeleting: false,
+    currentText: "",
+    progress: 0,
+    lastTypingTime: 0
+  });
 
-  const sentences = [
+  // Memoize sentences to prevent recreating on each render
+  const sentences = useMemo(() => [
     "Beep boop Beep boop!",
     "You've arrived at Prag's digital space.",
     "Ready for the tour?"
-  ];
+  ], []);
 
-  const thinkingPhrases = [
+  const thinkingPhrases = useMemo(() => [
     "Initializing system...",
     "Loading neural pathways...",
     "Analyzing design patterns...",
     "Generating creative response...",
     "Optimizing visual output...",
-  ];
+  ], []);
 
-  useEffect(() => {
-    totalTextLength.current = sentences.reduce((acc, sentence) => acc + sentence.length, 0);
-    
-    const timer = setTimeout(() => setTerminalVisible(true), 600);
-    return () => clearTimeout(timer);
-  }, []);
+  // Calculate total text length only once
+  const totalTextLength = useMemo(() => 
+    sentences.reduce((acc, sentence) => acc + sentence.length, 0),
+  [sentences]);
 
+  // Optimized audio playing logic with throttling
   const playTypeSound = () => {
-    if (audioRef.current && playTypingSound) {
+    if (!audioRef.current || !playTypingSound) return;
+    
+    const now = Date.now();
+    // Only play sound at most every 40ms to prevent audio stacking
+    if (now - lastUpdateTimeRef.current > 40) {
       audioRef.current.currentTime = 0;
       audioRef.current.play().catch(e => console.error("Error playing sound:", e));
+      lastUpdateTimeRef.current = now;
     }
   };
 
+  // Simple typing animation - falls back to this if RAF approach fails
+  const startSimpleTypingAnimation = () => {
+    let sentenceIndex = 0;
+    let charIndex = 0;
+    let totalProgress = 0;
+    
+    const typeChar = () => {
+      if (sentenceIndex < sentences.length) {
+        const sentence = sentences[sentenceIndex];
+        
+        if (charIndex <= sentence.length) {
+          setGeneratedText(sentence.substring(0, charIndex));
+          charIndex++;
+          totalProgress++;
+          setProgress((totalProgress / totalTextLength) * 100);
+          
+          // Random typing speed between 40-80ms
+          setTimeout(typeChar, Math.floor(Math.random() * 40) + 40);
+        } else {
+          // Move to next sentence after a pause
+          setTimeout(() => {
+            sentenceIndex++;
+            charIndex = 0;
+            if (sentenceIndex >= sentences.length) {
+              setProgress(100);
+              setTimeout(() => onComplete(), 500);
+            } else {
+              typeChar();
+            }
+          }, 1000);
+        }
+      }
+    };
+    
+    typeChar();
+  };
+
   useEffect(() => {
+    // Initial setup
+    const timer = setTimeout(() => setTerminalVisible(true), 600);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    // Audio setup
     audioRef.current = new Audio("/typing-sound.mp3");
     audioRef.current.volume = 0.15;
     
@@ -267,80 +273,133 @@ export default function Terminal({ onComplete }: TerminalProps) {
     };
     window.addEventListener('click', enableSound);
 
+    // Thinking animation with reduced frequency
     const thinkingInterval = setInterval(() => {
       if (thinking) {
         setThinkingTokens(thinkingPhrases[Math.floor(Math.random() * thinkingPhrases.length)]);
       }
     }, 1200);
 
-    setTimeout(() => {
-      setThinking(false);
-      setShowContentLoader(true);
-      
-      let currentSentenceIndex = 0;
-      let isDeleting = false;
-      let currentText = "";
-      let lastTypingTime = Date.now();
-      let progress = 0;
-      
-      const typeNextCharacter = () => {
-        const now = Date.now();
-        const timeSinceLastType = now - lastTypingTime;
-        
-        if (currentSentenceIndex < sentences.length) {
-          const currentSentence = sentences[currentSentenceIndex];
-          let delay = 40;
-          
-          if (isDeleting) delay = 30;
-          else if ('.!?'.includes(currentText[currentText.length - 1] || '')) delay = 600;
-          else if (',;:'.includes(currentText[currentText.length - 1] || '')) delay = 200;
-          else if (' '.includes(currentText[currentText.length - 1] || '')) delay = 60;
-          
-          if (timeSinceLastType >= delay) {
-            if (!isDeleting) {
-              if (currentText.length < currentSentence.length) {
-                currentText = currentSentence.slice(0, currentText.length + 1);
-                progress += 1;
-              } else {
-                if (currentSentenceIndex === sentences.length - 1) {
-                  setProgress(100);
-                  onComplete();
-                  return;
-                }
-                isDeleting = true;
-                delay = 1000;
-              }
-            } else {
-              if (currentText.length > 0) {
-                currentText = currentText.slice(0, -1);
-              } else {
-                isDeleting = false;
-                currentSentenceIndex++;
-                delay = 500;
-              }
-            }
-            
-            setGeneratedText(currentText);
-            setProgress((progress / totalTextLength.current) * 100);
-            playTypeSound();
-            lastTypingTime = now;
-          }
-          
-          requestAnimationFrame(typeNextCharacter);
-        }
-      };
-      
-      requestAnimationFrame(typeNextCharacter);
-    }, 2000);
-
+    // Cursor blinking
     const cursorInterval = setInterval(() => setShowCursor(prev => !prev), 530);
 
     return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
       clearInterval(thinkingInterval);
       clearInterval(cursorInterval);
       window.removeEventListener('click', enableSound);
     };
-  }, [onComplete]);
+  }, [thinkingPhrases, thinking]);
+
+  // Separate useEffect for starting animation sequence
+  useEffect(() => {
+    // Start animation after initial delay - shorter delay for better UX
+    const animationTimer = setTimeout(() => {
+      setThinking(false);
+      setShowContentLoader(true);
+      
+      try {
+        // Initialize state for typing animation
+        typingStateRef.current = {
+          currentSentenceIndex: 0,
+          isDeleting: false,
+          currentText: "",
+          progress: 0,
+          lastTypingTime: Date.now()
+        };
+        
+        // Optimized animation function that batches state updates
+        const typeNextCharacter = () => {
+          const state = typingStateRef.current;
+          const now = Date.now();
+          const timeSinceLastType = now - state.lastTypingTime;
+          
+          if (state.currentSentenceIndex < sentences.length) {
+            const currentSentence = sentences[state.currentSentenceIndex];
+            let delay = 40;
+            
+            // Determine delay based on character context
+            if (state.isDeleting) delay = 30;
+            else if ('.!?'.includes(state.currentText[state.currentText.length - 1] || '')) delay = 600;
+            else if (',;:'.includes(state.currentText[state.currentText.length - 1] || '')) delay = 200;
+            else if (' '.includes(state.currentText[state.currentText.length - 1] || '')) delay = 60;
+            
+            // Process typing logic
+            if (timeSinceLastType >= delay) {
+              let shouldUpdateState = false;
+              
+              if (!state.isDeleting) {
+                if (state.currentText.length < currentSentence.length) {
+                  state.currentText = currentSentence.slice(0, state.currentText.length + 1);
+                  state.progress += 1;
+                  shouldUpdateState = true;
+                } else {
+                  if (state.currentSentenceIndex === sentences.length - 1) {
+                    // Complete animation
+                    setProgress(100);
+                    onComplete();
+                    return;
+                  }
+                  state.isDeleting = true;
+                  delay = 1000;
+                }
+              } else {
+                if (state.currentText.length > 0) {
+                  state.currentText = state.currentText.slice(0, -1);
+                  shouldUpdateState = true;
+                } else {
+                  state.isDeleting = false;
+                  state.currentSentenceIndex++;
+                  delay = 500;
+                }
+              }
+              
+              // Batch state updates for better performance
+              if (shouldUpdateState) {
+                setGeneratedText(state.currentText);
+                setProgress((state.progress / totalTextLength) * 100);
+                // Only play sound occasionally to reduce load
+                if (Math.random() > 0.7) {
+                  playTypeSound();
+                }
+              }
+              
+              state.lastTypingTime = now;
+            }
+            
+            // Continue animation loop
+            animationFrameRef.current = requestAnimationFrame(typeNextCharacter);
+          }
+        };
+        
+        // Start animation loop
+        animationFrameRef.current = requestAnimationFrame(typeNextCharacter);
+        
+        // Fallback if animation doesn't start within 500ms
+        setTimeout(() => {
+          if (generatedText.length <= 1) {
+            // Cancel RAF and use simpler approach
+            if (animationFrameRef.current) {
+              cancelAnimationFrame(animationFrameRef.current);
+            }
+            startSimpleTypingAnimation();
+          }
+        }, 500);
+      } catch (error) {
+        console.error("Animation error, using fallback:", error);
+        startSimpleTypingAnimation();
+      }
+    }, 1500); // Reduced to 1500ms from 2000ms
+
+    return () => {
+      clearTimeout(animationTimer);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [sentences, totalTextLength, onComplete]);
 
   return (
     <div className="w-full max-w-2xl mx-auto relative z-10">
@@ -367,24 +426,20 @@ export default function Terminal({ onComplete }: TerminalProps) {
           }}
           transition={{ 
             duration: 0.6, 
-            ease: [0.16, 1, 0.3, 1], // Custom spring-like easing
+            ease: [0.16, 1, 0.3, 1], 
             opacity: { delay: 0.1 }
           }}
           style={{
             boxShadow: `
               0 0 10px 0 rgba(34, 211, 238, 0.05),
-              0 0 30px 0 rgba(34, 211, 238, 0.05),
-              0 0 50px 0 rgba(34, 211, 238, 0.02)
+              0 0 30px 0 rgba(34, 211, 238, 0.05)
             `
           }}
         >
-          {/* Animated border glow */}
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500/30 via-purple-500/30 to-cyan-500/30 rounded-lg blur-sm opacity-70 group-hover:opacity-100 transition duration-1000 animate-gradient-xy"></div>
+          {/* Simplified animated border to reduce GPU load */}
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-lg blur-sm opacity-60"></div>
           
           <div className="p-6 relative overflow-hidden">
-            {/* Subtle animated gradient border */}
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-emerald-500/10 to-cyan-500/10 opacity-30 pointer-events-none animate-gradient-x"></div>
-            
             {/* Terminal-like header */}
             <motion.div 
               className="flex items-center justify-between mb-4 border-b border-gray-800 pb-2 relative z-10"
