@@ -74,7 +74,7 @@ export default function ProfilePage() {
         company: "Blanc AI",
         position: "Cofounder",
         details: "Co-developed an AI agent to generate quotes for contractors, fetching prices from suppliers and optimizing for cost.\nPart of Western Accelerator and Ripple X Fellowship.",
-        period: "2023 - Present",
+        period: "2024 - Present",
         technologies: "Next JS, Fast API, LLMs"
       },
       {
