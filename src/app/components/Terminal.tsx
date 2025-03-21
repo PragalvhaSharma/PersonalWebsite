@@ -24,6 +24,11 @@ const TerminalContent = React.memo(({
       <div 
         ref={textContainerRef}
         className="font-mono text-sm text-gray-200 h-[150px] bg-black/50 rounded border border-gray-800 relative z-10 overflow-hidden"
+        style={{ 
+          transform: 'translateZ(0)',
+          willChange: 'transform',
+          backfaceVisibility: 'hidden'
+        }}
       >
         <div 
           className="absolute top-3 left-4 right-4" 
@@ -33,11 +38,21 @@ const TerminalContent = React.memo(({
             left: '16px',
             right: '16px',
             transform: 'translateZ(0)',
-            willChange: 'transform'
+            willChange: 'transform',
+            backfaceVisibility: 'hidden'
           }}
         >
-          <span>{generatedText}</span>
-          {showCursor && <span className="inline-block w-2 h-4 bg-cyan-400 ml-1" style={{verticalAlign: 'middle'}}></span>}
+          <span style={{ whiteSpace: 'pre-wrap' }}>{generatedText}</span>
+          {showCursor && (
+            <span 
+              className="inline-block w-2 h-4 bg-cyan-400 ml-1" 
+              style={{
+                verticalAlign: 'middle',
+                transform: 'translateZ(0)',
+                willChange: 'transform'
+              }}
+            />
+          )}
         </div>
       </div>
     </motion.div>
@@ -187,7 +202,8 @@ export default function Terminal({ onComplete }: TerminalProps) {
 
   // Memoize sentences to prevent recreating on each render
   const sentences = useMemo(() => [
-    "Beep boop Beep boop!",
+    "Beep Boop Beep Boop!",
+    "Welcome to the new age",
     "You've arrived at Prag's digital space.",
     "Ready for the tour?"
   ], []);
@@ -318,58 +334,44 @@ export default function Terminal({ onComplete }: TerminalProps) {
           
           if (state.currentSentenceIndex < sentences.length) {
             const currentSentence = sentences[state.currentSentenceIndex];
-            let delay = 40;
+            const baseDelay = 50; // Increased base delay for more stability
             
-            // Determine delay based on character context
-            if (state.isDeleting) delay = 30;
-            else if ('.!?'.includes(state.currentText[state.currentText.length - 1] || '')) delay = 600;
-            else if (',;:'.includes(state.currentText[state.currentText.length - 1] || '')) delay = 200;
-            else if (' '.includes(state.currentText[state.currentText.length - 1] || '')) delay = 60;
+            // Simplified delay logic
+            let delay = baseDelay;
+            const lastChar = state.currentText[state.currentText.length - 1];
+            if (lastChar === '.' || lastChar === '!' || lastChar === '?') delay = 600;
+            else if (lastChar === ',' || lastChar === ';') delay = 200;
+            else if (lastChar === ' ') delay = 80;
             
-            // Process typing logic
             if (timeSinceLastType >= delay) {
-              let shouldUpdateState = false;
-              
               if (!state.isDeleting) {
                 if (state.currentText.length < currentSentence.length) {
-                  state.currentText = currentSentence.slice(0, state.currentText.length + 1);
+                  // Batch updates together
+                  const newText = currentSentence.slice(0, state.currentText.length + 1);
+                  state.currentText = newText;
                   state.progress += 1;
-                  shouldUpdateState = true;
-                } else {
-                  if (state.currentSentenceIndex === sentences.length - 1) {
-                    // Complete animation
-                    setProgress(100);
-                    onComplete();
-                    return;
+                  
+                  // Update state in one go
+                  setGeneratedText(newText);
+                  setProgress((state.progress / totalTextLength) * 100);
+                  
+                  // Reduce sound frequency
+                  if (Math.random() > 0.8) {
+                    playTypeSound();
                   }
-                  state.isDeleting = true;
-                  delay = 1000;
-                }
-              } else {
-                if (state.currentText.length > 0) {
-                  state.currentText = state.currentText.slice(0, -1);
-                  shouldUpdateState = true;
+                } else if (state.currentSentenceIndex === sentences.length - 1) {
+                  setProgress(100);
+                  onComplete();
+                  return;
                 } else {
-                  state.isDeleting = false;
                   state.currentSentenceIndex++;
-                  delay = 500;
-                }
-              }
-              
-              // Batch state updates for better performance
-              if (shouldUpdateState) {
-                setGeneratedText(state.currentText);
-                setProgress((state.progress / totalTextLength) * 100);
-                // Only play sound occasionally to reduce load
-                if (Math.random() > 0.7) {
-                  playTypeSound();
+                  state.currentText = "";
                 }
               }
               
               state.lastTypingTime = now;
             }
             
-            // Continue animation loop
             animationFrameRef.current = requestAnimationFrame(typeNextCharacter);
           }
         };
