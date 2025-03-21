@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface ProfileData {
   name: string;
@@ -36,17 +37,22 @@ export default function AboutSection({ profile }: AboutSectionProps) {
     >
       <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 mb-8">About Me</h2>
       <div className="flex flex-col md:flex-row gap-10 items-center">
-        <div className="w-52 h-52 relative rounded-2xl overflow-hidden border-2 border-indigo-500/30 shadow-2xl shadow-indigo-500/10">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-5xl font-bold">
-            {profile.name.charAt(0)}
-          </div>
+        <div className="w-52 h-52 relative rounded-full overflow-hidden border-2 border-indigo-500/30 shadow-2xl shadow-indigo-500/10">
+          <Image
+            src="/prag.jpg"
+            alt={`${profile.name}'s profile picture`}
+            fill
+            className="object-cover rounded-full"
+            sizes="(max-width: 208px) 100vw, 208px"
+            priority
+          />
         </div>
         <div className="md:flex-1">
           <p className="text-xl leading-relaxed text-gray-300">
             {profile.about}
           </p>
           <p className="mt-4 text-gray-400">
-            Currently pursuing a Bachelor of Science in Computer Science at Western University with Ivey Business School AEO Status, I combine technical prowess with business acumen to create innovative solutions.
+            Currently pursuing a Bachelor of Science in Computer Science at Western University with Ivey Business School AEO.
           </p>
         </div>
       </div>

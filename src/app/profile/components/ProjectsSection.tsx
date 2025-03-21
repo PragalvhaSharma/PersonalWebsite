@@ -22,7 +22,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
       transition={{ duration: 0.5 }}
       className="space-y-12"
     >
-      <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 mb-8">Projects</h2>
+      <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 mb-8">Cool Work</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {projects.map((project, index) => (
           <motion.div
