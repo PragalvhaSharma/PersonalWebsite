@@ -52,7 +52,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
             {profile.about}
           </p>
           <p className="mt-4 text-gray-400">
-            Currently pursuing a Bachelor of Science in Computer Science at Western University with Ivey Business School AEO.
+            Currently a second year Computer Science student at Western University with Ivey Business School AEO.
           </p>
         </div>
       </div>

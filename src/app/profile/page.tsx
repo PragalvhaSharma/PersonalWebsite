@@ -12,40 +12,11 @@ import ConnectSection from "./components/ConnectSection";
 
 export default function ProfilePage() {
   const [mounted, setMounted] = useState(false);
-  const [activeSection, setActiveSection] = useState("about");
-  const containerRef = useRef(null);
-
   useEffect(() => {
     setMounted(true);
-    
-    const handleScroll = () => {
-      const sections = document.querySelectorAll('section[id]');
-      
-      sections.forEach(section => {
-        const sectionElement = section as HTMLElement;
-        const sectionTop = sectionElement.offsetTop;
-        const sectionHeight = sectionElement.clientHeight;
-        const scrollY = window.scrollY;
-        
-        if (scrollY >= sectionTop - 300 && scrollY < sectionTop + sectionHeight - 300) {
-          setActiveSection(sectionElement.id);
-        }
-      });
-    };
-    
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-      setActiveSection(sectionId);
-    }
-  };
+  const containerRef = useRef(null);
 
   // Personal data - replace with your own
   const profile = {
@@ -156,30 +127,6 @@ export default function ProfilePage() {
             </span>
           </h1>
           <p className="text-xl text-gray-400 mt-2 mb-8">{profile.title}</p>
-          
-          {/* Navigation */}
-          <motion.nav 
-            className="flex justify-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <div className="flex flex-wrap justify-center space-x-1 sm:space-x-2 p-1.5 bg-gray-900/60 backdrop-blur-md rounded-full border border-gray-800/80 shadow-xl">
-              {["about", "projects", "blogs", "connect"].map((section) => (
-                <button
-                  key={section}
-                  onClick={() => scrollToSection(section)}
-                  className={`px-3 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
-                    activeSection === section
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg"
-                      : "text-gray-400 hover:text-white hover:bg-gray-800/50"
-                  }`}
-                >
-                  {section === "projects" ? "Cool Work" : section.charAt(0).toUpperCase() + section.slice(1)}
-                </button>
-              ))}
-            </div>
-          </motion.nav>
         </motion.header>
 
         <div className="max-w-5xl mx-auto space-y-24">

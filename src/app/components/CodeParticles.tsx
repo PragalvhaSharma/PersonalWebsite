@@ -40,7 +40,11 @@ export default function CodeParticles() {
     
     const codeSymbols = ['{', '}', '()', '[]', '<>', '=>', '++', '--', '&&', '||'];
     
-    const particlesData = Array.from({ length: 25 }).map((_, i) => {
+    // Reduce particle count on mobile
+    const isMobile = window.innerWidth < 768;
+    const particleCount = isMobile ? 15 : 25;
+    
+    const particlesData = Array.from({ length: particleCount }).map((_, i) => {
       const isHero = i < 3;
       const layer = isHero ? 1 : (Math.random() > 0.6 ? 1 : 0);
       const sizeMultiplier = isHero ? 2.0 : (layer === 1 ? 1.4 : 1.0);
@@ -55,7 +59,7 @@ export default function CodeParticles() {
         duration: 28 + (i % 4) * 4,
         delay: i * 0.35,
         symbol: isHero ? codeSymbols[Math.floor(Math.random() * 3)] : codeSymbols[Math.floor(Math.random() * codeSymbols.length)],
-        size: (Math.random() * 12 + 12) * sizeMultiplier,
+        size: (Math.random() * (isMobile ? 8 : 12) + (isMobile ? 8 : 12)) * sizeMultiplier,
         opacity: (Math.random() * 0.2 + 0.4) * opacityMultiplier,
         rotation: Math.random() * 40 - 20,
         layer,

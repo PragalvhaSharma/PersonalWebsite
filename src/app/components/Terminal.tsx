@@ -23,7 +23,7 @@ const TerminalContent = React.memo(({
     >
       <div 
         ref={textContainerRef}
-        className="font-mono text-sm text-gray-200 h-[150px] bg-black/50 rounded border border-gray-800 relative z-10 overflow-hidden"
+        className="font-mono text-xs sm:text-sm text-gray-200 h-[120px] sm:h-[150px] bg-black/50 rounded border border-gray-800 relative z-10 overflow-hidden"
         style={{ 
           transform: 'translateZ(0)',
           willChange: 'transform',
@@ -31,7 +31,7 @@ const TerminalContent = React.memo(({
         }}
       >
         <div 
-          className="absolute top-3 left-4 right-4" 
+          className="absolute top-2 sm:top-3 left-2 sm:left-4 right-2 sm:right-4" 
           style={{ 
             position: 'absolute',
             top: '12px',

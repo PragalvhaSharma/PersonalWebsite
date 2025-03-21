@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <div 
-      className="min-h-screen flex flex-col items-center justify-center bg-black text-foreground p-4 relative overflow-hidden"
+      className="min-h-screen flex flex-col items-center justify-center bg-black text-foreground p-2 sm:p-4 relative overflow-hidden"
       style={{
         transform: 'translateZ(0)',
         backfaceVisibility: 'hidden',
@@ -34,7 +34,7 @@ export default function Home() {
       </div>
       
       {/* Terminal component with highest z-index */}
-      <div className="z-20 relative w-full">
+      <div className="z-20 relative w-full max-w-[95vw] sm:max-w-[85vw] md:max-w-[75vw] lg:max-w-[65vw]">
         <Terminal onComplete={handleComplete} />
       </div>
     </div>
