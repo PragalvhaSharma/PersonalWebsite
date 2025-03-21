@@ -24,8 +24,8 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
       transition={{ duration: 0.5 }}
       className="space-y-12"
     >
-      <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 mb-8">Cool Work</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00EFCF] via-[#00C16A] to-[#00796B] mb-8">Cool Work</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {projects.map((project, index) => (
           <motion.div
             key={project.title}
@@ -71,8 +71,8 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
               )}
               {index === 3 && (
                 <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center p-8">
-                  <div className="bg-gray-800/50 p-8 rounded-2xl border border-gray-700/30 -mt-44">
-                    <svg className="w-24 h-24 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <div className="bg-gray-800/50 p-4 sm:p-8 rounded-2xl border border-gray-700/30 -mt-36 sm:-mt-44">
+                    <svg className="w-16 h-16 sm:w-24 sm:h-24 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
                     </svg>
                   </div>
@@ -81,18 +81,18 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             </div>
             
             {/* Dark content area at bottom - less dark for NASA project */}
-            <div className={`absolute bottom-0 left-0 right-0 ${index === 0 ? 'bg-black/70' : 'bg-black/85'} backdrop-blur-sm p-6`}>
-              <h3 className="text-2xl font-bold mb-2 text-white">{project.title}</h3>
-              <p className="text-white/90 mb-4 text-sm leading-relaxed">{project.description}</p>
+            <div className={`absolute bottom-0 left-0 right-0 ${index === 0 ? 'bg-black/70' : 'bg-black/85'} backdrop-blur-sm p-4 sm:p-6`}>
+              <h3 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2 text-white">{project.title}</h3>
+              <p className="text-white/90 mb-3 sm:mb-4 text-xs sm:text-sm leading-relaxed">{project.description}</p>
               
               {/* Project actions */}
-              <div className="flex items-center flex-wrap gap-3">
+              <div className="flex items-center flex-wrap gap-2 sm:gap-3">
                 {/* View Project button */}
                 <a 
                   href={project.url} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+                  className="px-3 sm:px-4 py-1 sm:py-1.5 bg-[#00C16A] hover:bg-[#00EFCF] rounded-full text-xs font-semibold text-white shadow-md transition-colors"
                 >
                   View Project
                 </a>
@@ -103,7 +103,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                     href="https://www.blancai.ca" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="px-4 py-1.5 bg-green-600 hover:bg-green-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+                    className="px-3 sm:px-4 py-1 sm:py-1.5 bg-[#00796B] hover:bg-[#009E8E] rounded-full text-xs font-semibold text-white shadow-md transition-colors"
                   >
                     Try it out
                   </a>
@@ -111,12 +111,12 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                 
                 {/* News links for NASA project - direct links instead of dropdown */}
                 {index === 0 && (
-                  <>
+                  <div className="flex flex-wrap gap-2">
                     <a
                       href="https://www.insauga.com/brampton-students-win-international-competition-hosted-by-nasa-and-national-space-society/"
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="px-4 py-1.5 bg-purple-600 hover:bg-purple-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+                      className="px-3 sm:px-4 py-1 sm:py-1.5 bg-[#00EFCF]/80 hover:bg-[#00EFCF] rounded-full text-xs font-semibold text-gray-900 shadow-md transition-colors"
                     >
                       INsauga
                     </a>
@@ -124,7 +124,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                       href="https://nss.org/settlement/nasa/Contest/Results/2023/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-1.5 bg-purple-600 hover:bg-purple-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+                      className="px-3 sm:px-4 py-1 sm:py-1.5 bg-[#00EFCF]/80 hover:bg-[#00EFCF] rounded-full text-xs font-semibold text-gray-900 shadow-md transition-colors"
                     >
                       NASA/NSS
                     </a>
@@ -132,11 +132,11 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                       href="https://www.bramptonguardian.com/news/2-brampton-student-teams-win-prestigious-science-award/article_159bb547-7aaf-517c-ad5d-ccc43bfbcebe.html"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-1.5 bg-purple-600 hover:bg-purple-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+                      className="px-3 sm:px-4 py-1 sm:py-1.5 bg-[#00EFCF]/80 hover:bg-[#00EFCF] rounded-full text-xs font-semibold text-gray-900 shadow-md transition-colors"
                     >
                       Guardian
                     </a>
-                  </>
+                  </div>
                 )}
               </div>
             </div>

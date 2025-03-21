@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Your Name | Creative Developer",
+  title: "Prag | Hacker",
   description: "A unique digital space showcasing my work and thoughts",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
 };
 
 export default function RootLayout({
