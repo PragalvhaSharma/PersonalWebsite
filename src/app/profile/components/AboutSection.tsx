@@ -39,7 +39,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
       <div className="flex flex-col md:flex-row gap-8 items-center">
         <div className="w-40 h-40 md:w-52 md:h-52 relative rounded-full overflow-hidden border-2 border-[#00C16A]/30 shadow-2xl shadow-[#00EFCF]/10 mx-auto md:mx-0">
           <Image
-            src="/prag.jpg"
+            src="/Prag.jpg"
             alt={`${profile.name}'s profile picture`}
             fill
             className="object-cover rounded-full"
