@@ -203,7 +203,7 @@ export default function Terminal({ onComplete }: TerminalProps) {
   // Memoize sentences to prevent recreating on each render
   const sentences = useMemo(() => [
     "Beep Boop Beep Boop!",
-    "Welcome to the new age",
+    "Welcome to the new age! ",
     "You've arrived at Prag's digital space.",
     "Ready for the tour?"
   ], []);
