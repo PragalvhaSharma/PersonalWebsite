@@ -24,7 +24,7 @@ export default function ConnectSection({ links }: ConnectSectionProps) {
       <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 mb-8">Let&apos;s Connect</h2>
       <div className="bg-gray-900/40 backdrop-blur-md p-8 rounded-2xl border border-gray-800/80 shadow-xl">
         <p className="text-gray-300 mb-8">
-          I&apos;m always open to exploring new opportunities, collaborations, and discussions about technology and entrepreneurship. Whether you&apos;re interested in my projects, have a potential opportunity, or just want to connect, feel free to reach out.
+        Just message me. I respond. Unless I am asleep, abducted by aliens, or helping the AI overlords
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -75,30 +75,6 @@ export default function ConnectSection({ links }: ConnectSectionProps) {
           ))}
         </div>
       </div>
-      
-      <motion.div 
-        className="bg-gradient-to-r from-blue-600/20 to-indigo-600/20 p-8 rounded-2xl border border-blue-500/30 shadow-xl"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.5 }}
-      >
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h3 className="text-xl font-bold text-white mb-2">Interested in collaborating?</h3>
-            <p className="text-gray-300">Let&apos;s discuss how we can work together on innovative projects.</p>
-          </div>
-          <a 
-            href="mailto:pragalvhasharma@gmail.com" 
-            className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full font-medium hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg flex items-center"
-          >
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-            </svg>
-            <span>Contact Me</span>
-          </a>
-        </div>
-      </motion.div>
     </motion.section>
   );
 } 

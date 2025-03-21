@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
 
 // Import section components
 import AboutSection from "./components/AboutSection";
@@ -61,24 +60,28 @@ export default function ProfilePage() {
     about: "I'm a hacker who likes to build things...",
     projects: [
       {
-        title: "Blanc AI",
-        description: "Co-founded an AI startup that generates enterprise software using LLMs. Backed by Western Accelerator ($12,000) and Ripple Ventures through the Ripple X Fellowship.",
-        color: "#0070F3"
+        title: "NASA/NSS Space Settlement Contest",
+        description: "Earned 1st place globally, outperforming 26,725 students across 19 countries, and surpassing 4,567 entries",
+        color: "#FF4D4D",
+        url: "https://github.com/Mehtab-Cheema26/Space-Settlement"
+      },
+      {
+        title: "Blanc AI ERP Generator",
+        description: "An agentic framework for generating custom enterprise software based on a prompt.",
+        color: "#0070F3",
+        url: "https://drive.google.com/file/d/1jgjvSjjuLevfB16wOxpOCwFEepZ5Xg3C/view"
       },
       {
         title: "Blanc AI Quoting Tool",
-        description: "Built a SaaS solution for contractors that automatically calculates materials and generates quotes. Used by contractors for 5000+ quotes.",
-        color: "#7928CA"
-      },
-      {
-        title: "NASA Space Settlement",
-        description: "Earned 1st place globally, outperforming 26,725 students across 19 countries, and surpassing 4,567 entries",
-        color: "#FF4D4D"
+        description: "Built a SaaS solution for contractors that automatically sources materials and generates quotes. Used by contractors for 5000+ quotes.",
+        color: "#7928CA",
+        url: "https://www.youtube.com/watch?v=d_4CJmvCbWo"
       },
       {
         title: "Text to SQL Agent",
-        description: "Developed an AI agent that converts natural language queries into SQL for database interactions in business environments.",
-        color: "#00C7B7"
+        description: "Developed an AI agent that converts natural language queries into SQL for a postgres database. Deployed for a client.",
+        color: "#00C7B7",
+        url: "https://github.com/PragalvhaSharma/SQL-Agent"
       }
     ],
     links: [
@@ -105,16 +108,16 @@ export default function ProfilePage() {
       {
         company: "Blanc AI",
         position: "Cofounder",
-        details: "Co-developed an AI agent to generate quotes for contractors, fetching prices from suppliers and optimizing for cost.",
+        details: "Co-developed an AI agent to generate quotes for contractors, fetching prices from suppliers and optimizing for cost.\nPart of Western Accelerator and Ripple X Fellowship.",
         period: "2023 - Present",
-        technologies: "React, Django, LLMs"
+        technologies: "Next JS, Fast API, LLMs"
       },
       {
         company: "Western University - Faculty of Engineering",
         position: "Data Scientist",
         details: "Analyzed student performance data and developed algorithms to extract meaningful insights from educational datasets.",
         period: "2024",
-        technologies: "Python, MATLAB, LLMs"
+        technologies: "Python, Microsoft Excel, LLMs"
       },
       {
         company: "Infin8",
@@ -247,11 +250,6 @@ export default function ProfilePage() {
           transition={{ delay: 1 }}
         >
           <p>© {new Date().getFullYear()} Pragalvha Sharma. All rights reserved.</p>
-          <p className="mt-2">
-            <Link href="/" className="text-blue-400 hover:underline transition-colors">
-              Back to Home
-            </Link>
-          </p>
         </motion.footer>
       </div>
     </div>

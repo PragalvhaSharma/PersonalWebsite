@@ -94,7 +94,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
                 <span className="text-xs bg-indigo-500/20 px-3 py-1 rounded-full text-indigo-300">{exp.period}</span>
               </div>
               <p className="text-gray-300 font-medium">{exp.position}</p>
-              <p className="text-gray-400 text-sm mt-1">{exp.details}</p>
+              <p className="text-gray-400 text-sm mt-1 whitespace-pre-line">{exp.details}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {exp.technologies.split(', ').map((tech, i) => (
                   <span key={i} className="text-xs bg-gray-800/70 px-2.5 py-1 rounded-full text-gray-300 border border-gray-700/50">{tech}</span>
