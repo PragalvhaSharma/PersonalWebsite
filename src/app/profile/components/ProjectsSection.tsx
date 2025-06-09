@@ -14,7 +14,140 @@ interface ProjectsSectionProps {
   projects: Project[];
 }
 
+interface ProjectCardProps {
+  project: Project;
+  index: number;
+}
+
+function ProjectCard({ project, index }: ProjectCardProps) {
+  return (
+    <motion.div
+      key={project.title}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: 0.1 }}
+      className="group flex flex-col overflow-hidden rounded-2xl bg-[#111111] border border-gray-800 hover:border-gray-700 transition-all duration-300 shadow-lg hover:shadow-cyan-500/10"
+    >
+      {/* Project background image */}
+      <div className="relative w-full aspect-video">
+        {index === 0 && (
+          <Image 
+            src="/MCP Server.avif" 
+            alt="Self Evolving MCP Server"
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+          />
+        )}
+        {index === 1 && (
+          <Image 
+            src="/NASA.png" 
+            alt="NASA project"
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+            priority
+          />
+        )}
+        {index === 2 && (
+          <Image 
+            src="/erpPrev.png" 
+            alt="ERP Generator"
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+          />
+        )}
+        {index === 3 && (
+          <Image 
+            src="/quoting.png" 
+            alt="Quoting project"
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+          />
+        )}
+        {index === 4 && (
+          <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center p-8">
+            <div className="bg-gray-800/50 p-4 sm:p-8 rounded-2xl border border-gray-700/30">
+              <svg className="w-16 h-16 sm:w-24 sm:h-24 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+              </svg>
+            </div>
+          </div>
+        )}
+      </div>
+      
+      {/* Dark content area at bottom */}
+      <div className="p-4 sm:p-5 flex-grow flex flex-col">
+        <h3 className="text-lg sm:text-xl font-bold mb-2 text-white">{project.title}</h3>
+        <p className="text-gray-400 mb-4 text-xs sm:text-sm leading-normal flex-grow">{project.description}</p>
+        
+        {/* Project actions */}
+        <div className="flex items-center flex-wrap gap-2 mt-auto">
+          {/* View Project button */}
+          <a 
+            href={project.url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="px-3 py-1 bg-teal-500 hover:bg-teal-400 rounded-full text-xs font-semibold text-black shadow-md transition-colors"
+          >
+            View Project
+          </a>
+          
+          {/* "Try it out" button for quoting tool */}
+          {index === 3 && (
+            <a 
+              href="https://www.blancai.ca" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-3 py-1 bg-teal-700 hover:bg-teal-600 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+            >
+              Try it out
+            </a>
+          )}
+          
+          {/* News links for NASA project - direct links instead of dropdown */}
+          {index === 1 && (
+            <div className="flex flex-wrap gap-2">
+              <a
+                href="https://www.insauga.com/brampton-students-win-international-competition-hosted-by-nasa-and-national-space-society/"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-3 py-1 bg-teal-500/80 hover:bg-teal-500 rounded-full text-xs font-semibold text-black shadow-md transition-colors"
+              >
+                INsauga
+              </a>
+              <a
+                href="https://nss.org/settlement/nasa/Contest/Results/2023/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 bg-teal-500/80 hover:bg-teal-500 rounded-full text-xs font-semibold text-black shadow-md transition-colors"
+              >
+                NASA/NSS
+              </a>
+              <a
+                href="https://www.bramptonguardian.com/news/2-brampton-student-teams-win-prestigious-science-award/article_159bb547-7aaf-517c-ad5d-ccc43bfbcebe.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 bg-teal-500/80 hover:bg-teal-500 rounded-full text-xs font-semibold text-black shadow-md transition-colors"
+              >
+                Guardian
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+
 export default function ProjectsSection({ projects }: ProjectsSectionProps) {
+  const topRowProjects = projects.slice(0, 2);
+  const bottomRowProjects = projects.slice(2);
+
   return (
     <motion.section
       id="projects"
@@ -24,125 +157,20 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
       transition={{ duration: 0.5 }}
       className="space-y-12"
     >
-      <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00EFCF] via-[#00C16A] to-[#00796B] mb-8">Cool Work</h2>
+      <h2 className="text-3xl font-bold text-white mb-8">Cool Work</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-        {projects.map((project, index) => (
-          <motion.div
-            key={project.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            className="group relative overflow-hidden rounded-2xl aspect-[4/3] bg-gradient-to-br from-gray-800/50 to-gray-900/50 shadow-xl"
-            style={{
-              background: 'linear-gradient(169deg, rgba(17,17,17,0.9) 0%, rgba(0,0,0,0.9) 100%)',
-              boxShadow: '0 0 0 1px rgba(255,255,255,0.05), 0 4px 20px rgba(0,0,0,0.4), inset 0 0 0 4px rgba(0,0,0,0.9)',
-            }}
-          >
-            {/* Project background image */}
-            <div className="absolute inset-0 w-full h-full">
-              {index === 0 && (
-                <Image 
-                  src="/NASA.png" 
-                  alt="NASA project"
-                  fill
-                  style={{ objectFit: 'cover' }}
-                  quality={100}
-                  priority
-                />
-              )}
-              {index === 1 && (
-                <Image 
-                  src="/erpPrev.png" 
-                  alt="ERP Generator"
-                  fill
-                  style={{ objectFit: 'cover' }}
-                  quality={100}
-                />
-              )}
-              {index === 2 && (
-                <Image 
-                  src="/quoting.png" 
-                  alt="Quoting project"
-                  fill
-                  style={{ objectFit: 'cover' }}
-                  quality={100}
-                />
-              )}
-              {index === 3 && (
-                <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center p-8">
-                  <div className="bg-gray-800/50 p-4 sm:p-8 rounded-2xl border border-gray-700/30 -mt-36 sm:-mt-44">
-                    <svg className="w-16 h-16 sm:w-24 sm:h-24 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
-                    </svg>
-                  </div>
-                </div>
-              )}
-            </div>
-            
-            {/* Dark content area at bottom - less dark for NASA project */}
-            <div className={`absolute bottom-0 left-0 right-0 ${index === 0 ? 'bg-black/70' : 'bg-black/85'} backdrop-blur-sm p-4 sm:p-6`}>
-              <h3 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2 text-white">{project.title}</h3>
-              <p className="text-white/90 mb-3 sm:mb-4 text-xs sm:text-sm leading-relaxed">{project.description}</p>
-              
-              {/* Project actions */}
-              <div className="flex items-center flex-wrap gap-2 sm:gap-3">
-                {/* View Project button */}
-                <a 
-                  href={project.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="px-3 sm:px-4 py-1 sm:py-1.5 bg-[#00C16A] hover:bg-[#00EFCF] rounded-full text-xs font-semibold text-white shadow-md transition-colors"
-                >
-                  View Project
-                </a>
-                
-                {/* "Try it out" button for quoting tool */}
-                {index === 2 && (
-                  <a 
-                    href="https://www.blancai.ca" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="px-3 sm:px-4 py-1 sm:py-1.5 bg-[#00796B] hover:bg-[#009E8E] rounded-full text-xs font-semibold text-white shadow-md transition-colors"
-                  >
-                    Try it out
-                  </a>
-                )}
-                
-                {/* News links for NASA project - direct links instead of dropdown */}
-                {index === 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    <a
-                      href="https://www.insauga.com/brampton-students-win-international-competition-hosted-by-nasa-and-national-space-society/"
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="px-3 sm:px-4 py-1 sm:py-1.5 bg-[#00EFCF]/80 hover:bg-[#00EFCF] rounded-full text-xs font-semibold text-gray-900 shadow-md transition-colors"
-                    >
-                      INsauga
-                    </a>
-                    <a
-                      href="https://nss.org/settlement/nasa/Contest/Results/2023/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3 sm:px-4 py-1 sm:py-1.5 bg-[#00EFCF]/80 hover:bg-[#00EFCF] rounded-full text-xs font-semibold text-gray-900 shadow-md transition-colors"
-                    >
-                      NASA/NSS
-                    </a>
-                    <a
-                      href="https://www.bramptonguardian.com/news/2-brampton-student-teams-win-prestigious-science-award/article_159bb547-7aaf-517c-ad5d-ccc43bfbcebe.html"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3 sm:px-4 py-1 sm:py-1.5 bg-[#00EFCF]/80 hover:bg-[#00EFCF] rounded-full text-xs font-semibold text-gray-900 shadow-md transition-colors"
-                    >
-                      Guardian
-                    </a>
-                  </div>
-                )}
-              </div>
-            </div>
-          </motion.div>
+        {topRowProjects.map((project, index) => (
+          <ProjectCard key={project.title} project={project} index={index} />
         ))}
       </div>
+      
+      {bottomRowProjects.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          {bottomRowProjects.map((project, index) => (
+            <ProjectCard key={project.title} project={project} index={index + topRowProjects.length} />
+          ))}
+        </div>
+      )}
     </motion.section>
   );
 } 
