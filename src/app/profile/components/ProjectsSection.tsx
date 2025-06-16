@@ -31,7 +31,16 @@ function ProjectCard({ project, index }: ProjectCardProps) {
     >
       {/* Project background image */}
       <div className="relative w-full aspect-video">
-        {index === 0 && (
+        {project.title === "LLM Monitoring" && (
+          <Image 
+            src="/LLmMonitoring.png" 
+            alt="LLM Monitoring"
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+          />
+        )}
+        {index === 0 && project.title !== "LLM Monitoring" && (
           <Image 
             src="/MCP Server.avif" 
             alt="Self Evolving MCP Server"
@@ -68,7 +77,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
             quality={100}
           />
         )}
-        {index === 4 && (
+        {index === 4 && project.title !== "LLM Monitoring" && (
           <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center p-8">
             <div className="bg-gray-800/50 p-4 sm:p-8 rounded-2xl border border-gray-700/30">
               <svg className="w-16 h-16 sm:w-24 sm:h-24 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -136,6 +145,44 @@ function ProjectCard({ project, index }: ProjectCardProps) {
                 Guardian
               </a>
             </div>
+          )}
+
+          {/* Extra buttons for LLM Monitoring */}
+          {project.title === "LLM Monitoring" && (
+            <>
+              <a
+                href="https://next-js-dashboard-pied-tau.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 bg-blue-600 hover:bg-blue-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+              >
+                Dashboard
+              </a>
+              <a
+                href="https://ingest-service-1066080214358.us-central1.run.app/metrics"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+              >
+                Ingest & Metrics Service
+              </a>
+              <a
+                href="https://simulator-service-1066080214358.us-central1.run.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+              >
+                Event Simulator Service
+              </a>
+              <a
+                href="https://www.loom.com/share/ceb7d97c76e84651beeaebaa69b74c90?sid=95bd9916-806e-4838-b5c1-d20578a6e7ec"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 bg-pink-600 hover:bg-pink-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+              >
+                Demo
+              </a>
+            </>
           )}
         </div>
       </div>

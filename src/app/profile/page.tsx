@@ -55,6 +55,12 @@ export default function ProfilePage() {
         url: "https://www.youtube.com/watch?v=d_4CJmvCbWo"
       },
       {
+        title: "LLM Monitoring",
+        description: "A monitoring and observability platform for AI agents, featuring ingest, metrics, and a dashboard. Built with Node.js, TypeScript, and Next.js.",
+        color: "#24292F",
+        url: "https://github.com/PragalvhaSharma/LLMmonitoring"
+      },
+      {
         title: "Text to SQL Agent",
         description: "Developed an AI agent that converts natural language queries into SQL for a postgres database. Deployed for a client.",
         color: "#00C7B7",
