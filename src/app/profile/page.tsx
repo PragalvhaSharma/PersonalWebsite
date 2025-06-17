@@ -34,31 +34,36 @@ export default function ProfilePage() {
         title: "Self Evolving MCP Server",
         description: "A self-evolving server that can adapt and enhance its own capabilities autonomously. This demo showcases its dynamic functionality.",
         color: "#9333ea",
-        url: "https://www.loom.com/share/edccf270519d4a47bb0b23e0ff23f0c6?sid=254bb5a9-ca00-453d-8011-50342875b783#Activity"
+        url: "https://www.loom.com/share/edccf270519d4a47bb0b23e0ff23f0c6?sid=254bb5a9-ca00-453d-8011-50342875b783#Activity",
+        imageUrl: "/MCP Server.avif"
       },
       {
         title: "NASA/NSS Space Settlement Contest",
         description: "Earned 1st place globally, outperforming 26,725 students across 19 countries, and surpassing 4,567 entries",
         color: "#FF4D4D",
-        url: "https://github.com/Mehtab-Cheema26/Space-Settlement"
-      },
-      {
-        title: "Blanc AI ERP Generator",
-        description: "An agentic framework for generating custom enterprise software based on a prompt.",
-        color: "#0070F3",
-        url: "https://drive.google.com/file/d/1jgjvSjjuLevfB16wOxpOCwFEepZ5Xg3C/view"
-      },
-      {
-        title: "Blanc AI Quoting Tool",
-        description: "Built a SaaS solution for contractors that automatically sources materials and generates quotes. Used by contractors for 5000+ quotes.",
-        color: "#7928CA",
-        url: "https://www.youtube.com/watch?v=d_4CJmvCbWo"
+        url: "https://github.com/Mehtab-Cheema26/Space-Settlement",
+        imageUrl: "/NASA.png"
       },
       {
         title: "LLM Monitoring",
         description: "A monitoring and observability platform for AI agents, featuring ingest, metrics, and a dashboard. Built with Node.js, TypeScript, and Next.js.",
         color: "#24292F",
-        url: "https://github.com/PragalvhaSharma/LLMmonitoring"
+        url: "https://github.com/PragalvhaSharma/LLMmonitoring",
+        imageUrl: "/LLmMonitoring.png"
+      },
+      {
+        title: "Blanc AI ERP Generator",
+        description: "An agentic framework for generating custom enterprise software based on a prompt.",
+        color: "#0070F3",
+        url: "https://drive.google.com/file/d/1jgjvSjjuLevfB16wOxpOCwFEepZ5Xg3C/view",
+        imageUrl: "/erpPrev.png"
+      },
+      {
+        title: "Blanc AI Quoting Tool",
+        description: "Built a SaaS solution for contractors that automatically sources materials and generates quotes. Used by contractors for 5000+ quotes.",
+        color: "#7928CA",
+        url: "https://www.youtube.com/watch?v=d_4CJmvCbWo",
+        imageUrl: "/quoting.png"
       },
       {
         title: "Text to SQL Agent",
