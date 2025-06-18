@@ -70,14 +70,14 @@ function ProjectCard({ project, index }: ProjectCardProps) {
           </a>
           
           {/* "Try it out" button for quoting tool */}
-          {index === 3 && (
+          {index === 4 && (
             <a 
               href="https://www.blancai.ca" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="px-3 py-1 bg-teal-700 hover:bg-teal-600 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+              className="px-3 py-1 bg-blue-600 hover:bg-blue-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
             >
-              Try it out
+              Deployment
             </a>
           )}
           
