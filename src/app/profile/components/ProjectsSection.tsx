@@ -65,9 +65,13 @@ function ProjectCard({ project, index }: ProjectCardProps) {
             href={project.url} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="px-3 py-1 bg-teal-500 hover:bg-teal-400 rounded-full text-xs font-semibold text-black shadow-md transition-colors"
+            className={
+              (project.title === "Self Evolving MCP Server" || project.title === "Blanc AI Quoting Tool" || project.title === "Blanc AI ERP Generator")
+                ? "px-3 py-1 bg-purple-600 hover:bg-purple-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+                : "px-3 py-1 bg-teal-500 hover:bg-teal-400 rounded-full text-xs font-semibold text-black shadow-md transition-colors"
+            }
           >
-            View Project
+            {project.title === "Self Evolving MCP Server" || project.title === "Blanc AI Quoting Tool" || project.title === "Blanc AI ERP Generator" ? "Demo" : "View Project"}
           </a>
           
           {/* "Try it out" button for quoting tool */}
@@ -127,7 +131,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
                 href="https://www.loom.com/share/ceb7d97c76e84651beeaebaa69b74c90?sid=95bd9916-806e-4838-b5c1-d20578a6e7ec"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3 py-1 bg-pink-600 hover:bg-pink-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+                className="px-3 py-1 bg-purple-600 hover:bg-purple-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
               >
                 Demo
               </a>
