@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 interface Project {
@@ -23,12 +22,8 @@ interface ProjectCardProps {
 
 function ProjectCard({ project, index }: ProjectCardProps) {
   return (
-    <motion.div
+    <div
       key={project.title}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: 0.1 }}
       className="group flex flex-col overflow-hidden rounded-2xl bg-[#111111] border border-gray-800 hover:border-gray-700 transition-all duration-300 shadow-lg hover:shadow-cyan-500/10"
     >
       {/* Project background image */}
@@ -171,7 +166,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
@@ -181,12 +176,8 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const bottomRowProjects = projects.slice(2);
 
   return (
-    <motion.section
+    <section
       id="projects"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
       className="space-y-12"
     >
       <h2 className="text-3xl font-bold text-white mb-8">Cool Work</h2>
@@ -203,6 +194,6 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
           ))}
         </div>
       )}
-    </motion.section>
+    </section>
   );
 } 

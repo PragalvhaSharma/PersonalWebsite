@@ -49,3 +49,13 @@ body {
 .opacity-15 {
   opacity: 0.15;
 }
+
+/* Delayed fade-in animation for profile picture */
+@keyframes fadeInDelayed {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.animate-fade-in-delayed {
+  animation: fadeInDelayed 0.8s ease-out 0.5s forwards;
+}
