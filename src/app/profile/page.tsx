@@ -45,6 +45,13 @@ export default function ProfilePage() {
         imageUrl: "/NASA.png"
       },
       {
+        title: "M3Drop-PY",
+        description: "Python implementation of M3Drop for dropout-based feature selection in scRNA-seq.",
+        color: "#24292F",
+        url: "https://github.com/PragalvhaSharma/M3Drop-PY",
+        imageUrl: "/M3Drop.png"
+      },
+      {
         title: "LLM Monitoring",
         description: "A monitoring and observability platform for AI agents, featuring ingest, metrics, and a dashboard. Built with Node.js, TypeScript, and Next.js.",
         color: "#24292F",
@@ -69,7 +76,8 @@ export default function ProfilePage() {
         title: "Text to SQL Agent",
         description: "Developed an AI agent that converts natural language queries into SQL for a postgres database. Deployed for a client.",
         color: "#00C7B7",
-        url: "https://github.com/PragalvhaSharma/SQL-Agent"
+        url: "https://github.com/PragalvhaSharma/SQL-Agent",
+        imageUrl: "/TextToSql.png"
       }
     ],
     links: [

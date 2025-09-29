@@ -75,7 +75,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
           </a>
           
           {/* "Try it out" button for quoting tool */}
-          {index === 4 && (
+          {project.title === "Blanc AI Quoting Tool" && (
             <a 
               href="https://www.blancai.ca" 
               target="_blank" 
@@ -87,7 +87,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
           )}
           
           {/* News links for NASA project - direct links instead of dropdown */}
-          {index === 1 && (
+          {project.title === "NASA/NSS Space Settlement Contest" && (
             <div className="flex flex-wrap gap-2">
               <a
                 href="https://www.insauga.com/brampton-students-win-international-competition-hosted-by-nasa-and-national-space-society/"
@@ -134,6 +134,38 @@ function ProjectCard({ project, index }: ProjectCardProps) {
                 className="px-3 py-1 bg-purple-600 hover:bg-purple-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
               >
                 Demo
+              </a>
+            </>
+          )}
+          
+          {/* Extra buttons for M3Drop-PY */}
+          {project.title === "M3Drop-PY" && (
+            <>
+              {!project.url.includes("github.com") && (
+                <a
+                  href="https://github.com/PragalvhaSharma/M3Drop-PY"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+                >
+                  GitHub
+                </a>
+              )}
+              <a
+                href="https://academic.oup.com/bioinformatics/article/35/16/2865/5258099"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+              >
+                Research Paper
+              </a>
+              <a
+                href="https://pypi.org/project/M3Drop/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1 bg-orange-600 hover:bg-orange-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+              >
+                PyPI
               </a>
             </>
           )}
