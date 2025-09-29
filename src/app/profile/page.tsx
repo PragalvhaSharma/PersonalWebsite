@@ -46,7 +46,7 @@ export default function ProfilePage() {
       },
       {
         title: "M3Drop-PY",
-        description: "Python implementation of M3Drop for dropout-based feature selection in scRNA-seq.",
+        description: "Using AI to convert the M3Drop package into a Python implementation; updated package to be published in December 2025.",
         color: "#24292F",
         url: "https://github.com/PragalvhaSharma/M3Drop-PY",
         imageUrl: "/M3Drop.png"
