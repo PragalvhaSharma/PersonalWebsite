@@ -66,6 +66,14 @@ export default function ProfilePage() {
         imageUrl: "/quoting.png"
       },
       {
+        title: "Ivey Contribution Bingo",
+        description: "A fun bingo game for Ivey students, coded during my accounting class. Deployed and ready to play!",
+        color: "#4A90E2",
+        url: "https://section6.vercel.app/",
+        githubUrl: "https://github.com/PragalvhaSharma/IveyContributionBingo",
+        imageUrl: "/ivey.jpeg"
+      },
+      {
         title: "Text to SQL Agent",
         description: "Developed an AI agent that converts natural language queries into SQL for a postgres database. Deployed for a client.",
         color: "#00C7B7",

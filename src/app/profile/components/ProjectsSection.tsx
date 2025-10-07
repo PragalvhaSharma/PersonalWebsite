@@ -8,6 +8,7 @@ interface Project {
   description: string;
   color: string;
   url: string;
+  githubUrl?: string; // Add githubUrl to the interface
   imageUrl?: string;
 }
 
@@ -21,6 +22,17 @@ interface ProjectCardProps {
 }
 
 function ProjectCard({ project, index }: ProjectCardProps) {
+  const isDemo = ["Self Evolving MCP Server", "Blanc AI Quoting Tool", "Blanc AI ERP Generator"].includes(project.title);
+  const isIveyBingo = project.title === "Ivey Contribution Bingo";
+  
+  // Determine button label for main link
+  let mainButtonLabel = "GitHub";
+  if (isDemo) {
+    mainButtonLabel = "Demo";
+  } else if (isIveyBingo) {
+    mainButtonLabel = "Deployment";
+  }
+  
   return (
     <div
       key={project.title}
@@ -55,19 +67,33 @@ function ProjectCard({ project, index }: ProjectCardProps) {
         
         {/* Project actions */}
         <div className="flex items-center flex-wrap gap-2 mt-auto">
-          {/* View Project button */}
+          {/* Main button (Demo/Deployment/GitHub) */}
           <a 
             href={project.url} 
             target="_blank" 
             rel="noopener noreferrer"
-            className={
-              (project.title === "Self Evolving MCP Server" || project.title === "Blanc AI Quoting Tool" || project.title === "Blanc AI ERP Generator")
-                ? "px-3 py-1 bg-purple-600 hover:bg-purple-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
-                : "px-3 py-1 bg-teal-500 hover:bg-teal-400 rounded-full text-xs font-semibold text-black shadow-md transition-colors"
-            }
+            className={`px-3 py-1 rounded-full text-xs font-semibold shadow-md transition-colors ${
+              isDemo
+                ? "bg-purple-600 hover:bg-purple-500 text-white"
+                : isIveyBingo
+                ? "bg-blue-600 hover:bg-blue-500 text-white"
+                : "bg-gray-700 hover:bg-gray-600 text-white"
+            }`}
           >
-            {project.title === "Self Evolving MCP Server" || project.title === "Blanc AI Quoting Tool" || project.title === "Blanc AI ERP Generator" ? "Demo" : "View Project"}
+            {mainButtonLabel}
           </a>
+          
+          {/* GitHub button (for projects with separate githubUrl) */}
+          {project.githubUrl && (
+            <a 
+              href={project.githubUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+            >
+              GitHub
+            </a>
+          )}
           
           {/* "Try it out" button for quoting tool */}
           {project.title === "Blanc AI Quoting Tool" && (
