@@ -23,13 +23,14 @@ interface ProjectCardProps {
 
 function ProjectCard({ project, index }: ProjectCardProps) {
   const isDemo = ["Self Evolving MCP Server", "Blanc AI Quoting Tool", "Blanc AI ERP Generator"].includes(project.title);
-  const isIveyBingo = project.title === "Ivey Contribution Bingo";
+  const isCloudflareChatbot = project.title === "Cloudflare AI Chatbot";
+  const isIveyBingo = project.title === "Ivey Contribution Bingo Leaderboard";
   
   // Determine button label for main link
   let mainButtonLabel = "GitHub";
   if (isDemo) {
     mainButtonLabel = "Demo";
-  } else if (isIveyBingo) {
+  } else if (isIveyBingo || isCloudflareChatbot) {
     mainButtonLabel = "Deployment";
   }
   
@@ -75,7 +76,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
             className={`px-3 py-1 rounded-full text-xs font-semibold shadow-md transition-colors ${
               isDemo
                 ? "bg-purple-600 hover:bg-purple-500 text-white"
-                : isIveyBingo
+                : isIveyBingo || isCloudflareChatbot
                 ? "bg-blue-600 hover:bg-blue-500 text-white"
                 : "bg-gray-700 hover:bg-gray-600 text-white"
             }`}

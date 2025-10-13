@@ -67,7 +67,7 @@ export default function ProfilePage() {
       },
       {
         title: "Ivey Contribution Bingo Leaderboard",
-        description: "A leaderboard showcasing top contributors in the Ivey community. This is not a game, but a live leaderboard coded during my accounting class. Deployed and ready to view!",
+        description: "A leaderboard showcasing top contributors in the Ivey community. This is not a game, but a live leaderboard coded during my accounting class.",
         color: "#4A90E2",
         url: "https://section6.vercel.app/",
         githubUrl: "https://github.com/PragalvhaSharma/IveyContributionBingo",
