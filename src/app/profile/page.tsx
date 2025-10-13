@@ -66,8 +66,8 @@ export default function ProfilePage() {
         imageUrl: "/quoting.png"
       },
       {
-        title: "Ivey Contribution Bingo",
-        description: "A fun bingo game for Ivey students, coded during my accounting class. Deployed and ready to play!",
+        title: "Ivey Contribution Bingo Leaderboard",
+        description: "A leaderboard showcasing top contributors in the Ivey community. This is not a game, but a live leaderboard coded during my accounting class. Deployed and ready to view!",
         color: "#4A90E2",
         url: "https://section6.vercel.app/",
         githubUrl: "https://github.com/PragalvhaSharma/IveyContributionBingo",
@@ -79,6 +79,14 @@ export default function ProfilePage() {
         color: "#00C7B7",
         url: "https://github.com/PragalvhaSharma/SQL-Agent",
         imageUrl: "/TextToSql.png"
+      },
+      {
+        title: "Cloudflare AI Chatbot",
+        description: "A simple chatbot with basic context handling and tool calling, built using Cloudflare's Agents SDK. Using LLama 3.3 7B.",
+        color: "#F38020",
+        url: "https://agents-starter.pragalvhasharma.workers.dev/", // Deployment link
+        githubUrl: "https://github.com/PragalvhaSharma/cf_ai_PragalvhaSharma",
+        imageUrl: "/cloudFlare.jpg"
       }
     ],
     links: [
