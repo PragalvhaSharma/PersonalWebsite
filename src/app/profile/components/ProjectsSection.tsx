@@ -98,14 +98,24 @@ function ProjectCard({ project, index }: ProjectCardProps) {
           
           {/* "Try it out" button for quoting tool */}
           {project.title === "Blanc AI Quoting Tool" && (
-            <a 
-              href="https://www.blancai.ca" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="px-3 py-1 bg-blue-600 hover:bg-blue-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
-            >
-              Deployment
-            </a>
+            <>
+              <a 
+                href="https://www.blancai.ca" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-3 py-1 bg-blue-600 hover:bg-blue-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
+              >
+                Deployment
+              </a>
+              <a 
+                href="https://entrepreneurship.uwo.ca/accelerator/our-venture-directory/past-cohorts/winter-2025-cohort/blancai/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-3 py-1 bg-teal-500/80 hover:bg-teal-500 rounded-full text-xs font-semibold text-black shadow-md transition-colors"
+              >
+                Accelerator
+              </a>
+            </>
           )}
           
           {/* News links for NASA project - direct links instead of dropdown */}
