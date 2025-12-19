@@ -53,6 +53,13 @@ export default function ProfilePage() {
         imageUrl: "/M3Drop.png"
       },
       {
+        title: "Catholic School Finder",
+        description: "Write your location and find Catholic universities in your area. A location-based search tool to help discover Catholic higher education institutions nearby.",
+        color: "#8B4513",
+        url: "https://catholic-web-app-bbop.vercel.app",
+        imageUrl: "/catholic.png"
+      },
+      {
         title: "LLM Monitoring",
         description: "A monitoring and observability platform for AI agents, featuring ingest, metrics, and a dashboard. Built with Node.js, TypeScript, and Next.js.",
         color: "#24292F",
@@ -161,7 +168,7 @@ export default function ProfilePage() {
           <div className="w-full md:w-1/3 flex justify-center mt-8 md:mt-0">
             <div className="relative w-48 h-48 sm:w-56 sm:h-56 opacity-0 animate-fade-in-delayed">
               <Image
-                src="/Prag.jpg"
+                src="/Profile.png"
                 alt="Prag Sharma"
                 layout="fill"
                 objectFit="cover"
