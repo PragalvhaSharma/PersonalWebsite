@@ -32,6 +32,8 @@ function ProjectCard({ project, index }: ProjectCardProps) {
     mainButtonLabel = "Demo";
   } else if (isIveyBingo || isCloudflareChatbot) {
     mainButtonLabel = "Deployment";
+  } else if (project.url && !project.url.includes("github.com")) {
+    mainButtonLabel = "View";
   }
   
   return (

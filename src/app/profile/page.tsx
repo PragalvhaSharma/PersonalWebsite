@@ -24,6 +24,14 @@ export default function ProfilePage() {
   const profile = {
     projects: [
       {
+        title: "GrokHunt — xAI Hackathon",
+        description: "Grok-powered talent hunter that identifies great people on X, reasons through their background, and sends personalized DMs with an AI interviewer link. Earned 2nd place at the xAI hackathon (580 builders) and was one of 22 Canadians invited.",
+        color: "#0ea5e9",
+        url: "https://twitter.com/xai/status/1997875261669621787",
+        githubUrl: "https://github.com/PragalvhaSharma/XaiHackthon",
+        imageUrl: "/Grok.jpeg"
+      },
+      {
         title: "Self Evolving MCP Server",
         description: "A self-evolving server that can adapt and enhance its own capabilities autonomously. This demo showcases its dynamic functionality.",
         color: "#9333ea",
@@ -120,9 +128,6 @@ export default function ProfilePage() {
               </p>
               <p>
                 I have won an <UnderlinedLink href="https://www.insauga.com/brampton-students-win-international-competition-hosted-by-nasa-and-national-space-society/">international NASA competition</UnderlinedLink>, outperforming 26,725 students across 19 countries.
-              </p>
-              <p>
-                I&apos;m currently at Mely.ai working as a full-stack engineer, shipping full-stack AI features.
               </p>
               <p>
                 Deeply interested in the application and user interaction of AI — especially how we design systems that feel intuitive and actually get used.
