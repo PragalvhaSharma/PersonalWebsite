@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Prag Sharma",
-  description: "Portfolio for Prag Sharma covering AI products, agent systems, and shipped experiments.",
+  description: "Prag Sharma — tools, products, and side projects.",
 };
 
 export const viewport: Viewport = {

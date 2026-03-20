@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import type { SubstackPost } from "@/app/lib/substack";
 
 type SocialLink = {
   name: string;
@@ -36,25 +37,7 @@ const socialLinks: SocialLink[] = [
   { name: "GitHub", url: "https://github.com/PragalvhaSharma" },
   { name: "LinkedIn", url: "https://www.linkedin.com/in/pragalvha-sharma-389499204/" },
   { name: "X", url: "https://x.com/pragalvha" },
-  { name: "Substack", url: "https://substack.com/@pragalvha?utm_source=user-menu" },
-];
-
-const focusAreas = [
-  {
-    title: "Applied AI products",
-    description:
-      "I care about systems that move from prompt demos into tools people actually use in enterprise and consumer workflows.",
-  },
-  {
-    title: "Agent design",
-    description:
-      "My work keeps circling back to agent reliability, useful interaction patterns, and interfaces that help people trust the output.",
-  },
-  {
-    title: "Unusual execution",
-    description:
-      "Hackathons, competitions, fast prototypes, and weird side projects are how I pressure-test ideas before polishing them.",
-  },
+  { name: "Substack", url: "https://pragalvha.substack.com" },
 ];
 
 const projects: Project[] = [
@@ -261,7 +244,21 @@ function LinkPill({ link }: { link: ProjectLink }) {
   );
 }
 
-export default function PortfolioPage() {
+function formatBlogDate(value: string) {
+  const parsedDate = new Date(value);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return "Recent post";
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(parsedDate);
+}
+
+export default function PortfolioPage({ blogPosts = [] }: { blogPosts?: SubstackPost[] }) {
   return (
     <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
       <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/6 bg-[color:rgba(8,8,8,0.74)] backdrop-blur-xl">
@@ -270,7 +267,7 @@ export default function PortfolioPage() {
             PRAG
           </a>
           <div className="hidden items-center gap-8 md:flex">
-            {["Work", "Focus", "About", "Contact"].map((item) => (
+            {["Work", "Blogs", "About", "Contact"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -314,7 +311,7 @@ export default function PortfolioPage() {
             >
               <div className="max-w-3xl space-y-6">
                 <p className="max-w-2xl font-body text-2xl font-light leading-tight text-[var(--color-text)] sm:text-4xl">
-                  I build AI products, agent workflows, and sharp digital systems that feel useful the first time someone touches them.
+                  I like building cool stuff on the web — tools, products, side projects when the idea won&apos;t leave me alone.
                 </p>
                 <div className="flex flex-wrap items-center gap-4 pt-4">
                   <a
@@ -338,6 +335,14 @@ export default function PortfolioPage() {
                 <div>
                   <p className="font-label text-[10px] uppercase tracking-[0.28em] text-[var(--color-text-muted)]">
                     Based In
+                  </p>
+                  <p className="mt-2 font-headline text-2xl text-[var(--color-text-strong)]">
+                    London, ON
+                  </p>
+                </div>
+                <div>
+                  <p className="font-label text-[10px] uppercase tracking-[0.28em] text-[var(--color-text-muted)]">
+                    School
                   </p>
                   <p className="mt-2 font-headline text-2xl text-[var(--color-text-strong)]">
                     Western + Ivey
@@ -424,36 +429,77 @@ export default function PortfolioPage() {
           </div>
         </MotionSection>
 
-        <MotionSection id="focus" className="px-5 py-24 sm:px-8 md:py-28">
-          <div className="mx-auto max-w-5xl">
-            <div className="mb-14 space-y-4">
-              <span className="font-label text-[11px] uppercase tracking-[0.32em] text-[var(--color-text-muted)]">
-                02 / Current Focus
-              </span>
-              <h2 className="font-headline text-5xl font-bold tracking-[-0.06em] text-[var(--color-text-strong)] md:text-6xl">
-                The work behind the work.
-              </h2>
+        <MotionSection id="blogs" className="px-5 py-24 sm:px-8 md:py-28">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-14 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+              <div className="space-y-4">
+                <span className="font-label text-[11px] uppercase tracking-[0.32em] text-[var(--color-text-muted)]">
+                  02 / Blogs
+                </span>
+                <h2 className="font-headline text-5xl font-bold tracking-[-0.06em] text-[var(--color-text-strong)] md:text-6xl">
+                  Recent writing.
+                </h2>
+                <p className="max-w-2xl font-body text-sm leading-7 text-[var(--color-text)] sm:text-base">
+                  Essays, notes, and half-formed ideas that were worth publishing anyway.
+                </p>
+              </div>
+              <a
+                href={socialLinks[3].url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-label text-[11px] uppercase tracking-[0.28em] text-[var(--color-accent)] transition-opacity hover:opacity-80"
+              >
+                Visit Substack
+              </a>
             </div>
-            <div className="grid gap-6 md:grid-cols-3">
-              {focusAreas.map((item, index) => (
-                <motion.article
-                  key={item.title}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-100px" }}
-                  variants={fadeUp}
-                  transition={{ delay: index * 0.08 }}
-                  className="rounded-[24px] border border-white/8 bg-white/4 p-8 backdrop-blur-sm"
+            {blogPosts.length > 0 ? (
+              <div className="grid gap-6 md:grid-cols-3">
+                {blogPosts.map((post, index) => (
+                  <motion.a
+                    key={post.url}
+                    href={post.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    variants={fadeUp}
+                    transition={{ delay: index * 0.08 }}
+                    className="group rounded-[24px] border border-white/8 bg-white/4 p-8 backdrop-blur-sm transition-colors hover:border-[var(--color-accent)]/40 hover:bg-white/6"
+                  >
+                    <p className="font-label text-[10px] uppercase tracking-[0.28em] text-[var(--color-accent)]">
+                      {formatBlogDate(post.publishedAt)}
+                    </p>
+                    <p className="mt-5 font-headline text-2xl font-semibold tracking-[-0.04em] text-[var(--color-text-strong)] transition-colors group-hover:text-[var(--color-accent)]">
+                      {post.title}
+                    </p>
+                    <p className="mt-5 font-body text-sm leading-7 text-[var(--color-text)]">
+                      {post.excerpt}
+                    </p>
+                    <p className="mt-8 font-label text-[11px] uppercase tracking-[0.28em] text-[var(--color-text-muted)] transition-colors group-hover:text-[var(--color-text-strong)]">
+                      Read post
+                    </p>
+                  </motion.a>
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-[24px] border border-white/8 bg-white/4 p-8 backdrop-blur-sm">
+                <p className="font-headline text-2xl font-semibold tracking-[-0.04em] text-[var(--color-text-strong)]">
+                  Substack posts will show up here.
+                </p>
+                <p className="mt-5 max-w-2xl font-body text-sm leading-7 text-[var(--color-text)]">
+                  The site could not load the feed during build, so the fallback is a direct link to the publication.
+                </p>
+                <a
+                  href={socialLinks[3].url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-8 inline-flex rounded-full border border-white/10 px-6 py-3 font-label text-[11px] uppercase tracking-[0.28em] text-[var(--color-text-strong)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
                 >
-                  <p className="font-headline text-2xl font-semibold tracking-[-0.04em] text-[var(--color-text-strong)]">
-                    {item.title}
-                  </p>
-                  <p className="mt-5 font-body text-sm leading-7 text-[var(--color-text)]">
-                    {item.description}
-                  </p>
-                </motion.article>
-              ))}
-            </div>
+                  Open Substack
+                </a>
+              </div>
+            )}
           </div>
         </MotionSection>
 
@@ -482,21 +528,12 @@ export default function PortfolioPage() {
                 03 / About
               </span>
               <h2 className="font-headline text-4xl font-bold leading-tight tracking-[-0.06em] text-[var(--color-text-strong)] md:text-6xl">
-                CS at Western.
-                <br />
-                Business at Ivey.
-                <br />
-                Product instincts around AI.
+                I like cool stuff.
               </h2>
               <div className="space-y-5 font-body text-base leading-8 text-[var(--color-text)]">
+                <p>I try my best to be useful.</p>
                 <p>
-                  I previously co-founded Blanc AI, where we built quoting workflows for contractors and pushed agentic systems into practical business operations.
-                </p>
-                <p>
-                  I have also built ERP generators, monitoring layers for LLM systems, text-to-SQL agents, and search products that aim to feel straightforward instead of overloaded.
-                </p>
-                <p>
-                  I keep coming back to the same question: how do we make AI systems intuitive enough that people trust them and useful enough that they keep returning?
+                  I&apos;ve tinkered with internal tools, search, data-ish side quests, and whatever else sounded fun or useful. If it&apos;s a neat problem or a clean interface, I&apos;m probably interested.
                 </p>
               </div>
             </div>
@@ -514,7 +551,7 @@ export default function PortfolioPage() {
               vibe.
             </h2>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-8 text-[var(--color-text)]">
-              If you are building something ambitious in AI, product, or infrastructure, send me a note or find me where I already write and ship.
+              If you&apos;re working on something interesting, send a note or find me where I already write and ship.
             </p>
             <div className="mt-12 flex flex-wrap justify-center gap-4">
               {socialLinks.map((link) => (
@@ -539,7 +576,7 @@ export default function PortfolioPage() {
             Prag
           </p>
           <p className="font-label text-[10px] uppercase tracking-[0.28em] text-[var(--color-text-muted)]">
-            AI products, agent systems, and sharp interfaces.
+            Tools, products, side projects.
           </p>
         </div>
       </footer>
