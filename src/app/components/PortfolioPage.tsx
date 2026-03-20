@@ -509,7 +509,9 @@ export default function PortfolioPage() {
               04 / Contact
             </span>
             <h2 className="mt-6 font-headline text-6xl font-black tracking-[-0.09em] text-[var(--color-text-strong)] md:text-8xl">
-              Let&apos;s build.
+              Let&apos;s{" "}
+              <span className="line-through opacity-45 decoration-current">build</span>{" "}
+              vibe.
             </h2>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg leading-8 text-[var(--color-text)]">
               If you are building something ambitious in AI, product, or infrastructure, send me a note or find me where I already write and ship.
@@ -534,7 +536,7 @@ export default function PortfolioPage() {
       <footer className="border-t border-white/6 px-5 py-8 sm:px-8">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <p className="font-headline text-lg font-bold tracking-[-0.05em] text-[var(--color-text-strong)]">
-            PRAG SHARMA
+            Prag
           </p>
           <p className="font-label text-[10px] uppercase tracking-[0.28em] text-[var(--color-text-muted)]">
             AI products, agent systems, and sharp interfaces.
