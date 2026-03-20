@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import type { SubstackPost } from "@/app/lib/substack";
+import type { SubstackPost } from "@/app/lib/substack-types";
 
 type SocialLink = {
   name: string;

@@ -1,12 +1,7 @@
-const SUBSTACK_FEED_URL = "https://pragalvha.substack.com/feed";
-const MAX_POSTS = 3;
+import type { SubstackPost } from "./substack-types";
 
-export type SubstackPost = {
-  title: string;
-  url: string;
-  publishedAt: string;
-  excerpt: string;
-};
+const SUBSTACK_FEED_URL = "https://pragalvha.substack.com/feed";
+const MAX_POSTS = 6;
 
 function escapeRegex(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
