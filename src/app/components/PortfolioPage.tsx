@@ -509,7 +509,7 @@ export default function PortfolioPage({ blogPosts = [] }: { blogPosts?: Substack
               <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] border border-white/10 bg-[var(--color-panel)]">
                 <Image
                   src="/Profile.png"
-                  alt="Portrait of Prag Sharma"
+                  alt="Portrait of Prag"
                   fill
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 60vw, 100vw"
                   className="object-cover grayscale-[0.1] contrast-110"
