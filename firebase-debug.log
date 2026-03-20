@@ -1,0 +1,45 @@
+[debug] [2026-03-20T04:23:19.888Z] ----------------------------------------------------------------------
+[debug] [2026-03-20T04:23:19.890Z] Command:       /opt/homebrew/Cellar/node/25.2.1/bin/node /Users/pragalvhasharma/.npm-global/bin/firebase deploy
+[debug] [2026-03-20T04:23:19.890Z] CLI Version:   15.11.0
+[debug] [2026-03-20T04:23:19.890Z] Platform:      darwin
+[debug] [2026-03-20T04:23:19.890Z] Node Version:  v25.2.1
+[debug] [2026-03-20T04:23:19.890Z] Time:          Fri Mar 20 2026 00:23:19 GMT-0400 (Eastern Daylight Time)
+[debug] [2026-03-20T04:23:19.890Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-20T04:23:21.117Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-20T04:23:21.117Z] > authorizing via signed-in user (pragalvhasharma@gmail.com)
+[debug] [2026-03-20T04:23:21.118Z] [iam] checking project personalwebsite-136b9 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-03-20T04:23:21.118Z] Checked if tokens are valid: true, expires at: 1773983468900
+[debug] [2026-03-20T04:23:21.118Z] Checked if tokens are valid: true, expires at: 1773983468900
+[debug] [2026-03-20T04:23:21.119Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/personalwebsite-136b9:testIamPermissions [none]
+[debug] [2026-03-20T04:23:21.119Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/personalwebsite-136b9:testIamPermissions  x-goog-user-project=personalwebsite-136b9
+[debug] [2026-03-20T04:23:21.119Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/personalwebsite-136b9:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-03-20T04:23:21.427Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/personalwebsite-136b9:testIamPermissions 200
+[debug] [2026-03-20T04:23:21.428Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/personalwebsite-136b9:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-03-20T04:23:21.428Z] Checked if tokens are valid: true, expires at: 1773983468900
+[debug] [2026-03-20T04:23:21.428Z] Checked if tokens are valid: true, expires at: 1773983468900
+[debug] [2026-03-20T04:23:21.429Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/personalwebsite-136b9 [none]
+[debug] [2026-03-20T04:23:21.814Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/personalwebsite-136b9 200
+[debug] [2026-03-20T04:23:21.814Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/personalwebsite-136b9 {"projectId":"personalwebsite-136b9","projectNumber":"17808339579","displayName":"PersonalWebsite","name":"projects/personalwebsite-136b9","resources":{"hostingSite":"personalwebsite-136b9"},"state":"ACTIVE","etag":"1_e2f1ce95-d6be-4441-bf2b-99cffb6db32d"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 15.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2026-03-20T04:23:26.035Z] Checked if tokens are valid: true, expires at: 1773983468900
+[debug] [2026-03-20T04:23:26.035Z] Checked if tokens are valid: true, expires at: 1773983468900
+[debug] [2026-03-20T04:23:26.035Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/personalwebsite-136b9/sites/personalwebsite-136b9 [none]
+[debug] [2026-03-20T04:23:26.645Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/personalwebsite-136b9/sites/personalwebsite-136b9 200
+[debug] [2026-03-20T04:23:26.645Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/personalwebsite-136b9/sites/personalwebsite-136b9 {"name":"projects/personalwebsite-136b9/sites/personalwebsite-136b9","defaultUrl":"https://personalwebsite-136b9.web.app","appId":"1:17808339579:web:9d56bd63d9f09e96af68de","type":"DEFAULT_SITE"}
+[info]    ▲ Next.js 15.2.2
+
+[info] 
+
+[info]    Creating an optimized production build ...
+

@@ -225,19 +225,18 @@ function MotionSection({
 }
 
 function LinkPill({ link }: { link: ProjectLink }) {
-  const variantClassName =
-    link.variant === "primary"
-      ? "bg-[var(--color-text-strong)] text-[var(--color-background)] hover:bg-[var(--color-accent)]"
-      : link.variant === "accent"
-        ? "bg-[var(--color-accent)]/14 text-[var(--color-accent)] hover:bg-[var(--color-accent)]/24"
-        : "bg-white/6 text-[var(--color-text)] hover:bg-white/12";
+  const isPrimary = link.variant === "primary";
+  const variantClassName = isPrimary
+    ? "bg-[var(--color-text-strong)] hover:bg-[var(--color-accent)]"
+    : "border-white/12 hover:border-white/30 hover:text-[var(--color-text-strong)]";
 
   return (
     <a
       href={link.url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`rounded-full border border-white/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] transition-colors ${variantClassName}`}
+      style={isPrimary ? { color: "#000000" } : undefined}
+      className={`rounded-full border px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] transition-colors ${isPrimary ? "" : "text-[var(--color-text)]"} ${variantClassName}`}
     >
       {link.label}
     </a>
@@ -316,7 +315,8 @@ export default function PortfolioPage({ blogPosts = [] }: { blogPosts?: Substack
                 <div className="flex flex-wrap items-center gap-4 pt-4">
                   <a
                     href="#work"
-                    className="rounded-full bg-[var(--color-text-strong)] px-6 py-3 font-label text-[11px] uppercase tracking-[0.3em] text-[var(--color-background)] transition-colors hover:bg-[var(--color-accent)]"
+                    style={{ color: "#000000" }}
+                    className="rounded-full bg-[var(--color-text-strong)] px-6 py-3 font-label text-[11px] uppercase tracking-[0.3em] transition-colors hover:bg-[var(--color-accent)]"
                   >
                     View Work
                   </a>
