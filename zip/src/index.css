@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0e0e0e;
+  --color-surface-container-lowest: #000000;
+  --color-surface-container-low: #220d10;
+  --color-surface-container: #2b1216;
+  --color-surface-container-highest: #3d1b21;
+  --color-on-surface-variant: #d29da4;
+  --color-outline: #98696f;
+  --color-outline-variant: #653d42;
+  --color-tertiary: #7efffc;
+  
+  --font-headline: 'Manrope', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-label: 'Space Grotesk', sans-serif;
+}
+
+body {
+  background-color: var(--color-background);
+  color: #ffdde0;
+  overflow-x: hidden;
+}

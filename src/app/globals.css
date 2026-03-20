@@ -1,61 +1,110 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #09090a;
+  --foreground: #d6fff1;
+  --color-background: #09090a;
+  --color-panel: #07110d;
+  --color-panel-soft: #0d1914;
+  --color-text: #9fd4c0;
+  --color-text-strong: #effff8;
+  --color-text-muted: #5f8b78;
+  --color-accent: #3cf2b2;
+  --color-outline: rgba(255, 255, 255, 0.08);
+  --font-headline-stack: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-body-stack: "Avenir", "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-label-stack: "IBM Plex Sans", "Arial Narrow", "Segoe UI", sans-serif;
+  --font-mono-stack: "SFMono-Regular", "Menlo", "Monaco", monospace;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body-stack);
+  --font-mono: var(--font-mono-stack);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(60, 242, 178, 0.12), transparent 28%),
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.08), transparent 24%),
+    linear-gradient(180deg, #050706 0%, #08100c 44%, #050706 100%);
   color: var(--foreground);
-  font-family: var(--font-sans, Arial, Helvetica, sans-serif);
+  font-family: var(--font-body-stack);
+  overflow-x: hidden;
 }
 
-/* Loading screen styles */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+::selection {
+  background: var(--color-accent);
+  color: #09090a;
 }
 
-.cursor-blink {
-  animation: blink 1s infinite;
+body {
+  margin: 0;
 }
 
-/* Subtle animations */
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.9; transform: scale(0.995); }
+.font-headline {
+  font-family: var(--font-headline-stack);
 }
 
-.pulse-effect {
-  animation: pulse 3s ease-in-out infinite;
+.font-body {
+  font-family: var(--font-body-stack);
 }
 
-/* Tailwind doesn't have opacity-15 by default */
-.opacity-15 {
-  opacity: 0.15;
+.font-label {
+  font-family: var(--font-label-stack);
 }
 
-/* Delayed fade-in animation for profile picture */
-@keyframes fadeInDelayed {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.animate-fade-in-delayed {
-  animation: fadeInDelayed 0.8s ease-out 0.5s forwards;
+.hero-shell {
+  position: relative;
+}
+
+.hero-glow {
+  pointer-events: none;
+  position: absolute;
+  height: 32rem;
+  width: 32rem;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.55;
+}
+
+.hero-glow-left {
+  left: -8rem;
+  top: 4rem;
+  background: radial-gradient(circle, rgba(60, 242, 178, 0.22), transparent 68%);
+}
+
+.hero-glow-right {
+  right: -9rem;
+  top: 11rem;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.18), transparent 70%);
+}
+
+.section-band {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0.01)),
+    var(--color-panel);
+}
+
+@media (max-width: 768px) {
+  .hero-glow {
+    height: 20rem;
+    width: 20rem;
+    opacity: 0.4;
+  }
 }
