@@ -88,19 +88,6 @@ const projects: Project[] = [
     staggerClassName: "md:-mt-10",
   },
   {
-    title: "M3Drop-PY",
-    description:
-      "A Python implementation of the M3Drop package, tied to research work that pushes an older tool into a more usable modern workflow.",
-    imageUrl: "/M3Drop.png",
-    eyebrow: "Research / Python",
-    links: [
-      { label: "GitHub", url: "https://github.com/PragalvhaSharma/M3Drop-PY", variant: "primary" },
-      { label: "Paper", url: "https://academic.oup.com/bioinformatics/article/35/16/2865/5258099", variant: "accent" },
-      { label: "PyPI", url: "https://pypi.org/project/M3Drop/" },
-    ],
-    staggerClassName: "md:mt-20",
-  },
-  {
     title: "Catholic School Finder",
     description:
       "A location-based search experience for finding Catholic universities nearby without digging through scattered school lists.",
@@ -114,6 +101,19 @@ const projects: Project[] = [
         variant: "accent",
       },
     ],
+  },
+  {
+    title: "M3Drop-PY",
+    description:
+      "A Python implementation of the M3Drop package, tied to research work that pushes an older tool into a more usable modern workflow.",
+    imageUrl: "/M3Drop.png",
+    eyebrow: "Research / Python",
+    links: [
+      { label: "GitHub", url: "https://github.com/PragalvhaSharma/M3Drop-PY", variant: "primary" },
+      { label: "Paper", url: "https://academic.oup.com/bioinformatics/article/35/16/2865/5258099", variant: "accent" },
+      { label: "PyPI", url: "https://pypi.org/project/M3Drop/" },
+    ],
+    staggerClassName: "md:mt-20",
   },
   {
     title: "LLM Monitoring",
