@@ -1,7 +1,13 @@
 import type { SubstackPost } from "./substack-types";
+import fallbackPosts from "./substack-fallback.json";
 
 const SUBSTACK_FEED_URL = "https://pragalvha.substack.com/feed";
 const MAX_POSTS = 6;
+const SUBSTACK_REVALIDATE_SECONDS = 60 * 60;
+const SUBSTACK_REQUEST_HEADERS = {
+  Accept: "application/rss+xml, application/xml, text/xml",
+  "User-Agent": "PragPersonalWebsite/1.0 (+https://pragalvha.substack.com)",
+};
 
 function escapeRegex(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -86,11 +92,16 @@ function parsePost(item: string): SubstackPost | null {
   };
 }
 
+function getFallbackPosts() {
+  return (fallbackPosts as SubstackPost[]).slice(0, MAX_POSTS);
+}
+
 export async function getRecentSubstackPosts() {
   try {
     const response = await fetch(SUBSTACK_FEED_URL, {
-      headers: {
-        Accept: "application/rss+xml, application/xml, text/xml",
+      headers: SUBSTACK_REQUEST_HEADERS,
+      next: {
+        revalidate: SUBSTACK_REVALIDATE_SECONDS,
       },
     });
 
@@ -104,9 +115,13 @@ export async function getRecentSubstackPosts() {
       .filter((post): post is SubstackPost => post !== null)
       .slice(0, MAX_POSTS);
 
+    if (posts.length === 0) {
+      throw new Error("Substack feed returned no posts");
+    }
+
     return posts;
   } catch (error) {
     console.error("Failed to fetch Substack posts", error);
-    return [];
+    return getFallbackPosts();
   }
 }

@@ -21,7 +21,8 @@ type Project = {
   imageUrl: string;
   eyebrow: string;
   links: ProjectLink[];
-  staggerClassName?: string;
+  cardClassName?: string;
+  imageClassName?: string;
 };
 
 const fadeUp = {
@@ -65,7 +66,7 @@ const projects: Project[] = [
         variant: "primary",
       },
     ],
-    staggerClassName: "md:mt-24",
+    cardClassName: "md:col-span-5",
   },
   {
     title: "NASA/NSS Space Settlement Contest",
@@ -85,7 +86,7 @@ const projects: Project[] = [
         url: "https://www.bramptonguardian.com/news/2-brampton-student-teams-win-prestigious-science-award/article_159bb547-7aaf-517c-ad5d-ccc43bfbcebe.html",
       },
     ],
-    staggerClassName: "md:-mt-10",
+    cardClassName: "md:col-span-7",
   },
   {
     title: "Catholic School Finder",
@@ -101,6 +102,7 @@ const projects: Project[] = [
         variant: "accent",
       },
     ],
+    cardClassName: "md:col-span-4",
   },
   {
     title: "M3Drop-PY",
@@ -113,7 +115,7 @@ const projects: Project[] = [
       { label: "Paper", url: "https://academic.oup.com/bioinformatics/article/35/16/2865/5258099", variant: "accent" },
       { label: "PyPI", url: "https://pypi.org/project/M3Drop/" },
     ],
-    staggerClassName: "md:mt-20",
+    cardClassName: "md:col-span-4",
   },
   {
     title: "LLM Monitoring",
@@ -130,7 +132,7 @@ const projects: Project[] = [
         variant: "accent",
       },
     ],
-    staggerClassName: "md:-mt-12",
+    cardClassName: "md:col-span-4",
   },
   {
     title: "Blanc AI ERP Generator",
@@ -145,7 +147,7 @@ const projects: Project[] = [
         variant: "primary",
       },
     ],
-    staggerClassName: "md:mt-16",
+    cardClassName: "md:col-span-6",
   },
   {
     title: "Blanc AI Quoting Tool",
@@ -162,19 +164,7 @@ const projects: Project[] = [
         variant: "accent",
       },
     ],
-    staggerClassName: "md:-mt-14",
-  },
-  {
-    title: "Ivey Contribution Bingo Leaderboard",
-    description:
-      "A live leaderboard built during accounting class to track contribution in the Ivey community, more useful than the joke premise suggests.",
-    imageUrl: "/ivey.jpeg",
-    eyebrow: "Experiment / Community",
-    links: [
-      { label: "Live site", url: "https://section6.vercel.app/", variant: "primary" },
-      { label: "GitHub", url: "https://github.com/PragalvhaSharma/IveyContributionBingo", variant: "secondary" },
-    ],
-    staggerClassName: "md:mt-12",
+    cardClassName: "md:col-span-6",
   },
   {
     title: "Text to SQL Agent",
@@ -185,7 +175,7 @@ const projects: Project[] = [
     links: [
       { label: "GitHub", url: "https://github.com/PragalvhaSharma/SQL-Agent", variant: "primary" },
     ],
-    staggerClassName: "md:-mt-10",
+    cardClassName: "md:col-span-7",
   },
   {
     title: "Cloudflare AI Chatbot",
@@ -197,7 +187,7 @@ const projects: Project[] = [
       { label: "Deployment", url: "https://agents-starter.pragalvhasharma.workers.dev/", variant: "primary" },
       { label: "GitHub", url: "https://github.com/PragalvhaSharma/cf_ai_PragalvhaSharma", variant: "secondary" },
     ],
-    staggerClassName: "md:mt-14",
+    cardClassName: "md:col-span-12",
   },
 ];
 
@@ -225,21 +215,139 @@ function MotionSection({
 }
 
 function LinkPill({ link }: { link: ProjectLink }) {
-  const isPrimary = link.variant === "primary";
-  const variantClassName = isPrimary
-    ? "bg-[var(--color-text-strong)] hover:bg-[var(--color-accent)]"
-    : "border-white/12 hover:border-white/30 hover:text-[var(--color-text-strong)]";
+  const variantClassName =
+    link.variant === "primary"
+      ? "border-transparent bg-[var(--color-text-strong)] text-black hover:bg-[var(--color-accent)]"
+      : link.variant === "accent"
+        ? "border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10 text-[var(--color-accent)] hover:border-[var(--color-accent)]/55 hover:bg-[var(--color-accent)]/18"
+        : "border-white/12 bg-white/6 text-[var(--color-text-strong)] hover:border-white/28 hover:bg-white/10";
 
   return (
     <a
       href={link.url}
       target="_blank"
       rel="noopener noreferrer"
-      style={isPrimary ? { color: "#000000" } : undefined}
-      className={`rounded-full border px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] transition-colors ${isPrimary ? "" : "text-[var(--color-text)]"} ${variantClassName}`}
+      className={`rounded-full border px-3 py-1.5 font-label text-[10px] uppercase tracking-[0.22em] backdrop-blur-sm transition-colors ${variantClassName}`}
     >
       {link.label}
     </a>
+  );
+}
+
+function FeaturedProjectCard({ project }: { project: Project }) {
+  return (
+    <motion.article
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={fadeUp}
+      className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-[linear-gradient(135deg,rgba(11,18,15,0.98),rgba(4,8,6,0.96))] p-4 shadow-[0_40px_140px_rgba(0,0,0,0.42)]"
+    >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(60,242,178,0.13),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.06),transparent_30%)]" />
+      <div className="relative grid gap-4 lg:grid-cols-[minmax(0,1.25fr)_minmax(320px,0.75fr)]">
+        <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-black/40 aspect-[16/10] lg:min-h-[460px]">
+          <Image
+            src={project.imageUrl}
+            alt={project.title}
+            fill
+            sizes="(min-width: 1024px) 58vw, 100vw"
+            className={`object-cover transition-transform duration-700 group-hover:scale-[1.04] ${project.imageClassName ?? ""}`}
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-white/10" />
+        </div>
+
+        <div className="relative flex h-full flex-col justify-between rounded-[28px] border border-white/10 bg-[color:rgba(7,12,10,0.84)] p-6 backdrop-blur-xl sm:p-8">
+          <div className="space-y-6">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-full border border-[var(--color-accent)]/35 bg-[var(--color-accent)]/10 px-3 py-1 font-label text-[10px] uppercase tracking-[0.28em] text-[var(--color-accent)]">
+                  Featured Build
+                </span>
+                <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-label text-[10px] uppercase tracking-[0.28em] text-[var(--color-text-muted)]">
+                  {project.eyebrow}
+                </span>
+              </div>
+              <span className="font-label text-[10px] uppercase tracking-[0.32em] text-white/40">
+                #01
+              </span>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="max-w-sm font-headline text-4xl font-bold tracking-[-0.06em] text-[var(--color-text-strong)] sm:text-5xl">
+                {project.title}
+              </h3>
+              <p className="max-w-md font-body text-sm leading-7 text-[var(--color-text)] sm:text-base">
+                {project.description}
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-5 pt-10">
+            <p className="max-w-sm font-label text-[10px] uppercase tracking-[0.28em] text-[var(--color-text-muted)]">
+              A recent high-signal build with a demo, a result, and clear product intent.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {project.links.map((link) => (
+                <LinkPill key={`${project.title}-${link.label}`} link={link} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+function GridProjectCard({ project, index }: { project: Project; index: number }) {
+  return (
+    <motion.article
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={fadeUp}
+      transition={{ delay: index * 0.04 }}
+      className={`group relative isolate overflow-hidden rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(10,17,14,0.96),rgba(4,8,6,0.98))] shadow-[0_30px_80px_rgba(0,0,0,0.28)] transition-colors hover:border-[var(--color-accent)]/35 ${project.cardClassName ?? "md:col-span-6"}`}
+    >
+      <div className="absolute inset-0">
+        <Image
+          src={project.imageUrl}
+          alt={project.title}
+          fill
+          sizes="(min-width: 1024px) 32vw, (min-width: 768px) 50vw, 100vw"
+          className={`object-cover transition-transform duration-700 group-hover:scale-[1.06] ${project.imageClassName ?? ""}`}
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/18 via-black/35 to-black/88" />
+      <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_top_right,rgba(60,242,178,0.18),transparent_36%)]" />
+
+      <div className="relative flex h-full min-h-[360px] flex-col justify-between p-5 sm:p-6">
+        <div className="flex items-start justify-between gap-4">
+          <span className="rounded-full border border-white/12 bg-black/20 px-3 py-1 font-label text-[10px] uppercase tracking-[0.28em] text-[var(--color-accent)] backdrop-blur-sm">
+            {project.eyebrow}
+          </span>
+          <span className="font-label text-[10px] uppercase tracking-[0.32em] text-white/38">
+            #{String(index + 2).padStart(2, "0")}
+          </span>
+        </div>
+
+        <div className="space-y-4">
+          <div className="space-y-3">
+            <h3 className="max-w-xl font-headline text-3xl font-bold tracking-[-0.05em] text-[var(--color-text-strong)] sm:text-[2rem]">
+              {project.title}
+            </h3>
+            <p className="max-w-xl font-body text-sm leading-7 text-white/72 sm:text-base">
+              {project.description}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2 pt-1">
+            {project.links.map((link) => (
+              <LinkPill key={`${project.title}-${link.label}`} link={link} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.article>
   );
 }
 
@@ -258,6 +366,8 @@ function formatBlogDate(value: string) {
 }
 
 export default function PortfolioPage({ blogPosts = [] }: { blogPosts?: SubstackPost[] }) {
+  const [featuredProject, ...secondaryProjects] = projects;
+
   return (
     <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
       <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/6 bg-[color:rgba(8,8,8,0.74)] backdrop-blur-xl">
@@ -369,61 +479,42 @@ export default function PortfolioPage({ blogPosts = [] }: { blogPosts?: Substack
           </div>
         </section>
 
-        <MotionSection id="work" className="section-band px-5 py-24 sm:px-8 md:py-28">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-16 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-              <div className="space-y-4">
-                <span className="font-label text-[11px] uppercase tracking-[0.32em] text-[var(--color-text-muted)]">
-                  01 / Selected Work
-                </span>
-                <h2 className="font-headline text-5xl font-bold tracking-[-0.06em] text-[var(--color-text-strong)] md:text-6xl">
-                  Built fast.
-                  <br />
-                  Shipped with intent.
-                </h2>
-              </div>
+        <MotionSection id="work" className="section-band relative overflow-hidden px-5 py-24 sm:px-8 md:py-28">
+          <div className="pointer-events-none absolute inset-0 opacity-70">
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:linear-gradient(180deg,white,transparent_92%)]" />
+            <div className="absolute left-[-6rem] top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(60,242,178,0.12),transparent_70%)] blur-3xl" />
+            <div className="absolute right-[-8rem] top-48 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.08),transparent_72%)] blur-3xl" />
+          </div>
+
+          <div className="relative mx-auto max-w-7xl">
+            <div className="mb-14 space-y-4">
+              <span className="font-label text-[11px] uppercase tracking-[0.32em] text-[var(--color-text-muted)]">
+                01 / Selected Work
+              </span>
+              <h2 className="font-headline text-5xl font-bold tracking-[-0.06em] text-[var(--color-text-strong)] md:text-6xl">
+                Built fast.
+                <br />
+                Shipped with intent.
+              </h2>
+              <p className="max-w-2xl font-body text-sm leading-7 text-[var(--color-text)] sm:text-base">
+                A mix of agent tooling, research builds, and product experiments. The strongest work gets more room; the rest still reads like a real archive, not a list of thumbnails.
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 gap-x-10 gap-y-16 md:grid-cols-2">
-              {projects.map((project, index) => (
-                <motion.article
-                  key={project.title}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-100px" }}
-                  variants={fadeUp}
-                  transition={{ delay: index * 0.03 }}
-                  className={`group space-y-6 ${project.staggerClassName ?? ""}`}
-                >
-                  <div className="relative overflow-hidden rounded-[28px] border border-white/8 bg-black/30 shadow-[0_30px_100px_rgba(0,0,0,0.3)]">
-                    <div className="relative aspect-[4/3]">
-                      <Image
-                        src={project.imageUrl}
-                        alt={project.title}
-                        fill
-                        sizes="(min-width: 768px) 50vw, 100vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-[1.035]"
-                        priority={index < 2}
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <span className="font-label text-[10px] uppercase tracking-[0.28em] text-[var(--color-accent)]">
-                      {project.eyebrow}
-                    </span>
-                    <h3 className="font-headline text-3xl font-bold tracking-[-0.05em] text-[var(--color-text-strong)] sm:text-4xl">
-                      {project.title}
-                    </h3>
-                    <p className="max-w-xl font-body text-sm leading-7 text-[var(--color-text)] sm:text-base">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      {project.links.map((link) => (
-                        <LinkPill key={`${project.title}-${link.label}`} link={link} />
-                      ))}
-                    </div>
-                  </div>
-                </motion.article>
+            {featuredProject ? <FeaturedProjectCard project={featuredProject} /> : null}
+
+            <div className="mb-8 mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="font-label text-[10px] uppercase tracking-[0.32em] text-[var(--color-accent)]">
+                More launches
+              </p>
+              <p className="max-w-2xl font-body text-sm leading-7 text-[var(--color-text-muted)]">
+                Everything below shipped as code, a live deployment, a demo, or some combination of the three.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-12">
+              {secondaryProjects.map((project, index) => (
+                <GridProjectCard key={project.title} project={project} index={index} />
               ))}
             </div>
           </div>
