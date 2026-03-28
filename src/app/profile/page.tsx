@@ -1,8 +1,7 @@
 import PortfolioPage from "../components/PortfolioPage";
-import { getRecentSubstackPosts } from "../lib/substack";
+import fallbackPosts from "../lib/substack-fallback.json";
+import type { SubstackPost } from "../lib/substack-types";
 
-export default async function ProfilePage() {
-  const blogPosts = await getRecentSubstackPosts();
-
-  return <PortfolioPage blogPosts={blogPosts} />;
+export default function ProfilePage() {
+  return <PortfolioPage blogPosts={fallbackPosts as SubstackPost[]} />;
 }

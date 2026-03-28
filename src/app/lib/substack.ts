@@ -98,12 +98,18 @@ function getFallbackPosts() {
 
 export async function getRecentSubstackPosts() {
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
     const response = await fetch(SUBSTACK_FEED_URL, {
       headers: SUBSTACK_REQUEST_HEADERS,
+      signal: controller.signal,
       next: {
         revalidate: SUBSTACK_REVALIDATE_SECONDS,
       },
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`Substack feed request failed with ${response.status}`);
