@@ -23,14 +23,11 @@ interface ProjectCardProps {
 
 function ProjectCard({ project, index }: ProjectCardProps) {
   const isDemo = ["Self Evolving MCP Server", "Blanc AI Quoting Tool", "Blanc AI ERP Generator"].includes(project.title);
-  const isCloudflareChatbot = project.title === "Cloudflare AI Chatbot";
 
   // Determine button label for main link
   let mainButtonLabel = "GitHub";
   if (isDemo) {
     mainButtonLabel = "Demo";
-  } else if (isCloudflareChatbot) {
-    mainButtonLabel = "Deployment";
   } else if (project.url && !project.url.includes("github.com")) {
     mainButtonLabel = "View";
   }
@@ -77,9 +74,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
             className={`px-3 py-1 rounded-full text-xs font-semibold shadow-md transition-colors ${
               isDemo
                 ? "bg-purple-600 hover:bg-purple-500 text-white"
-                : isCloudflareChatbot
-                  ? "bg-blue-600 hover:bg-blue-500 text-white"
-                  : "bg-gray-700 hover:bg-gray-600 text-white"
+                : "bg-gray-700 hover:bg-gray-600 text-white"
             }`}
           >
             {mainButtonLabel}
@@ -147,60 +142,6 @@ function ProjectCard({ project, index }: ProjectCardProps) {
                 Guardian
               </a>
             </div>
-          )}
-
-          {/* Extra buttons for LLM Monitoring */}
-          {project.title === "LLM Monitoring" && (
-            <>
-              <a
-                href="https://next-js-dashboard-pied-tau.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1 bg-blue-600 hover:bg-blue-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
-              >
-                Deployment
-              </a>
-              <a
-                href="https://www.loom.com/share/ceb7d97c76e84651beeaebaa69b74c90?sid=95bd9916-806e-4838-b5c1-d20578a6e7ec"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1 bg-purple-600 hover:bg-purple-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
-              >
-                Demo
-              </a>
-            </>
-          )}
-          
-          {/* Extra buttons for M3Drop-PY */}
-          {project.title === "M3Drop-PY" && (
-            <>
-              {!project.url.includes("github.com") && (
-                <a
-                  href="https://github.com/PragalvhaSharma/M3Drop-PY"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
-                >
-                  GitHub
-                </a>
-              )}
-              <a
-                href="https://academic.oup.com/bioinformatics/article/35/16/2865/5258099"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
-              >
-                Research Paper
-              </a>
-              <a
-                href="https://pypi.org/project/M3Drop/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1 bg-orange-600 hover:bg-orange-500 rounded-full text-xs font-semibold text-white shadow-md transition-colors"
-              >
-                PyPI
-              </a>
-            </>
           )}
         </div>
       </div>

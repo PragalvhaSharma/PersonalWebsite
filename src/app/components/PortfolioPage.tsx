@@ -105,36 +105,6 @@ const projects: Project[] = [
     cardClassName: "md:col-span-4",
   },
   {
-    title: "M3Drop-PY",
-    description:
-      "A Python implementation of the M3Drop package, tied to research work that pushes an older tool into a more usable modern workflow.",
-    imageUrl: "/M3Drop.png",
-    eyebrow: "Research / Python",
-    links: [
-      { label: "GitHub", url: "https://github.com/PragalvhaSharma/M3Drop-PY", variant: "primary" },
-      { label: "Paper", url: "https://academic.oup.com/bioinformatics/article/35/16/2865/5258099", variant: "accent" },
-      { label: "PyPI", url: "https://pypi.org/project/M3Drop/" },
-    ],
-    cardClassName: "md:col-span-4",
-  },
-  {
-    title: "LLM Monitoring",
-    description:
-      "Monitoring and observability for AI agents, with ingest, metrics, and dashboards built around how real teams debug model behavior.",
-    imageUrl: "/LLmMonitoring.png",
-    eyebrow: "Observability / Platform",
-    links: [
-      { label: "GitHub", url: "https://github.com/PragalvhaSharma/LLMmonitoring", variant: "primary" },
-      { label: "Deployment", url: "https://next-js-dashboard-pied-tau.vercel.app/", variant: "secondary" },
-      {
-        label: "Demo",
-        url: "https://www.loom.com/share/ceb7d97c76e84651beeaebaa69b74c90?sid=95bd9916-806e-4838-b5c1-d20578a6e7ec",
-        variant: "accent",
-      },
-    ],
-    cardClassName: "md:col-span-4",
-  },
-  {
     title: "Blanc AI ERP Generator",
     description:
       "An agentic framework for generating custom enterprise software from a prompt, aimed at shrinking the gap from workflow to internal tool.",
@@ -165,29 +135,6 @@ const projects: Project[] = [
       },
     ],
     cardClassName: "md:col-span-6",
-  },
-  {
-    title: "Text to SQL Agent",
-    description:
-      "An AI agent that converts plain English into SQL for a Postgres database and was deployed for a real client workflow.",
-    imageUrl: "/TextToSql.png",
-    eyebrow: "Data / AI",
-    links: [
-      { label: "GitHub", url: "https://github.com/PragalvhaSharma/SQL-Agent", variant: "primary" },
-    ],
-    cardClassName: "md:col-span-7",
-  },
-  {
-    title: "Cloudflare AI Chatbot",
-    description:
-      "A lightweight chatbot with tool calling and context handling built on Cloudflare's Agents SDK using Llama 3.3 7B.",
-    imageUrl: "/cloudFlare.jpg",
-    eyebrow: "Edge / Conversational AI",
-    links: [
-      { label: "Deployment", url: "https://agents-starter.pragalvhasharma.workers.dev/", variant: "primary" },
-      { label: "GitHub", url: "https://github.com/PragalvhaSharma/cf_ai_PragalvhaSharma", variant: "secondary" },
-    ],
-    cardClassName: "md:col-span-12",
   },
 ];
 
