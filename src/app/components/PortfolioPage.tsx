@@ -136,6 +136,17 @@ const projects: Project[] = [
     ],
     cardClassName: "md:col-span-6",
   },
+  {
+    title: "Step Count Changer",
+    description:
+      "A native iOS app that writes custom step counts straight into Apple HealthKit. Built when my Ivey classmates ran a step competition and I wanted an excuse to play with Apple's SDK — and finish #1.",
+    imageUrl: "/stepcount.svg",
+    eyebrow: "iOS / HealthKit",
+    links: [
+      { label: "GitHub", url: "https://github.com/PragalvhaSharma/StepCountChanger", variant: "primary" },
+    ],
+    cardClassName: "md:col-span-6",
+  },
 ];
 
 function MotionSection({

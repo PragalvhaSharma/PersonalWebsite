@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Step Count Changer">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a1612"/>
+      <stop offset="55%" stop-color="#06100c"/>
+      <stop offset="100%" stop-color="#020604"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.78" cy="0.28" r="0.55">
+      <stop offset="0%" stop-color="#3CF2B2" stop-opacity="0.22"/>
+      <stop offset="60%" stop-color="#3CF2B2" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#3CF2B2" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#grid)"/>
+  <rect width="1200" height="800" fill="url(#glow)"/>
+
+  <!-- Apple Health activity ring -->
+  <g transform="translate(900 260)">
+    <circle r="170" fill="none" stroke="#3CF2B2" stroke-opacity="0.10" stroke-width="34"/>
+    <circle r="170" fill="none" stroke="#3CF2B2" stroke-width="34" stroke-linecap="round"
+            stroke-dasharray="980 1100" transform="rotate(-90)"/>
+    <circle r="120" fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="26"/>
+    <circle r="120" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="26" stroke-linecap="round"
+            stroke-dasharray="600 760" transform="rotate(-90)"/>
+  </g>
+
+  <!-- Footprints -->
+  <g fill="#3CF2B2" fill-opacity="0.85">
+    <g transform="translate(140 540)">
+      <ellipse cx="0" cy="0" rx="34" ry="56"/>
+      <circle cx="-26" cy="-72" r="13"/>
+      <circle cx="-6" cy="-86" r="11"/>
+      <circle cx="14" cy="-82" r="10"/>
+      <circle cx="30" cy="-66" r="9"/>
+    </g>
+    <g transform="translate(260 660) rotate(14)" fill-opacity="0.55">
+      <ellipse cx="0" cy="0" rx="34" ry="56"/>
+      <circle cx="-26" cy="-72" r="13"/>
+      <circle cx="-6" cy="-86" r="11"/>
+      <circle cx="14" cy="-82" r="10"/>
+      <circle cx="30" cy="-66" r="9"/>
+    </g>
+    <g transform="translate(380 540) rotate(-6)" fill-opacity="0.30">
+      <ellipse cx="0" cy="0" rx="34" ry="56"/>
+      <circle cx="-26" cy="-72" r="13"/>
+      <circle cx="-6" cy="-86" r="11"/>
+      <circle cx="14" cy="-82" r="10"/>
+      <circle cx="30" cy="-66" r="9"/>
+    </g>
+  </g>
+
+  <!-- Eyebrow label -->
+  <text x="120" y="180" font-family="ui-monospace, 'SF Mono', Menlo, monospace"
+        font-size="22" letter-spacing="6" fill="#3CF2B2" fill-opacity="0.85">
+    iOS · HEALTHKIT
+  </text>
+
+  <!-- Big counter -->
+  <text x="120" y="320" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif"
+        font-weight="800" font-size="140" letter-spacing="-6" fill="#ffffff">
+    999,999
+  </text>
+
+  <!-- Subtitle -->
+  <text x="124" y="380" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif"
+        font-weight="500" font-size="30" fill="#ffffff" fill-opacity="0.55">
+    steps · today
+  </text>
+</svg>
