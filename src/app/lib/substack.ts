@@ -2,7 +2,7 @@ import type { SubstackPost } from "./substack-types";
 import fallbackPosts from "./substack-fallback.json";
 
 const SUBSTACK_FEED_URL = "https://pragalvha.substack.com/feed";
-const MAX_POSTS = 6;
+const MAX_POSTS = 9;
 const SUBSTACK_REVALIDATE_SECONDS = 60 * 60;
 const SUBSTACK_REQUEST_HEADERS = {
   Accept: "application/rss+xml, application/xml, text/xml",
