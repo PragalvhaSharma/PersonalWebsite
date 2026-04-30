@@ -6,7 +6,7 @@ const path = require("path");
 
 const FEED_URL = "https://pragalvha.substack.com/feed";
 const FALLBACK_PATH = path.join(__dirname, "../src/app/lib/substack-fallback.json");
-const MAX_POSTS = 6;
+const MAX_POSTS = 9;
 const TIMEOUT_MS = 5000;
 
 function extractTagValue(source, tagName) {
