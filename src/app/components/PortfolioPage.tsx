@@ -89,6 +89,17 @@ const projects: Project[] = [
     cardClassName: "md:col-span-7",
   },
   {
+    title: "Brand Campaign Agent",
+    description:
+      "An agent built with Akshay that turns a brand into a full ad campaign — scripts the spots, casts HeyGen avatars to deliver them, and composes the final cuts in HyperFrames.",
+    imageUrl: "/brandAgent.png",
+    eyebrow: "Agents / Video",
+    links: [
+      { label: "Full run", url: "https://x.com/Pragalvha/status/2055341592307757329", variant: "primary" },
+    ],
+    cardClassName: "md:col-span-12",
+  },
+  {
     title: "Catholic School Finder",
     description:
       "A location-based search experience for finding Catholic universities nearby without digging through scattered school lists.",
