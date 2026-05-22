@@ -92,10 +92,15 @@ const projects: Project[] = [
     title: "Brand Campaign Agent",
     description:
       "An agent built with Akshay that turns a brand into a full ad campaign — scripts the spots, casts HeyGen avatars to deliver them, and composes the final cuts in HyperFrames.",
-    imageUrl: "/brandAgent.png",
+    imageUrl: "/brandAgent.svg",
     eyebrow: "Agents / Video",
     links: [
       { label: "Full run", url: "https://x.com/Pragalvha/status/2055341592307757329", variant: "primary" },
+      {
+        label: "Sample outputs",
+        url: "https://drive.google.com/drive/folders/1d5vtDn8Hf-ziLir2-fkXrRDPJ-UJHmCB?usp=sharing",
+        variant: "secondary",
+      },
     ],
     cardClassName: "md:col-span-12",
   },
