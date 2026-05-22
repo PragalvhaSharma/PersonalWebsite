@@ -292,7 +292,8 @@ function GridProjectCard({ project, index }: { project: Project; index: number }
           className={`object-cover transition-transform duration-700 group-hover:scale-[1.06] ${project.imageClassName ?? ""}`}
         />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/18 via-black/35 to-black/88" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/60 to-black/95" />
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/65 to-transparent" />
       <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_top_right,rgba(60,242,178,0.18),transparent_36%)]" />
 
       <div className="relative flex h-full min-h-[360px] flex-col justify-between p-5 sm:p-6">
@@ -307,10 +308,10 @@ function GridProjectCard({ project, index }: { project: Project; index: number }
 
         <div className="space-y-4">
           <div className="space-y-3">
-            <h3 className="max-w-xl font-headline text-3xl font-bold tracking-[-0.05em] text-[var(--color-text-strong)] sm:text-[2rem]">
+            <h3 className="max-w-xl font-headline text-3xl font-bold tracking-[-0.05em] text-[var(--color-text-strong)] [text-shadow:0_2px_18px_rgba(0,0,0,0.85)] sm:text-[2rem]">
               {project.title}
             </h3>
-            <p className="max-w-xl font-body text-sm leading-7 text-white/72 sm:text-base">
+            <p className="max-w-xl font-body text-sm leading-7 text-white/85 [text-shadow:0_1px_10px_rgba(0,0,0,0.75)] sm:text-base">
               {project.description}
             </p>
           </div>
