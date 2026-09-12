@@ -1,7 +1,10 @@
-import PortfolioPage from "./components/PortfolioPage";
-import fallbackPosts from "./lib/substack-fallback.json";
-import type { SubstackPost } from "./lib/substack-types";
+import AboutLetter from "./components/AboutLetter";
+import SiteShell from "./components/SiteShell";
 
 export default function Home() {
-  return <PortfolioPage blogPosts={fallbackPosts as SubstackPost[]} />;
+  return (
+    <SiteShell active="about">
+      <AboutLetter />
+    </SiteShell>
+  );
 }

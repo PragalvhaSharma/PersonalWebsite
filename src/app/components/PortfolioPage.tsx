@@ -91,7 +91,7 @@ const projects: Project[] = [
   {
     title: "Brand Campaign Agent",
     description:
-      "An agent built with Akshay that turns a brand into a full ad campaign — scripts the spots, casts HeyGen avatars to deliver them, and composes the final cuts in HyperFrames.",
+      "An agent built with Akshay that turns a brand into a full ad campaign: scripts the spots, casts HeyGen avatars to deliver them, and composes the final cuts in HyperFrames.",
     imageUrl: "/brandAgent.svg",
     eyebrow: "Agents / Video",
     links: [
@@ -155,7 +155,7 @@ const projects: Project[] = [
   {
     title: "Step Count Changer",
     description:
-      "A native iOS app that writes custom step counts straight into Apple HealthKit. Built when my Ivey classmates ran a step competition and I wanted an excuse to play with Apple's SDK — and finish #1.",
+      "A native iOS app that writes custom step counts straight into Apple HealthKit. Built when my Ivey classmates ran a step competition and I wanted an excuse to play with Apple's SDK, and finish #1.",
     imageUrl: "/stepcount.svg",
     eyebrow: "iOS / HealthKit",
     links: [
@@ -395,7 +395,7 @@ export default function PortfolioPage({ blogPosts = [] }: { blogPosts?: Substack
             >
               <div className="max-w-3xl space-y-6">
                 <p className="max-w-2xl font-body text-2xl font-light leading-tight text-[var(--color-text)] sm:text-4xl">
-                  I like building cool stuff on the web — tools, products, side projects when the idea won&apos;t leave me alone.
+                  I like building cool stuff on the web: tools, products, side projects when the idea won&apos;t leave me alone.
                 </p>
                 <div className="flex flex-wrap items-center gap-4 pt-4">
                   <a
