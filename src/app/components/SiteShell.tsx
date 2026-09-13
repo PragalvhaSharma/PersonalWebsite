@@ -5,7 +5,7 @@ export default function SiteShell() {
   return (
     <div className="mx-auto max-w-[38rem] px-5 pb-16 pt-10 sm:px-6 sm:pt-14">
       <header className="flex items-start gap-4 sm:gap-5">
-        <div className="relative h-[5.25rem] w-[5.25rem] shrink-0 overflow-hidden rounded-md sm:h-[6.5rem] sm:w-[6.5rem]">
+        <div className="relative h-[5.25rem] w-[4.15rem] shrink-0 overflow-hidden rounded-md sm:h-[6.5rem] sm:w-[5.15rem]">
           <img
             src="/Profile.png"
             alt="Prag"
