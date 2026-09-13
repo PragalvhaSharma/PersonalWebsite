@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 import fallbackPosts from "@/app/lib/substack-fallback.json";
 import type { SubstackPost } from "@/app/lib/substack-types";
 import { navItems } from "@/app/lib/site";
@@ -17,20 +17,9 @@ function sectionFromPath(pathname: string): SiteSection {
   return "about";
 }
 
-function hrefForSection(section: SiteSection) {
-  if (section === "work") return "/work";
-  if (section === "writing") return "/writing";
-  return "/";
-}
-
 export default function SiteTabs() {
   const pathname = usePathname();
-  const router = useRouter();
   const [section, setSection] = useState<SiteSection>(() => sectionFromPath(pathname));
-
-  useEffect(() => {
-    setSection(sectionFromPath(pathname));
-  }, [pathname]);
 
   return (
     <>
@@ -38,51 +27,37 @@ export default function SiteTabs() {
         {navItems.map((item) => {
           const itemSection = sectionFromPath(item.href);
           const isActive = section === itemSection;
-          const className = isActive
-            ? "text-[var(--accent)]"
-            : "text-[var(--muted)] transition-colors hover:text-[var(--foreground)]";
-
-          if (isActive) {
-            return (
-              <span key={item.name} className={className}>
-                {item.name.toLowerCase()}
-              </span>
-            );
-          }
 
           return (
-            <a
+            <button
               key={item.name}
-              href={item.href}
-              className={className}
-              onClick={(event) => {
-                if (
-                  event.metaKey ||
-                  event.ctrlKey ||
-                  event.shiftKey ||
-                  event.altKey ||
-                  event.button !== 0
-                ) {
-                  return;
-                }
-
-                event.preventDefault();
+              type="button"
+              aria-current={isActive ? "page" : undefined}
+              className={
+                isActive
+                  ? "cursor-pointer border-0 bg-transparent p-0 font-inherit text-[var(--accent)]"
+                  : "cursor-pointer border-0 bg-transparent p-0 font-inherit text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
+              }
+              onClick={() => {
                 setSection(itemSection);
-                router.push(hrefForSection(itemSection), { scroll: false });
               }}
             >
               {item.name.toLowerCase()}
-            </a>
+            </button>
           );
         })}
       </nav>
 
       <main className="pt-8">
-        {section === "about" ? <AboutLetter /> : null}
-        {section === "work" ? <WorkList /> : null}
-        {section === "writing" ? (
+        <div hidden={section !== "about"}>
+          <AboutLetter />
+        </div>
+        <div hidden={section !== "work"}>
+          <WorkList />
+        </div>
+        <div hidden={section !== "writing"}>
           <WritingList posts={fallbackPosts as SubstackPost[]} />
-        ) : null}
+        </div>
       </main>
     </>
   );

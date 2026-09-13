@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { socialLinks } from "@/app/lib/site";
 import SiteTabs from "./SiteTabs";
 
@@ -7,13 +6,10 @@ export default function SiteShell() {
     <div className="mx-auto max-w-[38rem] px-5 pb-16 pt-10 sm:px-6 sm:pt-14">
       <header className="flex items-start gap-4 sm:gap-5">
         <div className="relative h-[5.25rem] w-[4.15rem] shrink-0 overflow-hidden rounded-md sm:h-[6.5rem] sm:w-[5.15rem]">
-          <Image
+          <img
             src="/Profile.png"
             alt="Prag"
-            fill
-            sizes="96px"
-            priority
-            className="object-cover"
+            className="h-full w-full object-cover"
           />
         </div>
         <div className="min-w-0 pt-0.5">
