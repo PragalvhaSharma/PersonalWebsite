@@ -1,20 +1,12 @@
 import Image from "next/image";
-import Link from "next/link";
-import { navItems, socialLinks } from "@/app/lib/site";
+import { socialLinks } from "@/app/lib/site";
+import SiteTabs from "./SiteTabs";
 
-type SiteSection = "about" | "work" | "writing";
-
-export default function SiteShell({
-  active,
-  children,
-}: {
-  active: SiteSection;
-  children: React.ReactNode;
-}) {
+export default function SiteShell() {
   return (
     <div className="mx-auto max-w-[38rem] px-5 pb-16 pt-10 sm:px-6 sm:pt-14">
       <header className="flex items-start gap-4 sm:gap-5">
-        <Link href="/" className="relative h-[5.25rem] w-[4.15rem] shrink-0 overflow-hidden rounded-md sm:h-[6.5rem] sm:w-[5.15rem]">
+        <div className="relative h-[5.25rem] w-[4.15rem] shrink-0 overflow-hidden rounded-md sm:h-[6.5rem] sm:w-[5.15rem]">
           <Image
             src="/Profile.png"
             alt="Prag"
@@ -23,7 +15,7 @@ export default function SiteShell({
             priority
             className="object-cover"
           />
-        </Link>
+        </div>
         <div className="min-w-0 pt-0.5">
           <p className="font-display text-[2rem] leading-none tracking-[-0.04em] sm:text-[2.35rem]">
             Prag
@@ -47,30 +39,7 @@ export default function SiteShell({
         </div>
       </header>
 
-      <nav className="font-ui mt-8 flex gap-5 border-b border-[var(--line)] pb-3 text-sm">
-        {navItems.map((item) => {
-          const isActive =
-            (active === "about" && item.href === "/") ||
-            (active === "work" && item.href === "/work") ||
-            (active === "writing" && item.href === "/writing");
-
-          const className = isActive
-            ? "text-[var(--accent)]"
-            : "text-[var(--muted)] transition-colors hover:text-[var(--foreground)]";
-
-          return isActive ? (
-            <span key={item.name} className={className}>
-              {item.name.toLowerCase()}
-            </span>
-          ) : (
-            <Link key={item.name} href={item.href} className={className}>
-              {item.name.toLowerCase()}
-            </Link>
-          );
-        })}
-      </nav>
-
-      <main className="pt-8">{children}</main>
+      <SiteTabs />
     </div>
   );
 }

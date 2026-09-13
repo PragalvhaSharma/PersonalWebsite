@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans, Newsreader } from "next/font/google";
+import SiteShell from "./components/SiteShell";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -35,7 +36,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${newsreader.variable} ${plex.variable} font-display`}>{children}</body>
+      <body className={`${newsreader.variable} ${plex.variable} font-display`}>
+        <SiteShell />
+        {children}
+      </body>
     </html>
   );
 }
