@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import fallbackPosts from "@/app/lib/substack-fallback.json";
 import type { SubstackPost } from "@/app/lib/substack-types";
 import { navItems } from "@/app/lib/site";
@@ -18,8 +17,35 @@ function sectionFromPath(pathname: string): SiteSection {
 }
 
 export default function SiteTabs() {
-  const pathname = usePathname();
-  const [section, setSection] = useState<SiteSection>(() => sectionFromPath(pathname));
+  const [section, setSection] = useState<SiteSection>("about");
+
+  useEffect(() => {
+    setSection(sectionFromPath(window.location.pathname));
+
+    const onClick = (event: MouseEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      const link = target.closest("a");
+      if (!link) {
+        return;
+      }
+
+      const href = link.getAttribute("href");
+      if (href !== "/" && href !== "/work" && href !== "/writing") {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      setSection(sectionFromPath(href));
+    };
+
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
+  }, []);
 
   return (
     <>

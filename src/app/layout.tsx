@@ -37,6 +37,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${newsreader.variable} ${plex.variable} font-display`}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'document.addEventListener("click",function(e){var t=e.target;if(!t||!t.closest)return;var a=t.closest("a");if(!a)return;var h=a.getAttribute("href");if(h==="/"||h==="/work"||h==="/writing"){e.preventDefault();e.stopPropagation();}},true);',
+          }}
+        />
         <SiteShell />
         {children}
       </body>
