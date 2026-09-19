@@ -41,7 +41,7 @@ const colleagueRules = [
 const friendRules = [
   {
     title: "Instantly be my friend by talking to me about something you give a shit about.",
-    body: "Some things I care about are consciousness, artificial intelligence, music, and tech history. It could be something I don't know anything about, which I'd love to learn about even more. I don't know why it's become uncool to give a shit, but I really just love talking with people that do.",
+    body: "Some things I care about are consciousness, artificial intelligence, music, and human history. It could be something I don't know anything about, which I'd love to learn about even more. I don't know why it's become uncool to give a shit, but I really just love talking with people that do.",
     sun: true,
   },
   {
