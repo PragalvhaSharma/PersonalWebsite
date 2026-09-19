@@ -58,7 +58,7 @@ const friendRules = [
   },
   {
     title: "I'm really direct at times and I don't hold back my thoughts.",
-    body: "If it comes off as rude or arrogant, that is not my intention. It is just who I am.",
+    body: "If it comes off as rude or arrogant, that is not my intention.",
   },
   {
     title: "You don't need a reason.",
