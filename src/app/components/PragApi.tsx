@@ -1,7 +1,23 @@
-const colleagueRules = [
+import type { ReactNode } from "react";
+
+type Rule = {
+  title: string;
+  body: ReactNode;
+  email?: boolean;
+  sun?: boolean;
+};
+
+const colleagueRules: Rule[] = [
   {
     title: "Request for context.",
-    body: "At the start of something I'll spend as long as it takes to get a shared context. I will ask a lot of questions, and they will probably be very dumb, but honestly I just don't care. There are no dumb questions at the start, only expensive ones later.",
+    body: (
+      <>
+        At the start of something I&apos;ll spend as long as it takes to get a shared context.{" "}
+        <span className="font-semibold">I will ask a lot of questions</span>, and they will probably
+        be very dumb, but honestly I just don&apos;t care. There are no dumb questions at the start,
+        only expensive ones later.
+      </>
+    ),
   },
   {
     title: "Request for direct contribution.",
@@ -38,7 +54,7 @@ const colleagueRules = [
   },
 ];
 
-const friendRules = [
+const friendRules: Rule[] = [
   {
     title: "Instantly be my friend by talking to me about something you give a shit about.",
     body: "Some things I care about are consciousness, artificial intelligence, music (Kanye West is my favourite artist :)), and human history. It could be something I don't know anything about, which I'd love to learn about even more. I don't know why it's become uncool to give a shit, but I really just love talking with people that do.",
@@ -142,7 +158,7 @@ export default function PragApi() {
       </div>
 
       <p className="font-ui mt-12 border-t border-[var(--line)] pt-6 text-sm text-[var(--muted)]">
-        Inspired by Geoffrey Woo and Vu Tran.
+        Inspired by Geoffrey Woo, Kaz Nejatian, and Vu Tran.
       </p>
     </div>
   );
