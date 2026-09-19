@@ -7,12 +7,14 @@ import { navItems } from "@/app/lib/site";
 import AboutLetter from "./AboutLetter";
 import WorkList from "./WorkList";
 import WritingList from "./WritingList";
+import PragApi from "./PragApi";
 
-type SiteSection = "about" | "work" | "writing";
+type SiteSection = "about" | "work" | "writing" | "prag-api";
 
 function sectionFromPath(pathname: string): SiteSection {
   if (pathname === "/work" || pathname.startsWith("/work/")) return "work";
   if (pathname === "/writing" || pathname.startsWith("/writing/")) return "writing";
+  if (pathname === "/prag-api" || pathname.startsWith("/prag-api/")) return "prag-api";
   return "about";
 }
 
@@ -34,7 +36,7 @@ export default function SiteTabs() {
       }
 
       const href = link.getAttribute("href");
-      if (href !== "/" && href !== "/work" && href !== "/writing") {
+      if (href !== "/" && href !== "/work" && href !== "/writing" && href !== "/prag-api") {
         return;
       }
 
@@ -83,6 +85,9 @@ export default function SiteTabs() {
         </div>
         <div hidden={section !== "writing"}>
           <WritingList posts={fallbackPosts as SubstackPost[]} />
+        </div>
+        <div hidden={section !== "prag-api"}>
+          <PragApi />
         </div>
       </main>
     </>

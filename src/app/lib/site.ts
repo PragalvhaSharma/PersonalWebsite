@@ -32,6 +32,7 @@ export const navItems = [
   { name: "About", href: "/" },
   { name: "Work", href: "/work" },
   { name: "Writing", href: "/writing" },
+  { name: "Prag API", href: "/prag-api" },
 ] as const;
 
 export const highlightProjects: Project[] = [

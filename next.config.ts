@@ -29,6 +29,10 @@ const nextConfig: NextConfig = {
         source: "/profile",
         headers: [{ key: "Cache-Control", value: "public, max-age=0, must-revalidate" }],
       },
+      {
+        source: "/prag-api",
+        headers: [{ key: "Cache-Control", value: "public, max-age=0, must-revalidate" }],
+      },
     ];
   },
 };
