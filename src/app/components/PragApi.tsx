@@ -50,7 +50,7 @@ const colleagueRules: Rule[] = [
   },
   {
     title: 'There is only one "most important" thing at a time.',
-    body: 'By definition, "most" is singular. If you can’t name it then you don’t have priorities. Everything competes against that one thing for your attention. Always know what it is and be honest when it changes.',
+    body: 'By definition, "most" is singular. If everything is a priority, then nothing is. Always know what it is and be honest when it changes.',
   },
 ];
 
