@@ -7,7 +7,7 @@ export default function SiteShell() {
       <header className="flex items-start gap-4 sm:gap-5">
         <div className="relative h-[5.25rem] w-[4.15rem] shrink-0 overflow-hidden rounded-md sm:h-[6.5rem] sm:w-[5.15rem]">
           <img
-            src="/Profile.png"
+            src="/profile-2026.png"
             alt="Prag"
             className="h-full w-full object-cover"
           />
