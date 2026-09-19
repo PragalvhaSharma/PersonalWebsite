@@ -2,13 +2,10 @@ export default function AboutLetter() {
   return (
     <div className="space-y-5 text-[1.05rem] leading-8">
       <p>
-        The systems we build now will sit underneath everything that comes after. That is the work I
-        want to put my name on.
+        I think about how consciousness works and how intelligence gets built. Nobody actually knows
+        yet, which is the best reason to work on it. Right now that means building AI products.
       </p>
-      <p>
-        I study Computer Science at Western and business at Ivey, and I&apos;m Opendoor&apos;s
-        first-ever AI ops intern.
-      </p>
+      <p>I study Computer Science at Western and business at Ivey.</p>
       <p>
         If you&apos;re building toward the same thing, write me at{" "}
         <a
