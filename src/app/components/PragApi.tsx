@@ -135,7 +135,7 @@ export default function PragApi() {
                 {" "}
                 <a
                   href="mailto:pragalvhasharma@gmail.com"
-                  className="text-[var(--accent)] underline decoration-[var(--accent)]/35 underline-offset-4 hover:decoration-[var(--accent)]"
+                  className="text-[var(--link)] underline decoration-[var(--link)]/35 underline-offset-4 hover:decoration-[var(--link)]"
                 >
                   pragalvhasharma@gmail.com
                 </a>
