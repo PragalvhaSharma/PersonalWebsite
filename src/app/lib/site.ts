@@ -54,7 +54,7 @@ export const highlightProjects: Project[] = [
   {
     title: "GrokHunt",
     description:
-      "Won the xAI Hackathon. A Grok-powered talent hunter that finds high-signal people on X and sends personalized outreach through an AI interviewer flow.",
+      "Won the xAI Hackathon (retweeted by Elon :)). A Grok-powered talent hunter that finds high-signal people on X and sends personalized outreach through an AI interviewer flow.",
     eyebrow: "Highlight / xAI",
     imageUrl: "/Grok.jpeg",
     imageFit: "contain",
