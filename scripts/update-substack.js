@@ -5,8 +5,9 @@ const fs = require("fs");
 const path = require("path");
 
 const FEED_URL = "https://pragalvha.substack.com/feed";
+// The RSS feed only carries the latest 20 posts; the archive API backfills older ones.
+const ARCHIVE_URL = "https://pragalvha.substack.com/api/v1/archive?sort=new&limit=50&offset=";
 const FALLBACK_PATH = path.join(__dirname, "../src/app/lib/substack-fallback.json");
-const MAX_POSTS = 9;
 const TIMEOUT_MS = 5000;
 
 function extractTagValue(source, tagName) {
@@ -66,13 +67,13 @@ function parsePost(item) {
   return { title, url, publishedAt, excerpt };
 }
 
-function fetchFeed() {
+function fetchText(url, accept) {
   return new Promise((resolve, reject) => {
     const req = https.get(
-      FEED_URL,
+      url,
       {
         headers: {
-          Accept: "application/rss+xml, application/xml, text/xml",
+          Accept: accept,
           "User-Agent": "PragPersonalWebsite/1.0 (+https://pragalvha.substack.com)",
         },
         timeout: TIMEOUT_MS,
@@ -98,13 +99,42 @@ function fetchFeed() {
   });
 }
 
+async function fetchArchive() {
+  const posts = [];
+  for (let offset = 0; ; offset += 50) {
+    const page = JSON.parse(await fetchText(ARCHIVE_URL + offset, "application/json"));
+    if (!Array.isArray(page) || page.length === 0) return posts;
+    posts.push(...page);
+  }
+}
+
+function parseArchivePost(post) {
+  const excerpt = truncate(stripHtml(post.truncated_body_text || post.subtitle || ""), 220);
+  if (!post.title || !post.canonical_url || !post.post_date || !excerpt) return null;
+  return {
+    title: post.title.trim(),
+    url: post.canonical_url,
+    publishedAt: new Date(post.post_date).toUTCString(),
+    excerpt,
+  };
+}
+
 async function main() {
   try {
-    const xml = await fetchFeed();
+    const xml = await fetchText(FEED_URL, "application/rss+xml, application/xml, text/xml");
     const posts = Array.from(xml.matchAll(/<item>([\s\S]*?)<\/item>/g))
       .map((m) => parsePost(m[1]))
-      .filter(Boolean)
-      .slice(0, MAX_POSTS);
+      .filter(Boolean);
+
+    try {
+      const known = new Set(posts.map((post) => post.url));
+      for (const post of (await fetchArchive()).map(parseArchivePost)) {
+        if (post && !known.has(post.url)) posts.push(post);
+      }
+      posts.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+    } catch (err) {
+      console.warn(`⚠ Substack archive skipped (${err.message}) — using RSS posts only`);
+    }
 
     if (posts.length === 0) throw new Error("No posts parsed from feed");
 

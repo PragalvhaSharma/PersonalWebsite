@@ -2,7 +2,6 @@ import type { SubstackPost } from "./substack-types";
 import fallbackPosts from "./substack-fallback.json";
 
 const SUBSTACK_FEED_URL = "https://pragalvha.substack.com/feed";
-const MAX_POSTS = 9;
 const SUBSTACK_REVALIDATE_SECONDS = 60 * 60;
 const SUBSTACK_REQUEST_HEADERS = {
   Accept: "application/rss+xml, application/xml, text/xml",
@@ -93,7 +92,7 @@ function parsePost(item: string): SubstackPost | null {
 }
 
 function getFallbackPosts() {
-  return (fallbackPosts as SubstackPost[]).slice(0, MAX_POSTS);
+  return (fallbackPosts as SubstackPost[]);
 }
 
 export async function getRecentSubstackPosts() {
@@ -119,7 +118,7 @@ export async function getRecentSubstackPosts() {
     const posts = Array.from(xml.matchAll(/<item>([\s\S]*?)<\/item>/g))
       .map((match) => parsePost(match[1]))
       .filter((post): post is SubstackPost => post !== null)
-      .slice(0, MAX_POSTS);
+      ;
 
     if (posts.length === 0) {
       throw new Error("Substack feed returned no posts");
