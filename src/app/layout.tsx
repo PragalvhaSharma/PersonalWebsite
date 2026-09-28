@@ -18,9 +18,38 @@ const plex = IBM_Plex_Sans({
   display: "swap",
 });
 
+const siteTitle = "Pragalvha Sharma";
+const siteDescription =
+  "AI Operations Engineering Intern at Opendoor. Computer Science at Western and business at Ivey. Won the xAI Hackathon with GrokHunt and placed 1st globally in the NASA/NSS Space Settlement Contest.";
+
+// These tags control the preview card that LinkedIn, iMessage, X, and Slack show when the
+// link is shared. Without them, LinkedIn guesses from the page body and picks a random post.
 export const metadata: Metadata = {
-  title: "Prag",
-  description: "Prag. Tools, products, and side projects.",
+  metadataBase: new URL("https://www.pragalvha.com"),
+  title: siteTitle,
+  description: siteDescription,
+  openGraph: {
+    type: "website",
+    siteName: siteTitle,
+    title: siteTitle,
+    description: siteDescription,
+    locale: "en_CA",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Pragalvha Sharma: AI at Opendoor, xAI Hackathon winner, 1st globally in the NASA/NSS Space Settlement Contest",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    creator: "@Pragalvha",
+    images: ["/og-image.png"],
+  },
 };
 
 export const viewport: Viewport = {
