@@ -3,13 +3,25 @@
 import { useEffect, useState } from "react";
 import fallbackPosts from "@/app/lib/substack-fallback.json";
 import type { SubstackPost } from "@/app/lib/substack-types";
+import { sitePostFromPath, sitePosts, type SitePost } from "@/app/lib/posts";
 import { navItems } from "@/app/lib/site";
 import AboutLetter from "./AboutLetter";
 import WorkList from "./WorkList";
 import WritingList from "./WritingList";
+import WritingPost from "./WritingPost";
 import PragApi from "./PragApi";
 
 type SiteSection = "about" | "work" | "writing" | "prag-api";
+
+const writingPosts: SubstackPost[] = [
+  ...sitePosts.map((post) => ({
+    title: post.title,
+    url: `/writing/${post.slug}`,
+    publishedAt: post.publishedAt,
+    excerpt: post.excerpt,
+  })),
+  ...(fallbackPosts as SubstackPost[]),
+].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
 function sectionFromPath(pathname: string): SiteSection {
   if (pathname === "/work" || pathname.startsWith("/work/")) return "work";
@@ -20,9 +32,18 @@ function sectionFromPath(pathname: string): SiteSection {
 
 export default function SiteTabs() {
   const [section, setSection] = useState<SiteSection>("about");
+  const [openPost, setOpenPost] = useState<SitePost | null>(null);
+
+  const closePost = () => {
+    setOpenPost(null);
+    if (window.location.pathname.startsWith("/writing/")) {
+      window.history.replaceState(null, "", "/writing");
+    }
+  };
 
   useEffect(() => {
     setSection(sectionFromPath(window.location.pathname));
+    setOpenPost(sitePostFromPath(window.location.pathname) ?? null);
 
     const onClick = (event: MouseEvent) => {
       const target = event.target;
@@ -42,6 +63,7 @@ export default function SiteTabs() {
 
       event.preventDefault();
       event.stopPropagation();
+      closePost();
       setSection(sectionFromPath(href));
     };
 
@@ -67,6 +89,7 @@ export default function SiteTabs() {
                   : "cursor-pointer border-0 bg-transparent p-0 font-inherit text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
               }
               onClick={() => {
+                closePost();
                 setSection(itemSection);
               }}
             >
@@ -84,7 +107,11 @@ export default function SiteTabs() {
           <WorkList />
         </div>
         <div hidden={section !== "writing"}>
-          <WritingList posts={fallbackPosts as SubstackPost[]} />
+          {openPost ? (
+            <WritingPost post={openPost} onBack={closePost} />
+          ) : (
+            <WritingList posts={writingPosts} />
+          )}
         </div>
         <div hidden={section !== "prag-api"}>
           <PragApi />
