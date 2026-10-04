@@ -24,7 +24,7 @@ export default function AboutLetter() {
       <p>I&apos;m very excited to live in that reality, and to make my own contributions.</p>
       <p>I study Computer Science at Western and business at Ivey.</p>
       <p>
-        If you&apos;re building toward the same thing, write me at{" "}
+        If you&apos;re a creator of anything, write me at{" "}
         <a
           href="mailto:pragalvhasharma@gmail.com"
           className="work-link"
