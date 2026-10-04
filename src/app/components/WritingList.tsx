@@ -45,29 +45,25 @@ export default function WritingList({ posts }: { posts: SubstackPost[] }) {
 
   return (
     <div className="divide-y divide-[var(--line)]">
-      {posts.map((post) => {
-        const isExternal = !post.url.startsWith("/");
-
-        return (
-          <a
-            key={post.url}
-            href={post.url}
-            target={isExternal ? "_blank" : undefined}
-            rel={isExternal ? "noreferrer" : undefined}
-            className="block py-5 first:pt-0 last:pb-0"
-          >
-            <h2 className="text-[1.55rem] leading-tight tracking-[-0.03em] hover:text-[var(--accent)]">
-              {post.title}
-            </h2>
-            <p className="font-ui mt-2 text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
-              {formatPostDate(post.publishedAt)}
-            </p>
-            <p className="mt-2 text-[0.98rem] leading-7 text-[var(--foreground)]/75">
-              {formatExcerpt(post.excerpt)}
-            </p>
-          </a>
-        );
-      })}
+      {posts.map((post) => (
+        <a
+          key={post.url}
+          href={post.url}
+          target="_blank"
+          rel="noreferrer"
+          className="block py-5 first:pt-0 last:pb-0"
+        >
+          <h2 className="text-[1.55rem] leading-tight tracking-[-0.03em] hover:text-[var(--accent)]">
+            {post.title}
+          </h2>
+          <p className="font-ui mt-2 text-xs uppercase tracking-[0.16em] text-[var(--muted)]">
+            {formatPostDate(post.publishedAt)}
+          </p>
+          <p className="mt-2 text-[0.98rem] leading-7 text-[var(--foreground)]/75">
+            {formatExcerpt(post.excerpt)}
+          </p>
+        </a>
+      ))}
     </div>
   );
 }
