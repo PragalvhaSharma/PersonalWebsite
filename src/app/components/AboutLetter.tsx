@@ -7,7 +7,7 @@ export default function AboutLetter() {
           href="https://www.youtube.com/watch?v=2qLuerYx2IA"
           target="_blank"
           rel="noreferrer"
-          className="text-[var(--link)] underline decoration-[var(--link)]/35 underline-offset-4 hover:decoration-[var(--link)]"
+          className="work-link"
         >
           a talk at Lund University
         </a>{" "}
@@ -27,7 +27,7 @@ export default function AboutLetter() {
         If you&apos;re building toward the same thing, write me at{" "}
         <a
           href="mailto:pragalvhasharma@gmail.com"
-          className="text-[var(--link)] underline decoration-[var(--link)]/35 underline-offset-4 hover:decoration-[var(--link)]"
+          className="work-link"
         >
           pragalvhasharma@gmail.com
         </a>
