@@ -24,9 +24,12 @@ const siteDescription =
 
 // These tags control the preview card that LinkedIn, iMessage, X, and Slack show when the
 // link is shared. Without them, LinkedIn guesses from the page body and picks a random post.
-// og:video makes iMessage play a short looping version of the card instead of the still image.
-// Both files come from scripts/og-video.html; regenerate them with scripts/render-og-video.mjs.
+// The still card comes from scripts/og-image.html. og:video makes iMessage play a looping
+// animation instead; it comes from scripts/og-video.html via scripts/render-og-video.mjs.
+// Bump the ?v= query when either file changes so link preview caches fetch the new one.
 const siteUrl = "https://www.pragalvha.com";
+const ogImage = "/og-image.png?v=2";
+const ogVideo = `${siteUrl}/og-video.mp4?v=2`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -40,7 +43,7 @@ export const metadata: Metadata = {
     locale: "en_CA",
     images: [
       {
-        url: "/og-image.png",
+        url: ogImage,
         width: 1200,
         height: 630,
         alt: "Pragalvha Sharma: AI at Opendoor, xAI Hackathon winner, 1st globally in the NASA/NSS Space Settlement Contest",
@@ -48,8 +51,8 @@ export const metadata: Metadata = {
     ],
     videos: [
       {
-        url: `${siteUrl}/og-video.mp4`,
-        secureUrl: `${siteUrl}/og-video.mp4`,
+        url: ogVideo,
+        secureUrl: ogVideo,
         type: "video/mp4",
         width: 1200,
         height: 630,
@@ -61,7 +64,7 @@ export const metadata: Metadata = {
     title: siteTitle,
     description: siteDescription,
     creator: "@Pragalvha",
-    images: ["/og-image.png"],
+    images: [ogImage],
   },
 };
 
