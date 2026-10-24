@@ -24,8 +24,12 @@ const siteDescription =
 
 // These tags control the preview card that LinkedIn, iMessage, X, and Slack show when the
 // link is shared. Without them, LinkedIn guesses from the page body and picks a random post.
+// og:video makes iMessage play a short looping version of the card instead of the still image.
+// Both files come from scripts/og-video.html; regenerate them with scripts/render-og-video.mjs.
+const siteUrl = "https://www.pragalvha.com";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.pragalvha.com"),
+  metadataBase: new URL(siteUrl),
   title: siteTitle,
   description: siteDescription,
   openGraph: {
@@ -40,6 +44,15 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: "Pragalvha Sharma: AI at Opendoor, xAI Hackathon winner, 1st globally in the NASA/NSS Space Settlement Contest",
+      },
+    ],
+    videos: [
+      {
+        url: `${siteUrl}/og-video.mp4`,
+        secureUrl: `${siteUrl}/og-video.mp4`,
+        type: "video/mp4",
+        width: 1200,
+        height: 630,
       },
     ],
   },

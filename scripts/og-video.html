@@ -1,0 +1,207 @@
+<!doctype html>
+<!--
+  Source for the link preview card shown when pragalvha.com is shared.
+    public/og-image.png  the still card (frame 0), used by LinkedIn, X, Slack and as the fallback
+    public/og-video.mp4  an 8 second seamless loop that iMessage plays in place of the still card
+  Frame 0 and the last frame are the same rest state, so the loop has no visible seam.
+  Open this file in a browser to watch the loop. To regenerate both files after editing:
+    npm i --no-save playwright && npx playwright install chromium
+    node scripts/render-og-video.mjs
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,500&display=block"
+      rel="stylesheet"
+    />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { width: 1200px; height: 630px; overflow: hidden; }
+      body {
+        background: #f3efe6;
+        color: #1c1914;
+        font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 64px;
+        padding: 0 84px;
+        position: relative;
+      }
+      .glow {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(circle at var(--gx, 0%) var(--gy, 0%), rgba(13, 122, 95, 0.1), transparent 38%);
+      }
+      .photo {
+        position: relative;
+        width: 300px;
+        height: 372px;
+        flex-shrink: 0;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 1px 0 rgba(28, 25, 20, 0.08), 0 18px 40px -24px rgba(28, 25, 20, 0.45);
+      }
+      .photo img { width: 100%; height: 100%; object-fit: cover; display: block; transform-origin: 50% 40%; }
+      .copy { position: relative; }
+      h1 {
+        font-family: "Newsreader", "Times New Roman", serif;
+        font-weight: 500;
+        font-size: 76px;
+        line-height: 1;
+        letter-spacing: -0.035em;
+      }
+      .tagline { margin-top: 14px; font-size: 27px; color: #6b6458; }
+      .list { position: relative; margin-top: 34px; }
+      .spot {
+        position: absolute;
+        left: -16px;
+        top: 0;
+        height: 48px;
+        border-radius: 12px;
+        background: rgba(13, 122, 95, 0.11);
+        box-shadow: inset 0 0 0 1px rgba(13, 122, 95, 0.14);
+        opacity: 0;
+      }
+      ul { position: relative; list-style: none; display: grid; gap: 14px; }
+      li { display: flex; align-items: baseline; gap: 16px; font-size: 27px; line-height: 1.25; }
+      li .dot {
+        position: relative;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #0d7a5f;
+        flex-shrink: 0;
+        transform: translateY(-4px);
+      }
+      li .ring {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 2px solid #0d7a5f;
+        opacity: 0;
+      }
+      li .text { display: inline-block; }
+      .url { margin-top: 36px; font-size: 22px; font-weight: 500; letter-spacing: 0.02em; color: #0d7a5f; }
+    </style>
+  </head>
+  <body>
+    <div class="glow"></div>
+    <div class="photo"><img src="../public/profile-2026.png" alt="" /></div>
+    <div class="copy">
+      <h1>Pragalvha Sharma</h1>
+      <p class="tagline">Building AI products</p>
+      <div class="list">
+        <div class="spot"></div>
+        <ul>
+          <li><span class="dot"><span class="ring"></span></span><span class="text">AI Operations Engineering Intern, Opendoor</span></li>
+          <li><span class="dot"><span class="ring"></span></span><span class="text">Winner, xAI Hackathon (GrokHunt)</span></li>
+          <li><span class="dot"><span class="ring"></span></span><span class="text">1st globally, NASA/NSS Space Settlement Contest</span></li>
+          <li><span class="dot"><span class="ring"></span></span><span class="text">Computer Science at Western, business at Ivey</span></li>
+        </ul>
+      </div>
+      <p class="url">pragalvha.com</p>
+    </div>
+    <script>
+      // The whole card is a pure function of time t in [0, LOOP), so every frame can be rendered
+      // exactly by render-og-video.mjs, and the browser preview below just calls it on each frame.
+      const LOOP = 8;
+      const IN = 0.7;      // spotlight starts appearing
+      const STEP = 1.45;   // time spent on each proof point, including the glide to it
+      const GLIDE = 0.42;  // glide between proof points
+      const FADE = 0.4;    // fade in and out of the spotlight and the dimming
+
+      const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+      const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+      const lerp = (a, b, k) => a + (b - a) * k;
+
+      const glow = document.querySelector(".glow");
+      const img = document.querySelector(".photo img");
+      const spot = document.querySelector(".spot");
+      const list = document.querySelector(".list");
+      const items = [...document.querySelectorAll("li")];
+
+      let boxes = null;
+      function measure() {
+        const base = list.getBoundingClientRect();
+        boxes = items.map((li) => {
+          const r = li.getBoundingClientRect();
+          const tr = li.querySelector(".text").getBoundingClientRect();
+          return { y: r.top - base.top + r.height / 2, w: tr.right - r.left + 32 };
+        });
+      }
+
+      function render(t) {
+        if (!boxes) measure();
+        t = ((t % LOOP) + LOOP) % LOOP;
+        const n = items.length;
+        const out = IN + n * STEP; // spotlight starts leaving
+
+        // Background glow drifts in a small loop that starts and ends at the top left corner.
+        const th = (2 * Math.PI * t) / LOOP;
+        glow.style.setProperty("--gx", (14 * (1 - Math.cos(th))) / 2 + "%");
+        glow.style.setProperty("--gy", (22 * Math.sin(th)) / 2 + (11 * (1 - Math.cos(th))) / 2 + "%");
+
+        // Slow push in on the photo and back out again.
+        const z = 1 + (0.045 * (1 - Math.cos(th))) / 2;
+        img.style.transform = "scale(" + z.toFixed(5) + ")";
+
+        // Spotlight visibility: 0 at rest, 1 while it walks the list.
+        const vis = ease(clamp((t - IN) / FADE)) * (1 - ease(clamp((t - out) / FADE)));
+
+        // Which proof point the spotlight is on, as a continuous position for the glide.
+        let pos = 0;
+        for (let i = 1; i < n; i++) {
+          const g0 = IN + i * STEP - GLIDE;
+          pos += ease(clamp((t - g0) / GLIDE));
+        }
+        const i0 = Math.floor(pos);
+        const i1 = Math.min(n - 1, i0 + 1);
+        const k = pos - i0;
+        const y = lerp(boxes[i0].y, boxes[i1].y, k);
+        const w = lerp(boxes[i0].w, boxes[i1].w, k);
+        spot.style.opacity = vis.toFixed(4);
+        spot.style.transform = "translateY(" + (y - 24).toFixed(2) + "px)";
+        spot.style.width = w.toFixed(2) + "px";
+
+        items.forEach((li, i) => {
+          const near = clamp(1 - Math.abs(pos - i)); // 1 on the active item
+          li.style.opacity = (1 - vis * 0.62 * (1 - near)).toFixed(4);
+          // A ring pulses out of the active dot once per proof point.
+          const local = t - (IN + i * STEP);
+          const ring = li.querySelector(".ring");
+          if (vis > 0 && local >= 0 && local < STEP) {
+            const p = clamp(local / 1.1);
+            ring.style.opacity = ((1 - p) * 0.55 * vis).toFixed(4);
+            ring.style.transform = "scale(" + (1 + p * 2.2).toFixed(4) + ")";
+          } else {
+            ring.style.opacity = "0";
+            ring.style.transform = "scale(1)";
+          }
+        });
+      }
+
+      window.__LOOP = LOOP;
+      window.__render = render;
+      window.__ready = document.fonts.ready.then(() => {
+        measure();
+        render(0);
+        return true;
+      });
+
+      // Live preview when opened directly in a browser. The renderer adds ?capture to skip this.
+      if (!location.search.includes("capture")) {
+        window.__ready.then(() => {
+          const start = performance.now();
+          const tick = (now) => {
+            render((now - start) / 1000);
+            requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        });
+      }
+    </script>
+  </body>
+</html>
