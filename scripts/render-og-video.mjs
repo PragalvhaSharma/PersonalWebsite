@@ -7,7 +7,7 @@
 //   node scripts/render-og-video.mjs
 import { chromium } from "playwright";
 import { execFileSync } from "node:child_process";
-import { createReadStream, mkdtempSync, renameSync, rmSync, statSync } from "node:fs";
+import { copyFileSync, createReadStream, mkdtempSync, rmSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { tmpdir } from "node:os";
 import { dirname, extname, join, normalize } from "node:path";
@@ -20,15 +20,16 @@ const SERVED = ["/scripts/", "/node_modules/three/"]; // all the page needs
 const types = { ".html": "text/html", ".js": "text/javascript", ".mjs": "text/javascript" };
 
 const server = createServer((req, res) => {
-  let path;
+  let file, stat;
   try {
-    path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname));
+    const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname));
+    file = join(root, path);
+    if (SERVED.some((dir) => path.startsWith(dir))) stat = statSync(file, { throwIfNoEntry: false });
   } catch {
     res.writeHead(400).end();
     return;
   }
-  const file = join(root, path);
-  if (!SERVED.some((dir) => path.startsWith(dir)) || !statSync(file, { throwIfNoEntry: false })?.isFile()) {
+  if (!stat?.isFile()) {
     res.writeHead(404).end();
     return;
   }
@@ -68,7 +69,7 @@ try {
     "-movflags", "+faststart", "-an",
     encoded,
   ]);
-  renameSync(encoded, join(root, "public", "og-video.mp4"));
+  copyFileSync(encoded, join(root, "public", "og-video.mp4"));
   console.log("Rendered " + count + " frames to public/og-video.mp4");
 } finally {
   await browser?.close();
