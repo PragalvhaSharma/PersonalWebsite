@@ -24,12 +24,13 @@ const siteDescription =
 
 // These tags control the preview card that LinkedIn, iMessage, X, and Slack show when the
 // link is shared. Without them, LinkedIn guesses from the page body and picks a random post.
-// The still card comes from scripts/og-image.html. og:video makes iMessage play a looping
-// animation instead; it comes from scripts/og-video.html via scripts/render-og-video.mjs.
+// The still card comes from scripts/og-image.html. og:video makes iMessage (and possibly other
+// apps that read it) play a looping animation instead; it comes from scripts/og-video.html via
+// scripts/render-og-video.mjs.
 // Bump the ?v= query when either file changes so link preview caches fetch the new one.
 const siteUrl = "https://www.pragalvha.com";
 const ogImage = "/og-image.png?v=2";
-const ogVideo = `${siteUrl}/og-video.mp4?v=2`;
+const ogVideo = `${siteUrl}/og-video.mp4?v=3`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
