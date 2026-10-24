@@ -214,10 +214,14 @@
   window.__render = render;
   window.__ready = (async () => {
     const img = document.getElementById("photo");
-    await Promise.all([
+    // Fail loudly: a missing font would quietly fall back to another serif and
+    // misalign the pen masks, and a missing portrait would ship a blank tile.
+    const [faces] = await Promise.all([
       document.fonts.load('500 270px "Newsreader"'),
-      img.decode().catch(() => new Promise((r) => { img.onload = r; img.onerror = r; }))
+      img.decode()
     ]);
+    if (!faces.length) throw new Error("Newsreader 500 did not load (Google Fonts unreachable?)");
+    if (!img.naturalWidth) throw new Error("Portrait did not load: " + img.src);
     await document.fonts.ready;
     els.dot = document.getElementById("dot"); els.halo = document.getElementById("halo");
     els.photo = img;
