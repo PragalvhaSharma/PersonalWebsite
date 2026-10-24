@@ -1,7 +1,7 @@
 // Renders scripts/og-video.html into public/og-video.mp4, the looping clip
 // iMessage plays in link previews (1200x630, 30 fps, H.264, BT.709, no audio).
-// The page uses three.js from node_modules, so it is served over a throwaway
-// local HTTP server (ES module imports do not load over file://).
+// The page loads the portrait from public/, so it is served over a throwaway
+// local HTTP server from the repo root. Fonts come from Google Fonts, so it needs network.
 // Requires Playwright and ffmpeg. The Chromium flags use Metal, so run it on a Mac:
 //   npm i --no-save playwright && npx playwright install chromium
 //   node scripts/render-og-video.mjs
@@ -16,8 +16,8 @@ import { fileURLToPath } from "node:url";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FPS = 30;
 const SCALE = 2; // render at 2x and downsample for smoother edges
-const SERVED = ["/scripts/", "/node_modules/three/"]; // all the page needs
-const types = { ".html": "text/html", ".js": "text/javascript", ".mjs": "text/javascript" };
+const SERVED = ["/scripts/", "/public/"]; // all the page needs
+const types = { ".html": "text/html", ".js": "text/javascript", ".mjs": "text/javascript", ".png": "image/png" };
 
 const server = createServer((req, res) => {
   let file, stat;

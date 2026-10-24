@@ -30,7 +30,7 @@ const siteDescription =
 // Bump the ?v= query when either file changes so link preview caches fetch the new one.
 const siteUrl = "https://www.pragalvha.com";
 const ogImage = "/og-image.png?v=2";
-const ogVideo = `${siteUrl}/og-video.mp4?v=3`;
+const ogVideo = `${siteUrl}/og-video.mp4?v=4`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
