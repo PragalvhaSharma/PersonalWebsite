@@ -3,7 +3,8 @@
   Source for the link preview card shown when pragalvha.com is shared.
     public/og-image.png  the still card (frame 0), used by LinkedIn, X, Slack and as the fallback
     public/og-video.mp4  an 8 second seamless loop that iMessage plays in place of the still card
-  Frame 0 and the last frame are the same rest state, so the loop has no visible seam.
+  The loop starts at the rest state (identical to og-image.png) and eases back into it by the
+  last frame, so the video wraps around with no visible seam.
   Open this file in a browser to watch the loop. To regenerate both files after editing:
     npm i --no-save playwright && npx playwright install chromium
     node scripts/render-og-video.mjs
