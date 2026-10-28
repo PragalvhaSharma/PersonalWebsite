@@ -81,8 +81,8 @@ const friendRules: Rule[] = [
     body: "No agenda, no ask, no point to get to.",
   },
   {
-    title: "If I go quiet it means nothing.",
-    body: "I'm bad at replying when I'm deep in something. Text me again. Being annoying is always allowed.",
+    title: "I usually reply fast.",
+    body: "If I don't, it means I'm busy. Message me a second time. Being annoying is always allowed.",
   },
   {
     title: "Say the hard thing.",
