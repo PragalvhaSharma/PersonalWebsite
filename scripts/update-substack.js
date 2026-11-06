@@ -6,7 +6,10 @@ const path = require("path");
 
 const FEED_URL = "https://pragalvha.substack.com/feed";
 // The RSS feed only carries the latest 20 posts; the archive API backfills older ones.
-const ARCHIVE_URL = "https://pragalvha.substack.com/api/v1/archive?sort=new&limit=50&offset=";
+// It pages with a cursor and rejects a limit above 25.
+const ARCHIVE_URL = "https://pragalvha.substack.com/api/v1/archive?sort=new&limit=25";
+// Posts that already have their own section on the site stay off the writing list.
+const HIDDEN_URLS = new Set(["https://pragalvha.substack.com/p/prag-api"]);
 const FALLBACK_PATH = path.join(__dirname, "../src/app/lib/substack-fallback.json");
 const TIMEOUT_MS = 5000;
 
@@ -101,11 +104,16 @@ function fetchText(url, accept) {
 
 async function fetchArchive() {
   const posts = [];
-  for (let offset = 0; ; offset += 50) {
-    const page = JSON.parse(await fetchText(ARCHIVE_URL + offset, "application/json"));
-    if (!Array.isArray(page) || page.length === 0) return posts;
-    posts.push(...page);
+  let cursor = null;
+  for (let page = 0; page < 20; page++) {
+    const url = cursor ? `${ARCHIVE_URL}&cursor=${encodeURIComponent(cursor)}` : ARCHIVE_URL;
+    const body = JSON.parse(await fetchText(url, "application/json"));
+    if (!Array.isArray(body.posts)) throw new Error("Unexpected archive response");
+    posts.push(...body.posts);
+    cursor = body.nextCursor;
+    if (!cursor || body.posts.length === 0) return posts;
   }
+  return posts;
 }
 
 function parseArchivePost(post) {
@@ -131,15 +139,21 @@ async function main() {
       for (const post of (await fetchArchive()).map(parseArchivePost)) {
         if (post && !known.has(post.url)) posts.push(post);
       }
-      posts.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
     } catch (err) {
-      console.warn(`⚠ Substack archive skipped (${err.message}) — using RSS posts only`);
+      // Keep older posts from the last good list so they don't drop off the page.
+      console.warn(`⚠ Substack archive skipped (${err.message}) — keeping older posts from the existing fallback`);
+      const known = new Set(posts.map((post) => post.url));
+      for (const post of JSON.parse(fs.readFileSync(FALLBACK_PATH, "utf8"))) {
+        if (!known.has(post.url)) posts.push(post);
+      }
     }
+    posts.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 
-    if (posts.length === 0) throw new Error("No posts parsed from feed");
+    const visiblePosts = posts.filter((post) => !HIDDEN_URLS.has(post.url));
+    if (visiblePosts.length === 0) throw new Error("No posts parsed from feed");
 
-    fs.writeFileSync(FALLBACK_PATH, JSON.stringify(posts, null, 2) + "\n");
-    console.log(`✓ substack-fallback.json updated with ${posts.length} posts`);
+    fs.writeFileSync(FALLBACK_PATH, JSON.stringify(visiblePosts, null, 2) + "\n");
+    console.log(`✓ substack-fallback.json updated with ${visiblePosts.length} posts`);
   } catch (err) {
     console.warn(`⚠ Substack fetch skipped (${err.message}) — using existing fallback`);
   }
