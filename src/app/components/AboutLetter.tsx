@@ -2,16 +2,16 @@ export default function AboutLetter() {
   return (
     <div className="space-y-5 text-[1.05rem] leading-8">
       <p>
-        In 1985, Steve Jobs gave{" "}
+        In 1985, Steve Jobs{" "}
         <a
           href="https://www.youtube.com/watch?v=2qLuerYx2IA"
           target="_blank"
           rel="noreferrer"
           className="work-link"
         >
-          a talk at Lund University
+          gave a talk in Sweden
         </a>{" "}
-        in Sweden and described a tool that didn&apos;t exist yet. He hoped that one day we could
+        and described a tool that didn&apos;t exist yet. He hoped that one day we could
         capture a great thinker&apos;s worldview in a computer, so that a student could &ldquo;not
         only read the words Aristotle wrote, but ask Aristotle a question and get an answer.&rdquo;
       </p>
@@ -22,7 +22,6 @@ export default function AboutLetter() {
         anyone with a laptop.
       </p>
       <p>I&apos;m very excited to live in that reality, and to make my own contributions.</p>
-      <p>I study Computer Science at Western and business at Ivey.</p>
       <p>
         If you&apos;re a creator of anything, write me at{" "}
         <a
