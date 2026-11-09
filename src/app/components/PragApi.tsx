@@ -86,7 +86,7 @@ const friendRules: Rule[] = [
   },
   {
     title: "Say the hard thing.",
-    body: "Attack the work and never the person was always really a rule about friendship. Tell me I'm making a mistake.",
+    body: "Most relationships fall apart because people stop saying what they really feel. Tell me the truth you're holding back, even when it's hard to hear. Especially when I'm making a mistake.",
   },
   {
     title: "The no-meetings rule is inverted here.",
